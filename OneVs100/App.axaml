@@ -1,0 +1,20 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="OneVs100.App"
+             xmlns:local="using:OneVs100"
+             RequestedThemeVariant="Default">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+  
+    <Application.Styles>
+        <FluentTheme />
+    </Application.Styles>
+    
+    <Application.Resources>
+        <FontFamily x:Key="OrbitronFont">avares://OneVs100/Assets/Fonts/Orbitron#Orbitron</FontFamily>
+        <FontFamily x:Key="OverpassFont">avares://OneVs100/Assets/Fonts/Overpass#Overpass</FontFamily>
+    </Application.Resources>
+</Application>
