@@ -14,4 +14,13 @@
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
     </Style>
+    <Style Selector="TextBlock:not(Button>TextBlock)">
+        <Setter Property="Foreground" Value="Black"/>
+    </Style>
+    <Style Selector="Button">
+        <Setter Property="Foreground" Value="Black"/>
+    </Style>
+    <Style Selector="Button:pointerover /template/ ContentPresenter">
+        <Setter Property="Foreground" Value="DarkGray"/>
+    </Style>
 </Styles>

@@ -4,10 +4,11 @@ using Avalonia.Markup.Xaml;
 
 namespace OneVs100.CustomControls;
 
-public partial class MobMember : UserControl
+public partial class MobMemberControl : UserControl
 {
-    public MobMember()
+    public MobMemberControl()
     {
         InitializeComponent();
     }
+    
 }
