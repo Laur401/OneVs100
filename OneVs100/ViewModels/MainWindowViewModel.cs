@@ -5,6 +5,8 @@ using System.Windows.Input;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using OneVs100.Views;
 
 namespace OneVs100.ViewModels;
 
@@ -17,27 +19,15 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty] public object answerB = "";
     [ObservableProperty] public object answerC = "";
     
-    //[ObservableProperty]
-    //public string correctMessage = "";
-    
     private int currentQuestionNumber = 0;
 
     public MainWindowViewModel()
     {
         LoadQuestions();
+        CreateMobMembers();
         Task.Run(async () => await LoadNextQuestion());
     }
     
-    [RelayCommand]
-    public void AnswerCommand(char answer)
-    {
-        QuestionInfo question = questionDict[currentQuestionNumber];
-        if (answer == question.CorrectAnswer)
-        {
-            Task.Run(async () => await LoadNextQuestion());
-        }
-    }
-
     private async Task LoadNextQuestion()
     {
         await Task.Delay(1000);
@@ -48,25 +38,65 @@ public partial class MainWindowViewModel : ViewModelBase
         AnswerC = currentQuestion.AnswerC;
         Question = currentQuestion.Question;
         QuestionNumber = "Q"+currentQuestionNumber;
+        SelectAnswers(currentQuestion.CorrectAnswer, 2, currentQuestionNumber);
+    }
+    
+    [RelayCommand]
+    public void AnswerCommand(char answer)
+    {
+        QuestionInfo question = questionDict[currentQuestionNumber];
+        if (answer == question.CorrectAnswer)
+        {
+            for (int i=0; i<mobMembers.Count; i++)
+            {
+                if (!mobMembers[i].isAnswerCorrect(question.CorrectAnswer))
+                {
+                    WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 1));
+                }
+            }
+            Task.Run(async () => await LoadNextQuestion());
+        }
+    }
+    
+    //Mob member functionality
+    List<MobMember> mobMembers = new List<MobMember>();
+    
+    private void CreateMobMembers()
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            MobMember mobMember = new MobMember(i+1);
+            mobMembers.Add(mobMember);
+            WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 0));
+        }
     }
 
-    Dictionary<int, QuestionInfo> questionDict = new Dictionary<int, QuestionInfo>();
+    private void SelectAnswers(char answer, float difficulty, int questionNr)
+    {
+        for (int i=0; i<mobMembers.Count; i++)
+        {
+            mobMembers[i].selectAnswer(answer, difficulty, questionNr);
+        }
+    }
+    
+    //Question loading (Temporary)
+    private Dictionary<int, QuestionInfo> questionDict = new Dictionary<int, QuestionInfo>();
     
     private void LoadQuestions()
     {
         questionDict.Add(1, new QuestionInfo("SampleQuestion1","SampleAnswerA","SampleAnswerB","SampleAnswerC",'A'));
         questionDict.Add(2, new QuestionInfo("SampleQuestion2","SampleAnswer2A","SampleAnswer2B","SampleAnswer2C",'B'));
         questionDict.Add(3, new QuestionInfo("SampleQuestion3","SampleAnswer3A","SampleAnswer3B","SampleAnswer3C",'C'));
-        questionDict.Add(4, new QuestionInfo("LastQuestion", "LastAnswerA", "LastAnswerB", "LastAnswerC", 'D'));
-    }
-    List<MobMember> mobMembers = new List<MobMember>();
-
-    private void CreateMobMembers()
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            mobMembers.Add(new MobMember(i));
-        }
+        questionDict.Add(4, new QuestionInfo("SampleQuestion1","SampleAnswerA","SampleAnswerB","SampleAnswerC",'A'));
+        questionDict.Add(5, new QuestionInfo("SampleQuestion2","SampleAnswer2A","SampleAnswer2B","SampleAnswer2C",'B'));
+        questionDict.Add(6, new QuestionInfo("SampleQuestion3","SampleAnswer3A","SampleAnswer3B","SampleAnswer3C",'C'));
+        questionDict.Add(7, new QuestionInfo("SampleQuestion1","SampleAnswerA","SampleAnswerB","SampleAnswerC",'A'));
+        questionDict.Add(8, new QuestionInfo("SampleQuestion2","SampleAnswer2A","SampleAnswer2B","SampleAnswer2C",'B'));
+        questionDict.Add(9, new QuestionInfo("SampleQuestion3","SampleAnswer3A","SampleAnswer3B","SampleAnswer3C",'C'));
+        questionDict.Add(10, new QuestionInfo("SampleQuestion1","SampleAnswerA","SampleAnswerB","SampleAnswerC",'A'));
+        questionDict.Add(11, new QuestionInfo("SampleQuestion2","SampleAnswer2A","SampleAnswer2B","SampleAnswer2C",'B'));
+        questionDict.Add(12, new QuestionInfo("SampleQuestion3","SampleAnswer3A","SampleAnswer3B","SampleAnswer3C",'C'));
+        questionDict.Add(13, new QuestionInfo("LastQuestion", "LastAnswerA", "LastAnswerB", "LastAnswerC", 'D'));
     }
 }
 

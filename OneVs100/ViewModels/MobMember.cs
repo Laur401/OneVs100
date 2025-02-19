@@ -16,22 +16,26 @@ public class MobMember
     public MobMember(int number)
     {
         this.number = number;
-        this.intelligence = (float)RNG.BoxMuller(0, 70);
-        
+        this.intelligence = (float)RNG.BoxMuller(0, 36);
     }
 
-    void selectAnswer(char correctAnswer, float difficulty, int questionNumber)
+    public void selectAnswer(char correctAnswer, float difficulty, int questionNumber)
     {
-        this.answer = questionNumber * difficulty > intelligence
+        this.answer = questionNumber * difficulty < intelligence
             ? correctAnswer
             : RNG.GetItems(['a', 'b', 'c'], 1)[0];
     }
 
-    bool isAnswerCorrect(char correctAnswer)
+    public bool isAnswerCorrect(char correctAnswer)
     {
         if (correctAnswer == answer)
             return true;
         else return false;
+    }
+
+    public void knockPlayerOut()
+    {
+        this.isKnockedOut = true;
     }
 
 
