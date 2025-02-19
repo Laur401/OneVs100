@@ -1,7 +1,8 @@
+using System;
+using System.Collections.Generic;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Messaging;
 using OneVs100.CustomControls;
-using OneVs100.ViewModels;
 
 namespace OneVs100.Views;
 
@@ -27,6 +28,9 @@ public partial class MainWindow : Window
                 AddMobMember(number);
                 break;
             case 1:
+                MarkWrongMobMember(number);
+                break;
+            case 2:
                 DisableMobMember(number);
                 break;
             default:
@@ -34,20 +38,44 @@ public partial class MainWindow : Window
         }
     }
     
-    //add Event stuff to trigger the methods
+    Dictionary<int, MobMemberControl> mobMemberControls = new Dictionary<int, MobMemberControl>();
     public void AddMobMember(int number)
     {
         MobMemberControl mobMemberControl = new MobMemberControl();
         mobMemberControl.MemberNumber = number;
-        MobStorage.Children.Add(mobMemberControl);
+        //MobStorage.Children.Add(mobMemberControl);
+        List<StackPanel> MobStorage = new List<StackPanel>();
+        MobStorage.Add(MobStorageTop);
+        MobStorage.Add(MobStorageLeft);
+        MobStorage.Add(MobStorageRight);
+        MobStorage.Add(MobStorageBottom);
+        AddChild();
+        
+        void AddChild()
+        {
+            foreach (StackPanel mobStorage in MobStorage)
+            {
+                foreach (StackPanel stackPanel in mobStorage.Children)
+                {
+                    if (stackPanel.Children.Count < Convert.ToInt32(stackPanel.Tag))
+                    {
+                        mobMemberControls.Add(number, mobMemberControl);
+                        stackPanel.Children.Add(mobMemberControl);
+                        return;
+                    }
+                }
+            }
+        }
     }
 
+    public void MarkWrongMobMember(int number)
+    {
+        mobMemberControls[number].MobMemberWrong();
+    }
+    
     public void DisableMobMember(int number)
     {
-        if (MobStorage.Children[number-1] is MobMemberControl mobMemberControl)
-        {
-            mobMemberControl.DisableMobMember();
-        }
+        mobMemberControls[number].DisableMobMember();
     }
 }
 

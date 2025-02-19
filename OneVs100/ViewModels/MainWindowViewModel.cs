@@ -13,7 +13,7 @@ namespace OneVs100.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
     
-    [ObservableProperty] public string question = "";
+    [ObservableProperty] public string questionText = "";
     [ObservableProperty] public string questionNumber = "";
     [ObservableProperty] public string answerA = "";
     [ObservableProperty] public object answerB = "";
@@ -31,12 +31,13 @@ public partial class MainWindowViewModel : ViewModelBase
     private async Task LoadNextQuestion()
     {
         await Task.Delay(1000);
+        //DisableMobMembers();
         currentQuestionNumber++;
         QuestionInfo currentQuestion = questionDict[currentQuestionNumber];
         AnswerA = currentQuestion.AnswerA;
         AnswerB = currentQuestion.AnswerB;
         AnswerC = currentQuestion.AnswerC;
-        Question = currentQuestion.Question;
+        QuestionText = currentQuestion.Question;
         QuestionNumber = "Q"+currentQuestionNumber;
         SelectAnswers(currentQuestion.CorrectAnswer, 2, currentQuestionNumber);
     }
@@ -47,14 +48,33 @@ public partial class MainWindowViewModel : ViewModelBase
         QuestionInfo question = questionDict[currentQuestionNumber];
         if (answer == question.CorrectAnswer)
         {
-            for (int i=0; i<mobMembers.Count; i++)
+            MarkWrongAnswers();
+            Task.Run(async () => 
             {
-                if (!mobMembers[i].isAnswerCorrect(question.CorrectAnswer))
-                {
-                    WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 1));
-                }
+                await LoadNextQuestion();
+            });
+        }
+    }
+
+    private void MarkWrongAnswers()
+    {
+        for (int i=0; i<mobMembers.Count; i++)
+        {
+            if (!mobMembers[i].isAnswerCorrect(questionDict[currentQuestionNumber].CorrectAnswer))
+            {
+                WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 1));
             }
-            Task.Run(async () => await LoadNextQuestion());
+        }
+    }
+
+    private void DisableMobMembers() //TODO: Redo this later with something more sensible, maybe move disabling individual members to MainWindow?
+    {
+        for (int i=0; i<mobMembers.Count; i++)
+        {
+            if (!mobMembers[i].isAnswerCorrect(questionDict[currentQuestionNumber].CorrectAnswer))
+            {
+                WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 2));
+            }
         }
     }
     
