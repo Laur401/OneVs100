@@ -10,7 +10,7 @@ public class MobMember
     private int number;
     private float intelligence;
     private char answer = ' ';
-    private bool isKnockedOut = false;
+    public bool isKnockedOut = false;
     RandomGaussian RNG = new();
 
     public MobMember(int number)
@@ -31,11 +31,6 @@ public class MobMember
         if (correctAnswer == answer)
             return true;
         else return false;
-    }
-
-    public void knockPlayerOut()
-    {
-        this.isKnockedOut = true;
     }
 
 

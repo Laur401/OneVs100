@@ -1,11 +1,12 @@
-<Window xmlns="https://github.com/avaloniaui"
+<Window MinWidth="1600" MinHeight="900"
+        xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:OneVs100.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:customControls="clr-namespace:OneVs100.CustomControls"
-        mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="720"
-        x:Class="OneVs100.Views.MainWindow"
+        mc:Ignorable="d" d:DesignWidth="1600" d:DesignHeight="900"
+        x:Class="OneVs100.Views.MainWindowUI"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Background="Indigo"
@@ -17,7 +18,7 @@
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-    <Grid RowDefinitions="Auto Auto Auto" ColumnDefinitions="* * *" ShowGridLines="True">
+    <Grid RowDefinitions="Auto Auto Auto" ColumnDefinitions="* * *" ShowGridLines="False">
         <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Name="MobStorageTop">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Tag="14" />
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Tag="15" />

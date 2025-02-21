@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Controls;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -25,13 +26,13 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         LoadQuestions();
         CreateMobMembers();
-        Task.Run(async () => await LoadNextQuestion());
+        Dispatcher.UIThread.InvokeAsync(LoadNextQuestion);
     }
     
     private async Task LoadNextQuestion()
     {
         await Task.Delay(1000);
-        //DisableMobMembers();
+        DisableMobMembers();
         currentQuestionNumber++;
         QuestionInfo currentQuestion = questionDict[currentQuestionNumber];
         AnswerA = currentQuestion.AnswerA;
@@ -49,10 +50,7 @@ public partial class MainWindowViewModel : ViewModelBase
         if (answer == question.CorrectAnswer)
         {
             MarkWrongAnswers();
-            Task.Run(async () => 
-            {
-                await LoadNextQuestion();
-            });
+            Dispatcher.UIThread.InvokeAsync(LoadNextQuestion);
         }
     }
 
@@ -60,18 +58,19 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         for (int i=0; i<mobMembers.Count; i++)
         {
-            if (!mobMembers[i].isAnswerCorrect(questionDict[currentQuestionNumber].CorrectAnswer))
+            if (!mobMembers[i].isAnswerCorrect(questionDict[currentQuestionNumber].CorrectAnswer)&&!mobMembers[i].isKnockedOut)
             {
+                mobMembers[i].isKnockedOut = true;
                 WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 1));
             }
         }
     }
 
-    private void DisableMobMembers() //TODO: Redo this later with something more sensible, maybe move disabling individual members to MainWindow?
+    private void DisableMobMembers()
     {
         for (int i=0; i<mobMembers.Count; i++)
         {
-            if (!mobMembers[i].isAnswerCorrect(questionDict[currentQuestionNumber].CorrectAnswer))
+            if (mobMembers[i].isKnockedOut)
             {
                 WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 2));
             }
@@ -122,9 +121,9 @@ public partial class MainWindowViewModel : ViewModelBase
 
 internal class QuestionInfo(string question, string answerA, string answerB, string answerC, char correctAnswer)
 {
-    internal string Question { get; set; } = question;
-    internal string AnswerA { get; set; } = answerA;
-    internal string AnswerB { get; set; } = answerB;
-    internal string AnswerC { get; set; } = answerC;
-    internal char CorrectAnswer { get; set; } = correctAnswer;
+    internal string Question { get; } = question;
+    internal string AnswerA { get; } = answerA;
+    internal string AnswerB { get; } = answerB;
+    internal string AnswerC { get; } = answerC;
+    internal char CorrectAnswer { get; } = correctAnswer;
 }

@@ -6,14 +6,14 @@ using OneVs100.CustomControls;
 
 namespace OneVs100.Views;
 
-public partial class MainWindow : Window
+public partial class MainWindowUI : Window
 {
-    public MainWindow()
+    public MainWindowUI()
     {
         InitializeComponent();
         //DataContext = new MainWindowViewModel(this);
         
-        WeakReferenceMessenger.Default.Register<MainWindow, MobMemberStatusMessage>(
+        WeakReferenceMessenger.Default.Register<MainWindowUI, MobMemberStatusMessage>(
             this, (recipient, message) =>
             {
                 recipient.MessageReceiver(message.MemberNumber, message.Status);
@@ -34,6 +34,7 @@ public partial class MainWindow : Window
                 DisableMobMember(number);
                 break;
             default:
+                Console.Write("Error in MessageReceiver");
                 break;
         }
     }
@@ -44,11 +45,7 @@ public partial class MainWindow : Window
         MobMemberControl mobMemberControl = new MobMemberControl();
         mobMemberControl.MemberNumber = number;
         //MobStorage.Children.Add(mobMemberControl);
-        List<StackPanel> MobStorage = new List<StackPanel>();
-        MobStorage.Add(MobStorageTop);
-        MobStorage.Add(MobStorageLeft);
-        MobStorage.Add(MobStorageRight);
-        MobStorage.Add(MobStorageBottom);
+        List<StackPanel> MobStorage = [MobStorageTop, MobStorageLeft, MobStorageRight, MobStorageBottom];
         AddChild();
         
         void AddChild()
