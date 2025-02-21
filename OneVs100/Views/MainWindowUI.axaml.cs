@@ -16,11 +16,32 @@ public partial class MainWindowUI : Window
         WeakReferenceMessenger.Default.Register<MainWindowUI, MobMemberStatusMessage>(
             this, (recipient, message) =>
             {
-                recipient.MessageReceiver(message.MemberNumber, message.Status);
+                recipient.MobMessageReceiver(message.MemberNumber, message.Status);
+            });
+        WeakReferenceMessenger.Default.Register<MainWindowUI, BoardStatusMessage>(
+            this, (recipient, message) =>
+            {
+                recipient.BoardMessageReceiver(message.Status);
             });
     }
 
-    public void MessageReceiver(int number, int status)
+    public void BoardMessageReceiver(int status)
+    {
+        switch (status)
+        {
+            case 0:
+                Board.Content = new QnABoard();
+                break;
+            case 1:
+                Board.Content = new MoneyOrMobBoard();
+                break;
+            default:
+                Console.Write("Error in BoardMessageReceiver");
+                break;
+        }
+    }
+
+    public void MobMessageReceiver(int number, int status)
     {
         switch (status)
         {
@@ -34,7 +55,7 @@ public partial class MainWindowUI : Window
                 DisableMobMember(number);
                 break;
             default:
-                Console.Write("Error in MessageReceiver");
+                Console.Write("Error in MobMessageReceiver");
                 break;
         }
     }
@@ -79,5 +100,9 @@ public partial class MainWindowUI : Window
 public class MobMemberStatusMessage(int memberNumber, int status)
 {
     public int MemberNumber { get; } = memberNumber;
+    public int Status { get; } = status; //TODO: Convert status to an Enum
+}
+public class BoardStatusMessage(int status)
+{
     public int Status { get; } = status; //TODO: Convert status to an Enum
 }

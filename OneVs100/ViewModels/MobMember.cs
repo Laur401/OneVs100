@@ -7,7 +7,7 @@ namespace OneVs100.ViewModels;
 
 public class MobMember
 {
-    private int number;
+    public int Number { get; init; }
     private float intelligence;
     private char answer = ' ';
     public bool isKnockedOut = false;
@@ -15,7 +15,7 @@ public class MobMember
 
     public MobMember(int number)
     {
-        this.number = number;
+        this.Number = number;
         this.intelligence = (float)RNG.BoxMuller(0, 36);
     }
 

@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:OneVs100.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="OneVs100.CustomControls.QnABoard"
+             x:DataType="vm:MainWindowViewModel">
+    <Panel Background="Snow">
+        <Border BorderBrush="Black" BorderThickness="3" CornerRadius="2">
+            <Grid ColumnDefinitions="*, *, *" RowDefinitions="Auto, *, *" ShowGridLines="False">
+                <Border Grid.Row="0" Grid.Column="0" Margin="4">
+                    <TextBlock FontSize="14" xml:space="preserve"
+                               HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Text="{Binding QuestionNumber}" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+                    <TextBlock FontSize="20" xml:space="preserve"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Text="{Binding QuestionText}" />
+                </Border>
+                <Border Grid.Row="2" Grid.Column="0">
+                    <Button HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Command="{Binding AnswerCommand}" CommandParameter="A">
+                        <TextBlock FontSize="20" xml:space="preserve"
+                                   Text="{Binding AnswerA}" />
+                    </Button>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="1">
+                    <Button HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Command="{Binding AnswerCommand}" CommandParameter="B">
+                        <TextBlock FontSize="20" xml:space="preserve"
+                                   Text="{Binding AnswerB}" />
+                    </Button>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="2">
+                    <Button RenderTransform="none"
+                        HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"
+                        Command="{Binding AnswerCommand}" CommandParameter="C">
+                        <TextBlock FontSize="20" xml:space="preserve"
+                                   Text="{Binding AnswerC}" />
+                    </Button>
+                </Border>
+            </Grid>
+        </Border>
+    </Panel>
+</UserControl>
