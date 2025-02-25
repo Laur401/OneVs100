@@ -38,11 +38,11 @@ public partial class MobMemberControl : UserControl
 
     public void DisableMobMember()
     {
-        Rect.Fill = Brushes.Black;
+        Border.Background = Brushes.Black;
     }
 
     public void MobMemberWrong()
     {
-        Rect.Fill = Brushes.Red;
+        Border.Background = Brushes.Red;
     }
 }

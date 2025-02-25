@@ -62,8 +62,7 @@ public partial class MainWindowViewModel : ViewModelBase
         if (answer == question.CorrectAnswer)
         {
             Dispatcher.UIThread.InvokeAsync(MarkWrongAnswers);
-            
-            LoadMoneyOrMobBoard();
+            LoadMoneyLadderBoard();
         }
     }
 
@@ -86,6 +85,7 @@ public partial class MainWindowViewModel : ViewModelBase
             await Task.Delay(500);
         }
         DisableMobMembers();
+        LoadMoneyOrMobBoard();
     }
 
     private void DisableMobMembers()
@@ -147,9 +147,14 @@ public partial class MainWindowViewModel : ViewModelBase
         WeakReferenceMessenger.Default.Send(new BoardStatusMessage(0));
     }
 
-    private void LoadMoneyOrMobBoard()
+    private void LoadMoneyLadderBoard()
     {
         WeakReferenceMessenger.Default.Send(new BoardStatusMessage(1));
+    }
+
+    private void LoadMoneyOrMobBoard()
+    {
+        WeakReferenceMessenger.Default.Send(new BoardStatusMessage(2));
     }
     
     [RelayCommand]

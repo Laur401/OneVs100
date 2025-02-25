@@ -11,12 +11,14 @@
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <customControls:MobMemberControl/>
     </Design.DataContext>
-    
     <Panel Height="105" Width="105">
-        <Rectangle Name="Rect" Fill="Bisque" />
-        <Svg Path="/Assets/person.svg" Height="90" Width="90" VerticalAlignment="Bottom"/>
-        <TextBlock Name="MobMemberNumber" FontFamily="{StaticResource OrbitronFont}" Foreground="WhiteSmoke"
-                   FontWeight="SemiBold" FontSize="24"
-            HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="OwO"/>
+        <Border Background="Bisque" Name="Border">
+            <Panel>
+                <Svg Path="/Assets/person.svg" Height="90" Width="90" VerticalAlignment="Bottom"/>
+                <TextBlock Name="MobMemberNumber" FontFamily="{StaticResource OrbitronFont}" Foreground="WhiteSmoke"
+                           FontWeight="SemiBold" FontSize="24"
+                    HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="OwO"/>
+            </Panel>
+        </Border>
     </Panel>
 </UserControl>

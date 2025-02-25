@@ -16,5 +16,6 @@
     <Application.Resources>
         <FontFamily x:Key="OrbitronFont">avares://OneVs100/Assets/Fonts/Orbitron#Orbitron</FontFamily>
         <FontFamily x:Key="OverpassFont">avares://OneVs100/Assets/Fonts/Overpass#Overpass</FontFamily>
+        <FontFamily x:Key="Digital7Font">avares://OneVs100/Assets/Fonts/Digital7#Digital-7 Mono</FontFamily>
     </Application.Resources>
 </Application>

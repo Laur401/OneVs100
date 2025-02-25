@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="OneVs100.CustomControls.MoneyLadderBoard">
+    <Panel>
+        <Grid ColumnDefinitions="*, Auto" ShowGridLines="False"
+              RowDefinitions="*, *, *, *, *, *, *, *, *, *">
+            <StackPanel Grid.Column="0" Grid.Row="9" Name="Row0" />
+            <StackPanel Grid.Column="0" Grid.Row="8" Name="Row1" />
+            <StackPanel Grid.Column="0" Grid.Row="7" Name="Row2" />
+            <StackPanel Grid.Column="0" Grid.Row="6" Name="Row3" />
+            <StackPanel Grid.Column="0" Grid.Row="5" Name="Row4" />
+            <StackPanel Grid.Column="0" Grid.Row="4" Name="Row5" />
+            <StackPanel Grid.Column="0" Grid.Row="3" Name="Row6" />
+            <StackPanel Grid.Column="0" Grid.Row="2" Name="Row7" />
+            <StackPanel Grid.Column="0" Grid.Row="1" Name="Row8" />
+            <StackPanel Grid.Column="0" Grid.Row="0" Name="Row9" />
+            
+            <TextBlock Grid.Column="1" Grid.Row="9" Text="1 000 €"/>
+            <TextBlock Grid.Column="1" Grid.Row="8" Text="5 000 €"/>
+            <TextBlock Grid.Column="1" Grid.Row="7" Text="10 000 €"/>
+            <TextBlock Grid.Column="1" Grid.Row="6" Text="25 000 €"/>
+            <TextBlock Grid.Column="1" Grid.Row="5" Text="50 000 €"/>
+            <TextBlock Grid.Column="1" Grid.Row="4" Text="75 000 €"/>
+            <TextBlock Grid.Column="1" Grid.Row="3" Text="100 000 €"/>
+            <TextBlock Grid.Column="1" Grid.Row="2" Text="250 000 €"/>
+            <TextBlock Grid.Column="1" Grid.Row="1" Text="500 000 €"/>
+            <TextBlock Grid.Column="1" Grid.Row="0" Text="1 000 000 €"/>
+        </Grid>
+    </Panel>
+    <UserControl.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+        </Style>
+    </UserControl.Styles>
+</UserControl>

@@ -16,19 +16,34 @@
         <Grid RowDefinitions="*, *, *" ColumnDefinitions="Auto, *" ShowGridLines="True">
             <Border Grid.Column="1" Grid.Row="0">
                 <Button HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <TextBlock Margin="0, 10, 0, 0" FontSize="60" xml:space="preserve"
-                               Text="{Binding TotalMoney}" />
+                    <TextBlock FontSize="100" xml:space="preserve"
+                               Text="{Binding TotalMoney}" FontFamily="{DynamicResource Digital7Font}"/>
                 </Button>
             </Border>
             <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
-                       FontSize="80" Text="or"/>
+                       FontSize="60" Text="OR">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="0" OffsetX="0" OffsetY="0" Color="Black"></DropShadowEffect>
+                </TextBlock.Effect>
+            </TextBlock>
+            
             <Border Grid.Column="1" Grid.Row="2">
                 <Button HorizontalAlignment="Center" VerticalAlignment="Center"
                         Command="{Binding TakeMob}">
-                    <TextBlock Margin="0, 10, 0, 0" FontSize="60" xml:space="preserve" Text="Mob"/>
+                    <TextBlock FontSize="100" xml:space="preserve" Text="MOB"/>
                 </Button>
             </Border>
             
         </Grid>
     </Panel>
+    <UserControl.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="{DynamicResource Digital7Font}" />
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </UserControl.Styles>
 </UserControl>

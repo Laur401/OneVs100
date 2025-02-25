@@ -11,7 +11,10 @@ public partial class MainWindowUI : Window
     public MainWindowUI()
     {
         InitializeComponent();
-        //DataContext = new MainWindowViewModel(this);
+
+        qnABoard = new QnABoard();
+        moneyLadderBoard = new MoneyLadderBoard();
+        moneyOrMobBoard = new MoneyOrMobBoard();
         
         WeakReferenceMessenger.Default.Register<MainWindowUI, MobMemberStatusMessage>(
             this, (recipient, message) =>
@@ -24,16 +27,24 @@ public partial class MainWindowUI : Window
                 recipient.BoardMessageReceiver(message.Status);
             });
     }
+    
+    private QnABoard qnABoard;
+    private MoneyLadderBoard moneyLadderBoard;
+    private MoneyOrMobBoard moneyOrMobBoard;
+    
 
     public void BoardMessageReceiver(int status)
     {
         switch (status)
         {
             case 0:
-                Board.Content = new QnABoard();
+                Board.Content = qnABoard;
                 break;
             case 1:
-                Board.Content = new MoneyOrMobBoard();
+                Board.Content = moneyLadderBoard;
+                break;
+            case 2:
+                Board.Content = moneyOrMobBoard;
                 break;
             default:
                 Console.Write("Error in BoardMessageReceiver");
@@ -89,6 +100,8 @@ public partial class MainWindowUI : Window
     public void MarkWrongMobMember(int number)
     {
         mobMemberControls[number].MobMemberWrong();
+        moneyLadderBoard.addWrongMobMember();
+        
     }
     
     public void DisableMobMember(int number)
