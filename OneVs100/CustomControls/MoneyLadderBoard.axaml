@@ -18,16 +18,16 @@
             <StackPanel Grid.Column="0" Grid.Row="1" Name="Row8" />
             <StackPanel Grid.Column="0" Grid.Row="0" Name="Row9" />
             
-            <TextBlock Grid.Column="1" Grid.Row="9" Text="1 000 €"/>
-            <TextBlock Grid.Column="1" Grid.Row="8" Text="5 000 €"/>
-            <TextBlock Grid.Column="1" Grid.Row="7" Text="10 000 €"/>
-            <TextBlock Grid.Column="1" Grid.Row="6" Text="25 000 €"/>
-            <TextBlock Grid.Column="1" Grid.Row="5" Text="50 000 €"/>
-            <TextBlock Grid.Column="1" Grid.Row="4" Text="75 000 €"/>
-            <TextBlock Grid.Column="1" Grid.Row="3" Text="100 000 €"/>
-            <TextBlock Grid.Column="1" Grid.Row="2" Text="250 000 €"/>
-            <TextBlock Grid.Column="1" Grid.Row="1" Text="500 000 €"/>
-            <TextBlock Grid.Column="1" Grid.Row="0" Text="1 000 000 €"/>
+            <TextBlock Grid.Column="1" Grid.Row="9" Text="1 000 €" Name="Money0"/>
+            <TextBlock Grid.Column="1" Grid.Row="8" Text="5 000 €" Name="Money1"/>
+            <TextBlock Grid.Column="1" Grid.Row="7" Text="10 000 €" Name="Money2"/>
+            <TextBlock Grid.Column="1" Grid.Row="6" Text="25 000 €" Name="Money3"/>
+            <TextBlock Grid.Column="1" Grid.Row="5" Text="50 000 €" Name="Money4"/>
+            <TextBlock Grid.Column="1" Grid.Row="4" Text="75 000 €" Name="Money5"/>
+            <TextBlock Grid.Column="1" Grid.Row="3" Text="100 000 €" Name="Money6"/>
+            <TextBlock Grid.Column="1" Grid.Row="2" Text="250 000 €" Name="Money7"/>
+            <TextBlock Grid.Column="1" Grid.Row="1" Text="500 000 €" Name="Money8"/>
+            <TextBlock Grid.Column="1" Grid.Row="0" Text="1 000 000 €" Name="Money9"/>
         </Grid>
     </Panel>
     <UserControl.Styles>

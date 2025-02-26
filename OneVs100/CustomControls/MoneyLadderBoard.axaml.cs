@@ -2,17 +2,21 @@ using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media;
 
 namespace OneVs100.CustomControls;
 
 public partial class MoneyLadderBoard : UserControl
 {
     private List<MobMemberMiniIcon> mobMemberIcons;
+    private List<StackPanel> rowsList;
+    private List<TextBlock> moneyList;
     private int mobMembersInRow = 10; //TODO: Pass actual number of mob members to this board, reformat to be variable number in each row.
     public MoneyLadderBoard()
     {
         InitializeComponent();
-        List<StackPanel> rowsList = [Row0, Row1, Row2, Row3, Row4, Row5, Row6, Row7, Row8, Row9];
+        rowsList = [Row0, Row1, Row2, Row3, Row4, Row5, Row6, Row7, Row8, Row9];
+        moneyList = [Money0, Money1, Money2, Money3, Money4, Money5, Money6, Money7, Money8, Money9];
         mobMemberIcons = new List<MobMemberMiniIcon>();
         foreach (StackPanel row in rowsList)
         {
@@ -26,14 +30,18 @@ public partial class MoneyLadderBoard : UserControl
     }
     
     private int wrongMobMembers = 0;
-    public void addWrongMobMember()
+    public void AddWrongMobMember()
     {
         mobMemberIcons[wrongMobMembers].DisableIcon();
         wrongMobMembers++;
+        CheckIfRowFull(); //TODO: Optimize this
     }
 
     private void CheckIfRowFull()
     {
-        
+        int fullRows = wrongMobMembers/mobMembersInRow; //24/10 = 2
+        if (fullRows == 0) return;
+        moneyList[fullRows-1].Background = Brushes.Goldenrod;
+        foreach (TextBlock i in moneyList[..(fullRows-1)]) i.Background = Brushes.Black;
     }
 }

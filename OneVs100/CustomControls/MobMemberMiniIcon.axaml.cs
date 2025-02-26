@@ -16,6 +16,6 @@ public partial class MobMemberMiniIcon : UserControl
     public void DisableIcon()
     {
         Border.Background = Brushes.DarkRed;
-        Avalonia.Svg.Skia.Svg.SetCss(Sillhouette, ".Black { fill: #ffffff; }");
+        Avalonia.Svg.Skia.Svg.SetCss(Sillhouette, ".Person{fill: #000000;}");
     }
 }

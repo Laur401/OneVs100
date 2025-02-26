@@ -1,4 +1,4 @@
-<Window MinWidth="1600" MinHeight="900"
+<UserControl MinWidth="1600" MinHeight="900"
         xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,17 +6,14 @@
         xmlns:vm="using:OneVs100.ViewModels"
         xmlns:customControls="using:OneVs100.CustomControls"
         mc:Ignorable="d" d:DesignWidth="1600" d:DesignHeight="900"
-        x:Class="OneVs100.Views.MainWindowUI"
-        x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Background="Indigo"
-        Title="OneVs100"
-        SizeToContent="WidthAndHeight">
+        x:Class="OneVs100.Views.MainGameUI"
+        x:DataType="vm:MainGameViewModel"
+        Background="Indigo">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
+        <vm:MainGameViewModel/>
     </Design.DataContext>
     <Border Margin="30">
         <Viewbox>
@@ -42,12 +39,12 @@
                     <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Tag="5" />
                 </StackPanel>
                 <Border Grid.Column="1" Grid.Row="1" Height="315" Width="525" BorderBrush="Black" BorderThickness="3" CornerRadius="2">
-                    <ContentControl Name="Board"></ContentControl>
+                    <TransitioningContentControl Name="Board"></TransitioningContentControl>
                 </Border>
             </Grid>
         </Viewbox>
     </Border>
-    <Window.Styles>
+    <UserControl.Styles>
         <StyleInclude Source="avares://OneVs100/Styles/QuestionBoardStyle.axaml"/>
-    </Window.Styles>
-</Window>
+    </UserControl.Styles>
+</UserControl>

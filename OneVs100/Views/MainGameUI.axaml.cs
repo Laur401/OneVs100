@@ -6,9 +6,9 @@ using OneVs100.CustomControls;
 
 namespace OneVs100.Views;
 
-public partial class MainWindowUI : Window
+public partial class MainGameUI : UserControl
 {
-    public MainWindowUI()
+    public MainGameUI()
     {
         InitializeComponent();
 
@@ -16,12 +16,12 @@ public partial class MainWindowUI : Window
         moneyLadderBoard = new MoneyLadderBoard();
         moneyOrMobBoard = new MoneyOrMobBoard();
         
-        WeakReferenceMessenger.Default.Register<MainWindowUI, MobMemberStatusMessage>(
+        WeakReferenceMessenger.Default.Register<MainGameUI, MobMemberStatusMessage>(
             this, (recipient, message) =>
             {
                 recipient.MobMessageReceiver(message.MemberNumber, message.Status);
             });
-        WeakReferenceMessenger.Default.Register<MainWindowUI, BoardStatusMessage>(
+        WeakReferenceMessenger.Default.Register<MainGameUI, BoardStatusMessage>(
             this, (recipient, message) =>
             {
                 recipient.BoardMessageReceiver(message.Status);
@@ -100,7 +100,8 @@ public partial class MainWindowUI : Window
     public void MarkWrongMobMember(int number)
     {
         mobMemberControls[number].MobMemberWrong();
-        moneyLadderBoard.addWrongMobMember();
+        moneyLadderBoard.AddWrongMobMember();
+        
         
     }
     
