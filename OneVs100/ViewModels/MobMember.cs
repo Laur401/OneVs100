@@ -8,7 +8,7 @@ namespace OneVs100.ViewModels;
 public class MobMember
 {
     public int Number { get; init; }
-    private float intelligence;
+    private readonly float intelligence;
     private char answer = ' ';
     public bool isKnockedOut = false;
     RandomGaussian RNG = new();

@@ -2,10 +2,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:OneVs100.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:MainGameViewModel"
              x:Class="OneVs100.CustomControls.MoneyLadderBoard">
     <Panel>
-        <Grid ColumnDefinitions="*, Auto" ShowGridLines="False"
+        <Grid ColumnDefinitions="Auto, *" ShowGridLines="True"
               RowDefinitions="*, *, *, *, *, *, *, *, *, *">
             <StackPanel Grid.Column="0" Grid.Row="9" Name="Row0" />
             <StackPanel Grid.Column="0" Grid.Row="8" Name="Row1" />
@@ -18,21 +20,45 @@
             <StackPanel Grid.Column="0" Grid.Row="1" Name="Row8" />
             <StackPanel Grid.Column="0" Grid.Row="0" Name="Row9" />
             
-            <TextBlock Grid.Column="1" Grid.Row="9" Text="1 000 €" Name="Money0"/>
-            <TextBlock Grid.Column="1" Grid.Row="8" Text="5 000 €" Name="Money1"/>
-            <TextBlock Grid.Column="1" Grid.Row="7" Text="10 000 €" Name="Money2"/>
-            <TextBlock Grid.Column="1" Grid.Row="6" Text="25 000 €" Name="Money3"/>
-            <TextBlock Grid.Column="1" Grid.Row="5" Text="50 000 €" Name="Money4"/>
-            <TextBlock Grid.Column="1" Grid.Row="4" Text="75 000 €" Name="Money5"/>
-            <TextBlock Grid.Column="1" Grid.Row="3" Text="100 000 €" Name="Money6"/>
-            <TextBlock Grid.Column="1" Grid.Row="2" Text="250 000 €" Name="Money7"/>
-            <TextBlock Grid.Column="1" Grid.Row="1" Text="500 000 €" Name="Money8"/>
-            <TextBlock Grid.Column="1" Grid.Row="0" Text="1 000 000 €" Name="Money9"/>
+            <Border Grid.Column="1" Grid.Row="9" Name="Money0">
+                <TextBlock Text="{Binding MoneyLadderValuesString[0]}"/>
+            </Border>
+            <Border Grid.Column="1" Grid.Row="8" Name="Money1">
+                <TextBlock Text="{Binding MoneyLadderValuesString[1]}"/>
+            </Border>
+            <Border Grid.Column="1" Grid.Row="7" Name="Money2">
+                <TextBlock Text="{Binding MoneyLadderValuesString[2]}"/>
+            </Border>
+            <Border Grid.Column="1" Grid.Row="6" Name="Money3">
+                <TextBlock Text="{Binding MoneyLadderValuesString[3]}"/>
+            </Border>
+            <Border Grid.Column="1" Grid.Row="5" Name="Money4">
+                <TextBlock Text="{Binding MoneyLadderValuesString[4]}"/>
+            </Border>
+            <Border Grid.Column="1" Grid.Row="4" Name="Money5">
+                <TextBlock Text="{Binding MoneyLadderValuesString[5]}"/>
+            </Border>
+            <Border Grid.Column="1" Grid.Row="3" Name="Money6">
+                <TextBlock Text="{Binding MoneyLadderValuesString[6]}"/>
+            </Border>
+            <Border Grid.Column="1" Grid.Row="2" Name="Money7">
+                <TextBlock Text="{Binding MoneyLadderValuesString[7]}"/>
+            </Border>
+            <Border Grid.Column="1" Grid.Row="1" Name="Money8">
+                <TextBlock Text="{Binding MoneyLadderValuesString[8]}"/>
+            </Border>
+            <Border Grid.Column="1" Grid.Row="0" Name="Money9">
+                <TextBlock Text="{Binding MoneyLadderValuesString[9]}"/>
+            </Border>
         </Grid>
     </Panel>
     <UserControl.Styles>
-        <Style Selector="TextBlock">
+        <Style Selector="Border">
             <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </Style>
+        <Style Selector="Border > TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
         <Style Selector="StackPanel">

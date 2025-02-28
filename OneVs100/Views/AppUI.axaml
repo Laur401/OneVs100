@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:OneVs100.ViewModels"
+        xmlns:views="clr-namespace:AvaloniaDialogs.Views;assembly=AvaloniaDialogs"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="OneVs100.Views.AppUI"
         x:DataType="vm:MainWindowViewModel"
@@ -11,5 +12,7 @@
         Title="OneVs100"
         
         Width="1280" Height="720">
-    <TransitioningContentControl Content="{Binding SelectedViewModel}"/>
+    <views:ReactiveDialogHost CloseOnClickAway="True">
+        <TransitioningContentControl Content="{Binding SelectedViewModel}"/>
+    </views:ReactiveDialogHost>
 </Window>

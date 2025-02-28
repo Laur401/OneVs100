@@ -20,6 +20,19 @@ public partial class MainGameViewModel : PageViewModelBase
     [ObservableProperty] private string answerA = "";
     [ObservableProperty] private object answerB = "";
     [ObservableProperty] private object answerC = "";
+
+    [ObservableProperty] private List<int> moneyLadderValues = [1000, 5000, 10000, 25000, 50000, 75000, 100000, 250000, 500000, 1000000];
+
+    [ObservableProperty] private List<string> moneyLadderValuesString = new List<string>();
+
+    public MainGameViewModel()
+    {
+        foreach (int val in moneyLadderValues)
+        {
+            moneyLadderValuesString.Add(val.ToString("N0")+" €");
+        }
+    }
+    
     private float totalMoney = 0;
     public float? TotalMoney
     {
@@ -95,7 +108,7 @@ public partial class MainGameViewModel : PageViewModelBase
             if (mobMembers[i].isKnockedOut)
             {
                 WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 2));
-                TotalMoney += 1;
+                //MobMembersLeft -= 1;
             }
         }
     }

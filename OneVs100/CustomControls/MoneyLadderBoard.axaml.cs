@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using OneVs100.ViewModels;
 
 namespace OneVs100.CustomControls;
 
@@ -10,7 +11,7 @@ public partial class MoneyLadderBoard : UserControl
 {
     private List<MobMemberMiniIcon> mobMemberIcons;
     private List<StackPanel> rowsList;
-    private List<TextBlock> moneyList;
+    private List<Border> moneyList;
     private int mobMembersInRow = 10; //TODO: Pass actual number of mob members to this board, reformat to be variable number in each row.
     public MoneyLadderBoard()
     {
@@ -34,6 +35,8 @@ public partial class MoneyLadderBoard : UserControl
     {
         mobMemberIcons[wrongMobMembers].DisableIcon();
         wrongMobMembers++;
+        AudioPlayer audioPlayer = new AudioPlayer();
+        audioPlayer.PlaySound(SoundEffects.MobMemberOut);
         CheckIfRowFull(); //TODO: Optimize this
     }
 
@@ -42,6 +45,7 @@ public partial class MoneyLadderBoard : UserControl
         int fullRows = wrongMobMembers/mobMembersInRow; //24/10 = 2
         if (fullRows == 0) return;
         moneyList[fullRows-1].Background = Brushes.Goldenrod;
-        foreach (TextBlock i in moneyList[..(fullRows-1)]) i.Background = Brushes.Black;
+        if (moneyList[fullRows-1].Child is TextBlock textBlock) textBlock.Foreground = Brushes.Red;
+        foreach (Border i in moneyList[..(fullRows-1)]) i.Background = Brushes.Black;
     }
 }
