@@ -2,11 +2,11 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace OneVs100.Views;
+namespace OneVs100.CustomControls;
 
-public partial class MainMenuUI : UserControl
+public partial class GeneralTextBoard : UserControl
 {
-    public MainMenuUI()
+    public GeneralTextBoard()
     {
         InitializeComponent();
     }

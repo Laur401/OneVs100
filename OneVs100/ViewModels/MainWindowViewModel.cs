@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq.Expressions;
 using CommunityToolkit.Mvvm.ComponentModel;
+using OneVs100.ViewModels.MainGame;
+using OneVs100.ViewModels.MainMenu;
 
 namespace OneVs100.ViewModels;
 

@@ -4,33 +4,57 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:OneVs100.ViewModels"
              xmlns:customControls="using:OneVs100.CustomControls"
+             xmlns:mainGame="clr-namespace:OneVs100.ViewModels.MainGame"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="OneVs100.CustomControls.MoneyOrMobBoard"
-             x:DataType="vm:MainGameViewModel">
+             x:DataType="mainGame:MainGameViewModel">
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainGameViewModel/>
+        <mainGame:MainGameViewModel/>
     </Design.DataContext>
-    <Panel Background="Beige">
+    <Panel Background="Black">
         <Grid RowDefinitions="*, *, *" ColumnDefinitions="Auto, *" ShowGridLines="True">
             <Border Grid.Column="1" Grid.Row="0">
-                <Button HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <TextBlock FontSize="100" xml:space="preserve"
-                               Text="{Binding TotalMoney}" FontFamily="{DynamicResource Digital7Font}"/>
+                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                        Background="Transparent"
+                        Command="{Binding TakeMoney}">
+                    <TextBlock FontSize="100" xml:space="preserve" Foreground="Khaki"
+                               Text="{Binding TotalMoney}" >
+                        <!--<TextBlock.RenderTransform>
+                            <SkewTransform AngleX="-5" />
+                        </TextBlock.RenderTransform> Avalonia bug - doesn't work with drop shadow-->
+                        <TextBlock.Effect>
+                            <DropShadowEffect BlurRadius="12" OffsetX="0" OffsetY="0" Color="Khaki" />
+                        </TextBlock.Effect>
+                    </TextBlock>
                 </Button>
             </Border>
+            
             <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
-                       FontSize="60" Text="OR">
+                       FontSize="60" Text="OR" Foreground="Snow" FontWeight="Bold"
+                       FontFamily="{DynamicResource OverpassFont}" >
                 <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="0" OffsetX="0" OffsetY="0" Color="Black"></DropShadowEffect>
+                    <DropShadowEffect BlurRadius="12" OffsetX="0" OffsetY="0" Color="White"></DropShadowEffect>
                 </TextBlock.Effect>
+                <TextBlock.RenderTransform>
+                    <TranslateTransform Y="5" />
+                </TextBlock.RenderTransform>
             </TextBlock>
             
             <Border Grid.Column="1" Grid.Row="2">
-                <Button HorizontalAlignment="Center" VerticalAlignment="Center"
+                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                        Foreground="Transparent" Background="Transparent"
                         Command="{Binding TakeMob}">
-                    <TextBlock FontSize="100" xml:space="preserve" Text="MOB"/>
+                    <TextBlock FontSize="100" xml:space="preserve" Foreground="NavajoWhite"
+                               Text="MOB" >
+                        <TextBlock.Effect>
+                            <DropShadowEffect BlurRadius="12" OffsetX="0" OffsetY="0" Color="NavajoWhite"></DropShadowEffect>
+                        </TextBlock.Effect>
+                        
+                    </TextBlock>
                 </Button>
             </Border>
             
@@ -41,9 +65,10 @@
             <Setter Property="FontFamily" Value="{DynamicResource Digital7Font}" />
             <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
-            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontWeight" Value="Normal" />
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="White"/>
         </Style>
     </UserControl.Styles>
 </UserControl>

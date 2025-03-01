@@ -11,26 +11,35 @@ using SampleFormat = SoundFlow.Enums.SampleFormat;
 
 namespace OneVs100.ViewModels;
 
-public class AudioPlayer : IDisposable
+public sealed class AudioPlayer
 {
+    private static readonly Lazy<AudioPlayer> LazyInstance = new(() => new AudioPlayer());
+    public static AudioPlayer Instance => LazyInstance.Value;
     private MiniAudioEngine engine;
-    public AudioPlayer()
+    private SoundPlayer? player;
+    private AudioPlayer()
     {
         engine = new MiniAudioEngine(44100, Capability.Playback);
     }
     
-    public void PlaySound(Uri soundUri)
+    public SoundPlayer PlaySound(Uri soundUri)
     {
-        Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
-        SoundPlayer player = new SoundPlayer(new StreamDataProvider(AssetLoader.Open(soundUri)));
+        player = new SoundPlayer(new StreamDataProvider(AssetLoader.Open(soundUri)));
         Mixer.Master.AddComponent(player);
         player.Play();
+        return player;
+    }
+
+    public void StopSound(SoundPlayer soundPlayer)
+    {
+        soundPlayer.Stop();
+        Mixer.Master.RemoveComponent(soundPlayer);
     }
 
     public void Dispose()
     {
-        ReleaseUnmanagedResources();
-        GC.SuppressFinalize(this);
+        /*ReleaseUnmanagedResources();
+        GC.SuppressFinalize(this);*/
     }
     
     ~AudioPlayer()
@@ -40,7 +49,8 @@ public class AudioPlayer : IDisposable
     
     private void ReleaseUnmanagedResources()
     {
-        engine.Dispose();
+        if (player != null)
+            Mixer.Master.RemoveComponent(player);
     }
 }
 
@@ -48,4 +58,5 @@ public static class SoundEffects
 {
     public static readonly Uri Test = new Uri("avares://OneVs100/Assets/Audio/test.wav");
     public static readonly Uri MobMemberOut = new Uri("avares://OneVs100/Assets/Audio/mob_out.wav");
+    public static readonly Uri PlayerIntro = new Uri("avares://OneVs100/Assets/Audio/player_intro.wav");
 }

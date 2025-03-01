@@ -35,17 +35,24 @@ public partial class MoneyLadderBoard : UserControl
     {
         mobMemberIcons[wrongMobMembers].DisableIcon();
         wrongMobMembers++;
-        AudioPlayer audioPlayer = new AudioPlayer();
+        AudioPlayer audioPlayer = AudioPlayer.Instance;
         audioPlayer.PlaySound(SoundEffects.MobMemberOut);
-        CheckIfRowFull(); //TODO: Optimize this
+        CheckIfRowFull();
     }
 
     private void CheckIfRowFull()
     {
-        int fullRows = wrongMobMembers/mobMembersInRow; //24/10 = 2
-        if (fullRows == 0) return;
-        moneyList[fullRows-1].Background = Brushes.Goldenrod;
-        if (moneyList[fullRows-1].Child is TextBlock textBlock) textBlock.Foreground = Brushes.Red;
-        foreach (Border i in moneyList[..(fullRows-1)]) i.Background = Brushes.Black;
+        if (wrongMobMembers % mobMembersInRow == 0)
+        {
+            int fullRows = wrongMobMembers/mobMembersInRow; //24/10 = 2
+            if (fullRows == 0) return;
+            moneyList[fullRows-1].Background = Brushes.Goldenrod;
+            {if (moneyList[fullRows-1].Child is TextBlock textBlock) textBlock.Foreground = Brushes.Black;}
+            foreach (Border i in moneyList[..(fullRows - 1)])
+            {
+                i.Background = Brushes.Black;
+                if (i.Child is TextBlock textBlock) textBlock.Foreground = Brushes.DimGray;
+            }
+        }
     }
 }

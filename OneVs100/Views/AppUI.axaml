@@ -10,9 +10,10 @@
         Icon="/Assets/avalonia-logo.ico"
         Background="Indigo"
         Title="OneVs100"
-        
         Width="1280" Height="720">
     <views:ReactiveDialogHost CloseOnClickAway="True">
-        <TransitioningContentControl Content="{Binding SelectedViewModel}"/>
+        <Viewbox>
+            <TransitioningContentControl Content="{Binding SelectedViewModel}"/>
+        </Viewbox>
     </views:ReactiveDialogHost>
 </Window>

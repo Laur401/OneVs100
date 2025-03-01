@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneVs100", "OneVs100\OneVs100.csproj", "{6AA2223B-5D6D-41C4-86FE-3D48DE399BCD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionObtainer", "QuestionObtainer\QuestionObtainer.csproj", "{FA07B661-CAFC-4619-A37B-7AAA7AF0174E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{6AA2223B-5D6D-41C4-86FE-3D48DE399BCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AA2223B-5D6D-41C4-86FE-3D48DE399BCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AA2223B-5D6D-41C4-86FE-3D48DE399BCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA07B661-CAFC-4619-A37B-7AAA7AF0174E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA07B661-CAFC-4619-A37B-7AAA7AF0174E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA07B661-CAFC-4619-A37B-7AAA7AF0174E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA07B661-CAFC-4619-A37B-7AAA7AF0174E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

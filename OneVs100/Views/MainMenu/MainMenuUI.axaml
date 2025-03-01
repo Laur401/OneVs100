@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:OneVs100.ViewModels"
+        xmlns:mainMenu="clr-namespace:OneVs100.ViewModels.MainMenu"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:DataType="mainMenu:MainMenuViewModel"
+        x:Class="OneVs100.Views.MainMenu.MainMenuUI">
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <mainMenu:MainMenuViewModel/>
+    </Design.DataContext>
+    <Border Margin="30">
+        <Grid RowDefinitions="*, *" ShowGridLines="True">
+            <Border Grid.Row="0" Margin="30">
+                <Image Source="../../Assets/1vs100Logo.png" Height="320"/>
+            </Border>
+            <StackPanel Grid.Row="1" Width="200">
+                <Button Content="Start Game" HorizontalAlignment="Center"
+                    Command="{Binding StartGame}"/>
+                <Button Content="Credits" HorizontalAlignment="Center"
+                        Command="{Binding OpenCredits}"/>
+                <Button Content="Quit" HorizontalAlignment="Center"
+                        Command="{Binding Quit}"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

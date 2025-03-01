@@ -3,14 +3,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:OneVs100.ViewModels"
+             xmlns:mainGame="clr-namespace:OneVs100.ViewModels.MainGame"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="OneVs100.CustomControls.QnABoard"
-             x:DataType="vm:MainGameViewModel">
+             x:DataType="mainGame:MainGameViewModel">
     <Panel Background="Black">
-        <Grid ColumnDefinitions="*, *, *" RowDefinitions="Auto, *, *" ShowGridLines="False">
-            <Border Grid.Row="0" Grid.Column="0" Margin="4">
+        <Grid ColumnDefinitions="*, *, *" RowDefinitions="Auto, *, *" ShowGridLines="False" Name="Grid">
+            <Border Grid.Row="0" Grid.Column="0" BorderBrush="#B676D3" BorderThickness="3"
+                    HorizontalAlignment="Left" VerticalAlignment="Stretch">
                 <TextBlock FontSize="14" xml:space="preserve"
-                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                           VerticalAlignment="Center"
                            Text="{Binding QuestionNumber}" />
             </Border>
             <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" BorderBrush="#B676D3" BorderThickness="3">
@@ -22,37 +24,58 @@
                         <GradientStop Color="#3E1D48" Offset="1.0"/>
                     </LinearGradientBrush>
                 </Border.Background>
-                <TextBlock FontSize="20" xml:space="preserve"
-                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <TextBlock FontSize="20" xml:space="preserve" 
+                           HorizontalAlignment="Stretch" VerticalAlignment="Center"
                            Text="{Binding QuestionText}" />
             </Border>
-            <Border Grid.Row="2" Grid.Column="0" BorderBrush="#B676D3" BorderThickness="3">
-                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                        Background="Transparent"
+            <Panel Grid.Row="2" Grid.Column="0">
+                <Border Name="BorderA" BorderBrush="#B676D3" BorderThickness="3" >
+                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            Background="Transparent"
+                            Click="Answer_OnClick"
+                            Command="{Binding AnswerCommand}" CommandParameter="A">
+                        <TextBlock Name="AnswerTextA" FontSize="20" xml:space="preserve" VerticalAlignment="Center"
+                                   Text="{Binding AnswerA}" />
+                    </Button>
+                </Border>
+                <Border BorderBrush="#683D6A" BorderThickness="2" Background="#4B2451"
+                        HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <TextBlock Text="A" FontSize="16" FontWeight="Bold" FontFamily="{DynamicResource OrbitronFont}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20 0" />
+                </Border>
+            </Panel>
+            <Panel Grid.Row="2" Grid.Column="1">
+                <Border Name="BorderB" BorderBrush="#B676D3" BorderThickness="3" >
+                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                            Background="Transparent"
+                            Click="Answer_OnClick"
+                            Command="{Binding AnswerCommand}" CommandParameter="B">
+                        <TextBlock FontSize="20" xml:space="preserve" VerticalAlignment="Center"
+                                   Text="{Binding AnswerB}" />
+                    </Button>
+                </Border>
+                <Border BorderBrush="#683D6A" BorderThickness="2" Background="#4B2451"
+                        HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <TextBlock Text="B" FontSize="16" FontWeight="Bold" FontFamily="{DynamicResource OrbitronFont}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20 0" />
+                </Border>
+            </Panel>
+            <Panel Grid.Row="2" Grid.Column="2">
+                <Border Name="BorderC" BorderBrush="#B676D3" BorderThickness="3" >
+                    <Button RenderTransform="none"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"
                         Click="Answer_OnClick"
-                        Command="{Binding AnswerCommand}" CommandParameter="A">
-                    <TextBlock FontSize="20" xml:space="preserve"
-                               Text="{Binding AnswerA}" />
-                </Button>
-            </Border>
-            <Border Grid.Row="2" Grid.Column="1" BorderBrush="#B676D3" BorderThickness="3">
-                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Background="Transparent"
-                        Click="Answer_OnClick"
-                        Command="{Binding AnswerCommand}" CommandParameter="B">
-                    <TextBlock FontSize="20" xml:space="preserve"
-                               Text="{Binding AnswerB}" />
-                </Button>
-            </Border>
-            <Border Grid.Row="2" Grid.Column="2" BorderBrush="#B676D3" BorderThickness="3">
-                <Button RenderTransform="none"
-                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"
-                    Click="Answer_OnClick"
-                    Command="{Binding AnswerCommand}" CommandParameter="C">
-                    <TextBlock FontSize="20" xml:space="preserve"
-                               Text="{Binding AnswerC}" />
-                </Button>
-            </Border>
+                        Command="{Binding AnswerCommand}" CommandParameter="C">
+                        <TextBlock FontSize="20" xml:space="preserve" VerticalAlignment="Center"
+                                   Text="{Binding AnswerC}" />
+                    </Button>
+                </Border>
+                <Border BorderBrush="#683D6A" BorderThickness="2" Background="#4B2451"
+                        HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <TextBlock Text="C" FontSize="16" FontWeight="Bold" FontFamily="{DynamicResource OrbitronFont}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20 0" />
+                </Border>
+            </Panel>
         </Grid>
     </Panel>
     <UserControl.Styles>

@@ -1,9 +1,7 @@
-using System;
-using System.Reflection.Metadata.Ecma335;
 using AvaloniaDialogs.Views;
 using CommunityToolkit.Mvvm.Input;
 
-namespace OneVs100.ViewModels;
+namespace OneVs100.ViewModels.MainMenu;
 
 public partial class MainMenuViewModel : PageViewModelBase
 {

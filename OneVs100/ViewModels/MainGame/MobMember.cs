@@ -10,7 +10,7 @@ public class MobMember
     public int Number { get; init; }
     private readonly float intelligence;
     private char answer = ' ';
-    public bool isKnockedOut = false;
+    public bool IsKnockedOut = false;
     RandomGaussian RNG = new();
 
     public MobMember(int number)
@@ -19,19 +19,14 @@ public class MobMember
         this.intelligence = (float)RNG.BoxMuller(0, 36);
     }
 
-    public void selectAnswer(char correctAnswer, float difficulty, int questionNumber)
+    public void SelectAnswer(char correctAnswer, float difficulty, int questionNumber)
     {
         this.answer = questionNumber * difficulty < intelligence
             ? correctAnswer
             : RNG.GetItems(['a', 'b', 'c'], 1)[0];
     }
 
-    public bool isAnswerCorrect(char correctAnswer)
-    {
-        if (correctAnswer == answer)
-            return true;
-        else return false;
-    }
+    public bool IsAnswerCorrect(char correctAnswer) => (correctAnswer == answer);
 
 
     //Knock-out calculation - Difficulty*QuestionNr > Intelligence
