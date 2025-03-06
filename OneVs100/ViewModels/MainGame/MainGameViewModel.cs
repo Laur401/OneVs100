@@ -97,16 +97,30 @@ public partial class MainGameViewModel : PageViewModelBase
     public void AnswerCommand(char answer)
     {
         QuestionInfo question = questionDict[currentQuestionNumber];
-        if (!AnswerLock && answer == question.CorrectAnswer)
+        if (!AnswerLock)
         {
             AnswerLock = true;
-            Dispatcher.UIThread.InvokeAsync(AnswerToMoneyOrMobManager);
+            if (answer == question.CorrectAnswer)
+                Dispatcher.UIThread.InvokeAsync(AnswerToMoneyOrMobManager);
+            else
+                Dispatcher.UIThread.InvokeAsync(AnswerToWrongExit);
+            
         }
     }
 
     private void ShowCorrectAnswer()
     {
         WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.ShowCorrectAnswer, questionDict[currentQuestionNumber].CorrectAnswer));
+    }
+
+    private async Task AnswerToWrongExit()
+    {
+        await Task.Delay(3000);
+        ShowCorrectAnswer();
+        await Task.Delay(1500);
+        LoadGeneralTextBoard();
+        GeneralControlText = "That's the wrong answer! The Mob wins and takes all of your money.\n" +
+                             "Better luck next time!";
     }
     
     private async Task AnswerToMoneyOrMobManager()

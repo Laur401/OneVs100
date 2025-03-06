@@ -129,7 +129,7 @@ public class MobMemberStatusMessage(int memberNumber, int status)
 }
 public class BoardStatusMessage(BoardStatusMessageOptions status, object? extraData=null)
 {
-    public BoardStatusMessageOptions Status { get; } = status; //TODO: Convert status to an Enum
+    public BoardStatusMessageOptions Status { get; } = status;
     public object? ExtraData { get; } = extraData;
 }
 

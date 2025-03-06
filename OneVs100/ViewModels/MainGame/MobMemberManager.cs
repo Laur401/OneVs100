@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using OneVs100.Helpers;
 using OneVs100.Views;
@@ -8,13 +9,14 @@ using OneVs100.Views.MainGame;
 
 namespace OneVs100.ViewModels.MainGame;
 
-public class MobMemberManager
+public partial class MobMemberManager : ObservableObject
 {
     private static readonly Lazy<MobMemberManager> lazyInstance = new(() => new MobMemberManager());
     public static MobMemberManager Instance => lazyInstance.Value;
     private readonly List<MobMember> mobMembers = new List<MobMember>();
     private readonly RandomList randomiser = new RandomList();
     public int wrongMobMemberCount = 0;
+    [ObservableProperty] private int mobMembersRemainingCount = 0;
     private MobMemberManager() { }
     
     public void CreateMobMembers(int count)
@@ -24,6 +26,7 @@ public class MobMemberManager
             mobMembers.Add(new MobMember(i+1));
             WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 0));
         }
+        MobMembersRemainingCount += count;
     }
     
     public void DisableMobMembers()
@@ -33,7 +36,6 @@ public class MobMemberManager
             if (mobMembers[i].IsKnockedOut)
             {
                 WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 2));
-                //MobMembersLeft -= 1;
             }
         }
     }
@@ -64,6 +66,7 @@ public class MobMemberManager
         {
             wrongMobMember.IsKnockedOut = true;
             wrongMobMemberCount++;
+            MobMembersRemainingCount--;
             WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(wrongMobMember.Number, 1));
             await Task.Delay(500);
         }

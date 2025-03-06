@@ -4,17 +4,29 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:OneVs100.ViewModels"
              xmlns:mainGame="clr-namespace:OneVs100.ViewModels.MainGame"
+             xmlns:customControls="clr-namespace:OneVs100.CustomControls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="OneVs100.CustomControls.QnABoard"
              x:DataType="mainGame:MainGameViewModel">
     <Panel Background="Black">
-        <Grid ColumnDefinitions="*, *, *" RowDefinitions="Auto, *, *" ShowGridLines="False" Name="Grid">
-            <Border Grid.Row="0" Grid.Column="0" BorderBrush="#B676D3" BorderThickness="3"
-                    HorizontalAlignment="Left" VerticalAlignment="Stretch">
-                <TextBlock FontSize="14" xml:space="preserve"
-                           VerticalAlignment="Center"
-                           Text="{Binding QuestionNumber}" />
-            </Border>
+        <Grid ColumnDefinitions="*, *, *" RowDefinitions="0.3*, *, *" ShowGridLines="False" Name="Grid">
+            <Panel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+                <StackPanel Orientation="Horizontal">
+                    <Border BorderBrush="#B676D3" BorderThickness="3" Background="#2C192F" 
+                            Padding="10, 0" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                        <TextBlock FontSize="16" FontFamily="{DynamicResource OverpassFont}"
+                                   FontWeight="Bold" xml:space="preserve"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Text="{Binding QuestionNumber}" />
+                    </Border>
+                    <Border BorderBrush="#B676D3" BorderThickness="3"
+                            HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                        <Viewbox Stretch="Uniform">
+                            <customControls:OneVsXHorizontalElement />
+                        </Viewbox>
+                    </Border>
+                </StackPanel>
+            </Panel>
             <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" BorderBrush="#B676D3" BorderThickness="3">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0%, 0%" EndPoint="100%, 100%">

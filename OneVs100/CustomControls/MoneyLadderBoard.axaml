@@ -7,8 +7,8 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="mainGame:MainGameViewModel"
              x:Class="OneVs100.CustomControls.MoneyLadderBoard">
-    <Panel>
-        <Grid ColumnDefinitions="Auto, *" ShowGridLines="True"
+    <Panel Background="Black">
+        <Grid ColumnDefinitions="Auto, *" ShowGridLines="False"
               RowDefinitions="*, *, *, *, *, *, *, *, *, *">
             <StackPanel Grid.Column="0" Grid.Row="9" Name="Row0" />
             <StackPanel Grid.Column="0" Grid.Row="8" Name="Row1" />
@@ -64,6 +64,11 @@
         </Style>
         <Style Selector="StackPanel">
             <Setter Property="Orientation" Value="Horizontal"/>
+        </Style>
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="{DynamicResource OverpassFont}" />
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
         </Style>
     </UserControl.Styles>
 </UserControl>

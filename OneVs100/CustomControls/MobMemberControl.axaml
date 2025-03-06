@@ -12,12 +12,12 @@
         <customControls:MoneyLadderBoard/>
     </Design.DataContext>
     <Panel Height="105" Width="105">
-        <Border Background="Bisque" Name="Border">
-            <Panel>
+        <Border Name="Border" BorderBrush="Black" BorderThickness="3">
+            <Panel Name="PanelBackground">
                 <Svg Path="/Assets/person.svg" Height="90" Width="90" VerticalAlignment="Bottom"/>
                 <TextBlock Name="MobMemberNumber" FontFamily="{StaticResource OrbitronFont}" Foreground="WhiteSmoke"
                            FontWeight="SemiBold" FontSize="24"
-                    HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="OwO"/>
+                           HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="OwO"/>
             </Panel>
         </Border>
     </Panel>

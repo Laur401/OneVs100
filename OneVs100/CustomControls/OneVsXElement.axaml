@@ -1,0 +1,56 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mainGame="clr-namespace:OneVs100.ViewModels.MainGame"
+             mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="450"
+             x:DataType="mainGame:MobMemberManager"
+             x:Class="OneVs100.CustomControls.OneVsXElement">
+    <Design.DataContext>
+        <mainGame:MainGameViewModel/>
+    </Design.DataContext>
+    <Panel Background="Black">
+        <Border BorderBrush="#B676D3" BorderThickness="3">
+            <Grid RowDefinitions="*, Auto, Auto" ShowGridLines="True">
+                <Border Grid.Row="0" Padding="0 20 0 0" Margin="10"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Border.Background>
+                        <LinearGradientBrush>
+                            <GradientStop Offset="0" Color="#5C78B8"/>
+                            <GradientStop Offset="0.3" Color="WhiteSmoke"/>
+                            <GradientStop Offset="0.7" Color="WhiteSmoke"/>
+                            <GradientStop Offset="1" Color="#B86590"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Viewbox>
+                        <Svg Path="../Assets/One.svg" />
+                    </Viewbox>
+                </Border>
+                
+                <Border Grid.Row="1" Background="#B676D3"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBlock Foreground="White" FontSize="40" FontWeight="Bold"
+                               FontFamily="{DynamicResource OrbitronFont}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" 
+                               Text="VS">
+                        <TextBlock.Effect>
+                            <DropShadowEffect BlurRadius="12" OffsetX="0" OffsetY="0" Color="White"></DropShadowEffect>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </Border>
+                
+                <Border Grid.Row="2" Background="#2C192F"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBlock Foreground="White" FontSize="80"
+                               FontFamily="{DynamicResource Digital7Font}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Text="{Binding MobMembersRemainingCount}">
+                        <TextBlock.Effect>
+                            <DropShadowEffect BlurRadius="12" OffsetX="0" OffsetY="0" Color="White"></DropShadowEffect>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </Border>
+            </Grid>
+        </Border>
+    </Panel>
+</UserControl>

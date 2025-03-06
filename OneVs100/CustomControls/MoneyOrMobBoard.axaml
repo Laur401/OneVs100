@@ -14,21 +14,28 @@
         <mainGame:MainGameViewModel/>
     </Design.DataContext>
     <Panel Background="Black">
-        <Grid RowDefinitions="*, *, *" ColumnDefinitions="Auto, *" ShowGridLines="True">
+        <Grid RowDefinitions="*, Auto, *" ColumnDefinitions="3*, 7*" ShowGridLines="False">
+            
+            <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
+                <customControls:OneVsXElement />
+            </Border>
+            
             <Border Grid.Column="1" Grid.Row="0">
                 <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                         HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                         Background="Transparent"
                         Command="{Binding TakeMoney}">
-                    <TextBlock FontSize="100" xml:space="preserve" Foreground="Khaki"
-                               Text="{Binding TotalMoney}" >
-                        <!--<TextBlock.RenderTransform>
-                            <SkewTransform AngleX="-5" />
-                        </TextBlock.RenderTransform> Avalonia bug - doesn't work with drop shadow-->
-                        <TextBlock.Effect>
-                            <DropShadowEffect BlurRadius="12" OffsetX="0" OffsetY="0" Color="Khaki" />
-                        </TextBlock.Effect>
-                    </TextBlock>
+                    <Viewbox StretchDirection="DownOnly">
+                        <TextBlock FontSize="100" xml:space="preserve" Foreground="Khaki"
+                                   Text="{Binding TotalMoney}" >
+                            <!--<TextBlock.RenderTransform>
+                                <SkewTransform AngleX="-5" />
+                            </TextBlock.RenderTransform> Avalonia bug - doesn't work with drop shadow-->
+                            <TextBlock.Effect>
+                                <DropShadowEffect BlurRadius="12" OffsetX="0" OffsetY="0" Color="Khaki" />
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </Viewbox>
                 </Button>
             </Border>
             

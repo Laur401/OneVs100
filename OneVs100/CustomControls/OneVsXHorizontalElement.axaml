@@ -1,0 +1,55 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mainGame="clr-namespace:OneVs100.ViewModels.MainGame"
+             mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="100"
+             x:DataType="mainGame:MobMemberManager"
+             x:Class="OneVs100.CustomControls.OneVsXHorizontalElement">
+    <Design.DataContext>
+        <mainGame:MainGameViewModel/>
+    </Design.DataContext>
+    <Panel Background="Black" Height="100" Width="250">
+        <Border>
+            <Grid ColumnDefinitions="*, Auto, Auto, 2*" RowDefinitions="*, Auto, *" ShowGridLines="False">
+                <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="2" Padding="0 20 0 0" Margin="10"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Border.Background>
+                        <LinearGradientBrush>
+                            <GradientStop Offset="0" Color="#5C78B8"/>
+                            <GradientStop Offset="0.3" Color="WhiteSmoke"/>
+                            <GradientStop Offset="0.7" Color="WhiteSmoke"/>
+                            <GradientStop Offset="1" Color="#B86590"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Viewbox>
+                        <Svg Path="../Assets/One.svg" />
+                    </Viewbox>
+                </Border>
+                
+                <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="2" Grid.ColumnSpan="2" Background="#2C192F" Padding="30, 0, 30, 0"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBlock Foreground="White" FontSize="80"
+                               FontFamily="{DynamicResource Digital7Font}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Text="{Binding MobMembersRemainingCount}">
+                        <TextBlock.Effect>
+                            
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </Border>
+                
+                <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                        BorderBrush="#683D6A" BorderThickness="2" Background="#4B2451" Padding="10, 0"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Foreground="White" FontSize="20" FontWeight="Bold"
+                               FontFamily="{DynamicResource OrbitronFont}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" 
+                               Text="VS">
+                        
+                    </TextBlock>
+                </Border>
+            </Grid>
+        </Border>
+    </Panel>
+</UserControl>

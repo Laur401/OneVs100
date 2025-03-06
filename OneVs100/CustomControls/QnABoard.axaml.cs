@@ -26,7 +26,6 @@ public partial class QnABoard : UserControl
     private bool AnswerLock = false;
     private void Answer_OnClick(object? sender, RoutedEventArgs e)
     {
-        //TODO: Block selection if answer has already been selected.
         if (!AnswerLock && sender is Button button && button.Parent is Border border)
         {
             border.BorderBrush = Brushes.Red;
