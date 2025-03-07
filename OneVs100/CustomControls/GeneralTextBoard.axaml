@@ -12,7 +12,7 @@
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <mainGame:MainGameViewModel/>
     </Design.DataContext>
-    <Border Background="Black" Padding="20">
+    <Border Background="Black" Padding="16">
         <Panel>
             <TextBlock Foreground="Snow" FontSize="20" 
                 Text="{Binding GeneralControlText}">
@@ -20,12 +20,11 @@
                     <DropShadowEffect />
                 </TextBlock.Effect>
             </TextBlock>
-            <Button Background="Beige" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+            <Button HorizontalAlignment="Center" VerticalAlignment="Bottom"
                     Command="{Binding OnNextButtonPressed}">
-                <TextBlock FontFamily="{DynamicResource OverpassFont}" Padding="0, 2, 0 0"
-                           FontSize="16" Text="Next" />
+                <TextBlock Foreground="Snow" FontFamily="{DynamicResource OverpassFont}" Padding="10, 2, 10, 0"
+                           FontSize="20" Text="Next" />
             </Button>
         </Panel>
     </Border>
-    
 </UserControl>

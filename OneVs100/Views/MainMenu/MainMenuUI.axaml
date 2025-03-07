@@ -13,7 +13,7 @@
         <mainMenu:MainMenuViewModel/>
     </Design.DataContext>
     <Border Margin="30">
-        <Grid RowDefinitions="*, *" ShowGridLines="True">
+        <Grid RowDefinitions="*, *" ShowGridLines="False">
             <Border Grid.Row="0" Margin="30">
                 <Image Source="../../Assets/1vs100Logo.png" Height="320"/>
             </Border>

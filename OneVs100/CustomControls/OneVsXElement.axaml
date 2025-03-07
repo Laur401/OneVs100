@@ -11,7 +11,7 @@
     </Design.DataContext>
     <Panel Background="Black">
         <Border BorderBrush="#B676D3" BorderThickness="3">
-            <Grid RowDefinitions="*, Auto, Auto" ShowGridLines="True">
+            <Grid RowDefinitions="*, Auto, Auto" ShowGridLines="False">
                 <Border Grid.Row="0" Padding="0 20 0 0" Margin="10"
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Border.Background>

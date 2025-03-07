@@ -4,13 +4,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace OneVs100.ViewModels.MainGame;
 
-public partial class MoneyManager : ObservableObject
+public class MoneyManager
 {
     private static Lazy<MoneyManager> lazyInstance = new Lazy<MoneyManager>(()=> new MoneyManager());
     public static MoneyManager Instance => lazyInstance.Value;
     private MoneyManager() { }
     
-    private List<int> moneyLadderValues = [1000, 5000, 10000, 25000, 50000, 75000, 100000, 250000, 500000, 1000000];
+    private readonly List<int> moneyLadderValues = [1000, 5000, 10000, 25000, 50000, 75000, 100000, 250000, 500000, 1000000];
 
     public List<string> InitializeStringValues()
     {
