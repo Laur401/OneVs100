@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using OneVs100.Helpers;
 using OneVs100.Views;
 using OneVs100.Views.MainGame;
+using QuestionObtainer;
 
 namespace OneVs100.ViewModels.MainGame;
 
@@ -42,7 +43,7 @@ public partial class MainGameViewModel : PageViewModelBase
     
     public override void OnActivate()
     {
-        LoadQuestions();
+        Task.Run(LoadQuestions);
         mobMemberManager.CreateMobMembers(100);
         AudioPlayer audioPlayer = AudioPlayer.Instance;
         audioPlayer.PlaySound(SoundEffects.PlayerIntro);
@@ -79,7 +80,7 @@ public partial class MainGameViewModel : PageViewModelBase
     {
         ResetQnABoard();
         currentQuestionNumber++;
-        QuestionInfo currentQuestion = questionDict[currentQuestionNumber];
+        QuestionInfo currentQuestion = questionDict[currentQuestionNumber-1];
         QuestionNumber = "Q"+currentQuestionNumber;
         QuestionText = currentQuestion.Question;
         await Task.Delay(500);
@@ -96,7 +97,7 @@ public partial class MainGameViewModel : PageViewModelBase
     [RelayCommand]
     public void AnswerCommand(char answer)
     {
-        QuestionInfo question = questionDict[currentQuestionNumber];
+        QuestionInfo question = questionDict[currentQuestionNumber-1];
         if (!AnswerLock)
         {
             AnswerLock = true;
@@ -110,7 +111,7 @@ public partial class MainGameViewModel : PageViewModelBase
 
     private void ShowCorrectAnswer()
     {
-        WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.ShowCorrectAnswer, questionDict[currentQuestionNumber].CorrectAnswer));
+        WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.ShowCorrectAnswer, questionDict[currentQuestionNumber-1].CorrectAnswer));
     }
 
     private async Task AnswerToWrongExit()
@@ -130,7 +131,7 @@ public partial class MainGameViewModel : PageViewModelBase
         ShowCorrectAnswer();
         await Task.Delay(1500);
         LoadMoneyLadderBoard();
-        await mobMemberManager.MarkWrongAnswers(questionDict[currentQuestionNumber].CorrectAnswer);
+        await mobMemberManager.MarkWrongAnswers(questionDict[currentQuestionNumber-1].CorrectAnswer);
         await Task.Delay(1500); //TODO: Replace this with "Next" button
         UpdateCurrentPrizeMoney();
         mobMemberManager.DisableMobMembers();
@@ -151,25 +152,34 @@ public partial class MainGameViewModel : PageViewModelBase
         await LoadNextQuestion();
     }
     
-    //Question loading (Temporary)
-    private Dictionary<int, QuestionInfo> questionDict = new Dictionary<int, QuestionInfo>();
-    
+    private List<QuestionInfo> questionDict = new List<QuestionInfo>();
+    private QuestionSet questionDataSet = new QuestionSet();
     private void LoadQuestions()
     {
-        //Notes: Ratchet up the difficulty, on higher Qs dropping difficulty by over 50% means no eliminations, so maybe only throw in one or two.
-        questionDict.Add(1, new QuestionInfo("SampleQuestion1","SampleAnswerA","SampleAnswerB","SampleAnswerC",'A', 1));
-        questionDict.Add(2, new QuestionInfo("SampleQuestion2","SampleAnswer2A","SampleAnswer2B","SampleAnswer2C",'B', 2));
-        questionDict.Add(3, new QuestionInfo("SampleQuestion3","SampleAnswer3A","SampleAnswer3B","SampleAnswer3C",'C', 3));
-        questionDict.Add(4, new QuestionInfo("SampleQuestion1","SampleAnswerA","SampleAnswerB","SampleAnswerC",'A', 1));
-        questionDict.Add(5, new QuestionInfo("SampleQuestion2","SampleAnswer2A","SampleAnswer2B","SampleAnswer2C",'B', 2));
-        questionDict.Add(6, new QuestionInfo("SampleQuestion3","SampleAnswer3A","SampleAnswer3B","SampleAnswer3C",'C', 3));
-        questionDict.Add(7, new QuestionInfo("SampleQuestion1","SampleAnswerA","SampleAnswerB","SampleAnswerC",'A', 1));
-        questionDict.Add(8, new QuestionInfo("SampleQuestion2","SampleAnswer2A","SampleAnswer2B","SampleAnswer2C",'B', 2));
-        questionDict.Add(9, new QuestionInfo("SampleQuestion3","SampleAnswer3A","SampleAnswer3B","SampleAnswer3C",'C', 3));
-        questionDict.Add(10, new QuestionInfo("SampleQuestion1","SampleAnswerA","SampleAnswerB","SampleAnswerC",'A', 1));
-        questionDict.Add(11, new QuestionInfo("SampleQuestion2","SampleAnswer2A","SampleAnswer2B","SampleAnswer2C",'B', 2));
-        questionDict.Add(12, new QuestionInfo("SampleQuestion3","SampleAnswer3A","SampleAnswer3B","SampleAnswer3C",'C', 3));
-        questionDict.Add(13, new QuestionInfo("LastQuestion", "LastAnswerA", "LastAnswerB", "LastAnswerC", 'D', 99));
+        var questionGetter = new QuestionGetter();
+        questionDataSet = Task.Run(questionGetter.FetchQuestions).Result;
+        List<QuestionInfo> questionList = new List<QuestionInfo>();
+        
+        Dictionary<int, char> answerConverter = new Dictionary<int, char>();
+        answerConverter.Add(0, 'A');
+        answerConverter.Add(1, 'B');
+        answerConverter.Add(2, 'C');
+        RandomList random = new RandomList();
+        
+        foreach (var questionData in questionDataSet)
+        {
+            List<string> answers = new List<string>();
+            answers.Add(questionData.CorrectAnswer);
+            random.Shuffle(questionData.WrongAnswers);
+            answers.AddRange(questionData.WrongAnswers[0..2]);
+            random.Shuffle(answers);
+            QuestionInfo questionInfo = new QuestionInfo(questionData.Question, answers[0], answers[1],
+                answers[2], answerConverter[answers.FindIndex(x=>x==questionData.CorrectAnswer)],
+                questionData.Difficulty);
+            questionList.Add(questionInfo);
+        }
+        questionList.Sort((q1, q2)=>q1.Difficulty.CompareTo(q2.Difficulty));
+        questionDict=questionList;
     }
     
     //Page Loader

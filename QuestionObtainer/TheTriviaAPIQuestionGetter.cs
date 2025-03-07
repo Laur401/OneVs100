@@ -5,12 +5,12 @@ namespace QuestionObtainer;
 public class TheTriviaAPIQuestionGetter : IQuestionGetter
 {
     
-    public List<IQuestionEntry> GetQuestions(int count)
+    public async Task<IList<IQuestionEntry>> GetQuestions(int count)
     {
-        TriviaAPIResponse response;
+        List<TriviaAPIResponse> response;
         try
         {
-            response = Task.Run(() => GetTriviaAPI(count)).Result;
+            response = await GetTriviaAPI(count);
         }
         catch (Exception ex)
         {
@@ -21,22 +21,21 @@ public class TheTriviaAPIQuestionGetter : IQuestionGetter
         return questions;
     }
 
-    private static async Task<TriviaAPIResponse> GetTriviaAPI(int count)
+    private static async Task<List<TriviaAPIResponse>> GetTriviaAPI(int count)
     {
         if (count<1||count>50) throw new ArgumentException("Count must be between 1 and 50");
-        var client = new RestClient("https://the-trivia-api.com/v2");
+        var client = new RestClient("https://the-trivia-api.com/v2"); //https://the-trivia-api.com/v2/questions?limit=50&categories=9&types="text_choice"
         var request = new RestRequest("/questions")
             .AddParameter("limit", count)
-            .AddParameter("categories", "9") //General knowledge
-            .AddParameter("types",  "text_choice");
-        TriviaAPIResponse response = await client.GetAsync<TriviaAPIResponse>(request) ?? throw new InvalidOperationException();
+            .AddParameter("categories", "9"); //General knowledge
+        List<TriviaAPIResponse> response = await client.GetAsync<List<TriviaAPIResponse>>(request) ?? throw new InvalidOperationException();
         return response;
     }
     
-    private static List<IQuestionEntry> StandardizeResponse(TriviaAPIResponse response)
+    private static List<IQuestionEntry> StandardizeResponse(List<TriviaAPIResponse> response)
     {
         List<IQuestionEntry> questions = new List<IQuestionEntry>();
-        foreach (Questions question in response.Questions)
+        foreach (TriviaAPIResponse question in response)
         {
             IQuestionEntry questionEntry = new QuestionEntry();
             questionEntry.Question = question.Question.Text;
@@ -63,22 +62,17 @@ public class TheTriviaAPIQuestionGetter : IQuestionGetter
 
     private sealed class TriviaAPIResponse
     {
-        public List<Questions> Questions { get; set; }
-    }
-
-    private sealed class Questions
-    {
+        
         public string Category { get; set; }
         public string ID { get; set; }
+        public string CorrectAnswer { get; set; }
+        public List<string> IncorrectAnswers { get; set; }
+        public Question Question { get; set; }
         public List<string> Tags { get; set; }
+        public string Type { get; set; }
         public string Difficulty { get; set; }
         public List<string> Regions { get; set; }
         public bool IsNiche { get; set; }
-        public Question Question { get; set; }
-        public string CorrectAnswer { get; set; }
-        public List<string> IncorrectAnswers { get; set; }
-        public string Type { get; set; }
-        
     }
 
     private sealed class Question

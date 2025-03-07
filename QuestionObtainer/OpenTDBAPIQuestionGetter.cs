@@ -1,15 +1,16 @@
+using System.Net;
 using RestSharp;
 
 namespace QuestionObtainer;
 
 public class OpenTDBAPIQuestionGetter : IQuestionGetter
 {
-    public List<IQuestionEntry> GetQuestions(int count)
+    public async Task<IList<IQuestionEntry>> GetQuestions(int count)
     {
         TriviaAPIResponse response;
         try
         {
-            response = Task.Run(() => GetTriviaAPI(count)).Result;
+            response = await GetTriviaAPI(count);
         }
         catch (Exception ex)
         {
@@ -28,6 +29,7 @@ public class OpenTDBAPIQuestionGetter : IQuestionGetter
             .AddParameter("amount", count)
             .AddParameter("category", "9") //General knowledge
             .AddParameter("type",  "multiple");
+        Console.WriteLine(client.BuildUri(request));
         TriviaAPIResponse response = await client.GetAsync<TriviaAPIResponse>(request) 
                                      ?? throw new InvalidOperationException();
         return response;
@@ -36,12 +38,13 @@ public class OpenTDBAPIQuestionGetter : IQuestionGetter
     private static List<IQuestionEntry> StandardizeResponse(TriviaAPIResponse response)
     {
         List<IQuestionEntry> questions = new List<IQuestionEntry>();
-        foreach (Result result in response.Questions)
+        foreach (Result result in response.Results)
         {
             IQuestionEntry questionEntry = new QuestionEntry();
-            questionEntry.Question = result.Question;
-            questionEntry.CorrectAnswer = result.CorrectAnswer;
-            questionEntry.WrongAnswers = result.IncorrectAnswers;
+            questionEntry.Question = WebUtility.HtmlDecode(result.Question);
+            questionEntry.CorrectAnswer = WebUtility.HtmlDecode(result.Correct_Answer);
+            result.Incorrect_Answers.ForEach(x=>WebUtility.HtmlDecode(x));
+            questionEntry.WrongAnswers = result.Incorrect_Answers;
             switch (result.Difficulty)
             {
                 case string s when s.Equals("easy"):
@@ -64,7 +67,7 @@ public class OpenTDBAPIQuestionGetter : IQuestionGetter
     private sealed class TriviaAPIResponse
     {
         public int ResponseCode { get; set; }
-        public List<Result> Questions { get; set; }
+        public List<Result> Results { get; set; }
     }
     private sealed class Result
     {
@@ -72,8 +75,8 @@ public class OpenTDBAPIQuestionGetter : IQuestionGetter
         public string Difficulty { get; set; }
         public string Category { get; set; }
         public string Question { get; set; }
-        public string CorrectAnswer { get; set; }
-        public List<string> IncorrectAnswers { get; set; }
+        public string Correct_Answer { get; set; }
+        public List<string> Incorrect_Answers { get; set; }
     }
 }
 

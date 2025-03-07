@@ -42,4 +42,8 @@
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\QuestionObtainer\QuestionObtainer.csproj" />
+    </ItemGroup>
 </Project>
