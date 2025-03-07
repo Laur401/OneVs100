@@ -130,7 +130,7 @@ public partial class MainGameUI : UserControl
     private void MarkWrongMobMember(int number)
     {
         mobMemberControls[number].MobMemberWrong();
-        moneyLadderBoard.AddWrongMobMember();
+        moneyLadderBoard.MarkMobMemberWrong();
     }
 
     private void DisableMobMember(int number)

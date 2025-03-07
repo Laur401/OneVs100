@@ -19,10 +19,8 @@ public partial class MainGameViewModel : PageViewModelBase
     [ObservableProperty] private string answerA = "";
     [ObservableProperty] private object answerB = "";
     [ObservableProperty] private object answerC = "";
-
-    [ObservableProperty] private List<int> moneyLadderValues = [1000, 5000, 10000, 25000, 50000, 75000, 100000, 250000, 500000, 1000000];
-    [ObservableProperty] private List<string> moneyLadderValuesString = new List<string>();
     
+    [ObservableProperty] private List<string> moneyLadderValuesString = new List<string>();
     private string? totalMoney = "0 €";
     public string? TotalMoney
     {
@@ -33,6 +31,7 @@ public partial class MainGameViewModel : PageViewModelBase
     private readonly MobMemberManager mobMemberManager = MobMemberManager.Instance;
     private readonly QuestionManager questionManager = QuestionManager.Instance;
     private readonly BoardManager boardManager = BoardManager.Instance;
+    private readonly MoneyManager moneyManager = MoneyManager.Instance;
     private readonly AudioPlayer audioPlayer = AudioPlayer.Instance;
     
     //GeneralTextBoard's Next button
@@ -49,10 +48,7 @@ public partial class MainGameViewModel : PageViewModelBase
 
     public MainGameViewModel()
     {
-        foreach (int val in moneyLadderValues)
-        {
-            moneyLadderValuesString.Add(val.ToString("N0")+" €");
-        }
+        moneyLadderValuesString = moneyManager.InitializeStringValues();
     }
 
     private void ResetInstance()
@@ -155,8 +151,8 @@ public partial class MainGameViewModel : PageViewModelBase
         await mobMemberManager.MarkWrongAnswers(questionManager.CorrectAnswer);
         await Task.Delay(1500); //TODO: Replace this with "Next" button
         mobMemberManager.DisableMobMembers();
-        
-        UpdateCurrentPrizeMoney();
+
+        TotalMoney = moneyManager.GetCurrentPrizeMoney(mobMemberManager.wrongMobMemberCount, MoneyLadderValuesString);
         boardManager.LoadMoneyOrMobBoard();
     }
     
@@ -164,14 +160,6 @@ public partial class MainGameViewModel : PageViewModelBase
     {
         WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.ShowCorrectAnswer,
             questionManager.CorrectAnswer));
-    }
-
-    private void UpdateCurrentPrizeMoney()
-    {
-        int pos = mobMemberManager.wrongMobMemberCount/10;
-        TotalMoney = pos - 1 >= 0 && pos - 1 < MoneyLadderValuesString.Count
-            ? MoneyLadderValuesString[pos - 1]
-            : "0 €";
     }
     
     //Money or Mob Options

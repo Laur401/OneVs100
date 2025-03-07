@@ -31,12 +31,14 @@ public partial class MoneyLadderBoard : UserControl
     }
     
     private int wrongMobMembers = 0;
-    public void AddWrongMobMember()
+    public void MarkMobMemberWrong()
     {
         mobMemberIcons[wrongMobMembers].DisableIcon();
         wrongMobMembers++;
+        
         AudioPlayer audioPlayer = AudioPlayer.Instance;
         audioPlayer.PlaySound(SoundEffects.MobMemberOut);
+        
         CheckIfRowFull();
     }
 
@@ -46,12 +48,18 @@ public partial class MoneyLadderBoard : UserControl
         {
             int fullRows = wrongMobMembers/mobMembersInRow; //24/10 = 2
             if (fullRows == 0) return;
+            
             moneyList[fullRows-1].Background = Brushes.Goldenrod;
-            {if (moneyList[fullRows-1].Child is TextBlock textBlock) textBlock.Foreground = Brushes.Black;}
+            
+            { //Scoping so that textBlock variable doesn't clash with the one below.
+                if (moneyList[fullRows-1].Child is TextBlock textBlock)
+                    textBlock.Foreground = Brushes.Black;
+            }
             foreach (Border i in moneyList[..(fullRows - 1)])
             {
                 i.Background = Brushes.Black;
-                if (i.Child is TextBlock textBlock) textBlock.Foreground = Brushes.DimGray;
+                if (i.Child is TextBlock textBlock)
+                    textBlock.Foreground = Brushes.DimGray;
             }
         }
     }
