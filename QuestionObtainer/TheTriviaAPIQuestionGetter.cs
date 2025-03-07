@@ -41,8 +41,9 @@ public class TheTriviaAPIQuestionGetter : IQuestionGetter
             IQuestionEntry questionEntry = new QuestionEntry();
             questionEntry.Question = WebUtility.HtmlDecode(question.Question.Text);
             questionEntry.CorrectAnswer = WebUtility.HtmlDecode(question.CorrectAnswer);
-            question.IncorrectAnswers.ForEach(x=>WebUtility.HtmlDecode(x));
-            questionEntry.WrongAnswers = question.IncorrectAnswers;
+            questionEntry.WrongAnswers = new List<string>();
+            foreach (string answer in question.IncorrectAnswers)
+                questionEntry.WrongAnswers.Add(WebUtility.HtmlDecode(answer));
             switch (question.Difficulty)
             {
                 case string s when s.Equals("easy"):
