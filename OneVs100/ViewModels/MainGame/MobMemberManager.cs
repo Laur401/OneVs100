@@ -11,13 +11,23 @@ namespace OneVs100.ViewModels.MainGame;
 
 public partial class MobMemberManager : ObservableObject
 {
-    private static readonly Lazy<MobMemberManager> lazyInstance = new(() => new MobMemberManager());
+    private static Lazy<MobMemberManager> lazyInstance = new Lazy<MobMemberManager>(() => new MobMemberManager());
     public static MobMemberManager Instance => lazyInstance.Value;
-    private readonly List<MobMember> mobMembers = new List<MobMember>();
-    private readonly RandomList randomiser = new RandomList();
+
+    
+    private List<MobMember> mobMembers = new List<MobMember>();
+    private RandomList randomiser = new RandomList();
     public int wrongMobMemberCount = 0;
     [ObservableProperty] private int mobMembersRemainingCount = 0;
     private MobMemberManager() { }
+    
+    public void ResetInstance()
+    {
+        mobMembers = new List<MobMember>();
+        randomiser = new RandomList();
+        wrongMobMemberCount = 0;
+        mobMembersRemainingCount = 0;
+    }
     
     public void CreateMobMembers(int count)
     {
@@ -27,6 +37,7 @@ public partial class MobMemberManager : ObservableObject
             WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 0));
         }
         MobMembersRemainingCount += count;
+        Console.WriteLine(MobMembersRemainingCount);
     }
     
     public void DisableMobMembers()

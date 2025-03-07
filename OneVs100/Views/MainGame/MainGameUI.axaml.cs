@@ -12,10 +12,7 @@ public partial class MainGameUI : UserControl
     {
         InitializeComponent();
 
-        qnABoard = new QnABoard();
-        moneyLadderBoard = new MoneyLadderBoard();
-        moneyOrMobBoard = new MoneyOrMobBoard();
-        generalTextBoard = new GeneralTextBoard();
+        ResetUI();
         
         WeakReferenceMessenger.Default.Register<MainGameUI, MobMemberStatusMessage>(
             this, (recipient, message) =>
@@ -33,6 +30,23 @@ public partial class MainGameUI : UserControl
     private MoneyLadderBoard moneyLadderBoard;
     private MoneyOrMobBoard moneyOrMobBoard;
     private GeneralTextBoard generalTextBoard;
+
+    private void ResetUI()
+    {
+        qnABoard = new QnABoard();
+        moneyLadderBoard = new MoneyLadderBoard();
+        moneyOrMobBoard = new MoneyOrMobBoard();
+        generalTextBoard = new GeneralTextBoard();
+        mobMemberControls = new Dictionary<int, MobMemberControl>();
+        List<StackPanel> mobStorages = [MobStorageTop, MobStorageLeft, MobStorageRight, MobStorageBottom];
+        foreach (StackPanel mobStorage in mobStorages)
+        {
+            foreach (StackPanel stackPanel in mobStorage.Children)
+            {
+                stackPanel.Children.Clear();
+            }
+        }
+    }
     
 
     // ReSharper disable once MemberCanBePrivate.Global
@@ -57,6 +71,9 @@ public partial class MainGameUI : UserControl
                 break;
             case BoardStatusMessageOptions.GeneralTextBoard:
                 Board.Content = generalTextBoard;
+                break;
+            case BoardStatusMessageOptions.ResetAllBoards:
+                ResetUI();
                 break;
             default:
                 Console.Write("Error in BoardMessageReceiver");
@@ -141,4 +158,5 @@ public enum BoardStatusMessageOptions
     MoneyLadderBoard,
     MoneyOrMobBoard,
     GeneralTextBoard,
+    ResetAllBoards,
 }

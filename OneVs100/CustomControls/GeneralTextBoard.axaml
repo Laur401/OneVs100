@@ -20,7 +20,8 @@
                     <DropShadowEffect />
                 </TextBlock.Effect>
             </TextBlock>
-            <Button Background="Beige" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Button Background="Beige" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                    Command="{Binding OnNextButtonPressed}">
                 <TextBlock FontFamily="{DynamicResource OverpassFont}" Padding="0, 2, 0 0"
                            FontSize="16" Text="Next" />
             </Button>

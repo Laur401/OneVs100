@@ -43,8 +43,9 @@ public class OpenTDBAPIQuestionGetter : IQuestionGetter
             IQuestionEntry questionEntry = new QuestionEntry();
             questionEntry.Question = WebUtility.HtmlDecode(result.Question);
             questionEntry.CorrectAnswer = WebUtility.HtmlDecode(result.Correct_Answer);
-            result.Incorrect_Answers.ForEach(x=>WebUtility.HtmlDecode(x));
-            questionEntry.WrongAnswers = result.Incorrect_Answers;
+            questionEntry.WrongAnswers = new List<string>();
+            foreach (string answer in result.Incorrect_Answers)
+                questionEntry.WrongAnswers.Add(WebUtility.HtmlDecode(answer));
             switch (result.Difficulty)
             {
                 case string s when s.Equals("easy"):
