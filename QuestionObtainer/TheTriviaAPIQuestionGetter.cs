@@ -38,8 +38,9 @@ public class TheTriviaAPIQuestionGetter : IQuestionGetter
         foreach (TriviaAPIResponse question in response)
         {
             IQuestionEntry questionEntry = new QuestionEntry();
-            questionEntry.Question = question.Question.Text;
-            questionEntry.CorrectAnswer = question.CorrectAnswer;
+            questionEntry.Question = WebUtility.HtmlDecode(question.Question.Text);
+            questionEntry.CorrectAnswer = WebUtility.HtmlDecode(question.CorrectAnswer);
+            question.IncorrectAnswers.ForEach(x=>WebUtility.HtmlDecode(x));
             questionEntry.WrongAnswers = question.IncorrectAnswers;
             switch (question.Difficulty)
             {
