@@ -89,6 +89,10 @@ public partial class MainGameViewModel : PageViewModelBase
                              "However, if you get even one question wrong, you will leave with nothing!\n" +
                              "Let's play 1 vs. 100!";
         await WaitForNextButtonPress();
+        audioPlayer.StopAllSounds();
+        audioPlayer.PlaySound(SoundEffects.BumperNextQuestion);
+        await Task.Delay(2500);
+        audioPlayer.PlaySound(SoundEffects.TransitionNextQuestion);
         boardManager.LoadQnABoard();
         ResetQnABoardValues();
         await LoadNextQuestion();
@@ -100,15 +104,20 @@ public partial class MainGameViewModel : PageViewModelBase
         (string question, string answerA, string answerB, string answerC) = questionManager.GetNextQuestion();
         QuestionNumber = "Q"+questionManager.CurrentQuestion;
         QuestionText = question;
-        await Task.Delay(500);
+        await Task.Delay(3000);
         AnswerA = answerA;
-        await Task.Delay(500);
+        audioPlayer.PlaySound(SoundEffects.AnswerShow);
+        await Task.Delay(1500);
         AnswerB = answerB;
-        await Task.Delay(500);
+        audioPlayer.PlaySound(SoundEffects.AnswerShow);
+        await Task.Delay(1500);
         AnswerC = answerC;
-        await Task.Delay(500);
+        audioPlayer.PlaySound(SoundEffects.AnswerShow);
+        //TODO: Insert mob selection spiel here
+        await Task.Delay(1500);
         mobMemberManager.SelectAnswers(questionManager.CorrectAnswer, 
             questionManager.QuestionDifficulty, questionManager.CurrentQuestion);
+        audioPlayer.PlaySound(SoundEffects.BackgroundQuestion);
     }
     
     private bool AnswerLock = false;
@@ -127,12 +136,16 @@ public partial class MainGameViewModel : PageViewModelBase
 
     private async Task AnswerToWrongExit()
     {
+        audioPlayer.StopAllSounds();
+        audioPlayer.PlaySound(SoundEffects.AnswerSelect);
         await Task.Delay(3000);
         
         ShowCorrectAnswer();
+        audioPlayer.PlaySound(SoundEffects.AnswerWrong);
         await Task.Delay(1500);
         
         boardManager.LoadGeneralTextBoard();
+        
         GeneralControlText = "That's the wrong answer! The Mob wins and takes all of your money.\n" +
                              "Better luck next time!";
         await WaitForNextButtonPress();
@@ -142,18 +155,24 @@ public partial class MainGameViewModel : PageViewModelBase
     
     private async Task AnswerToMoneyOrMob()
     {
+        audioPlayer.StopAllSounds();
+        audioPlayer.PlaySound(SoundEffects.AnswerSelect);
         await Task.Delay(3000);
         
         ShowCorrectAnswer();
-        await Task.Delay(1500);
+        audioPlayer.PlaySound(SoundEffects.AnswerCorrect);
+        await Task.Delay(2000);
         
         boardManager.LoadMoneyLadderBoard();
+        audioPlayer.PlaySound(SoundEffects.TransitionMobWrongBoard);
+        await Task.Delay(1500);
         await mobMemberManager.MarkWrongAnswers(questionManager.CorrectAnswer);
         await Task.Delay(1500); //TODO: Replace this with "Next" button
         mobMemberManager.DisableMobMembers();
 
         TotalMoney = moneyManager.GetCurrentPrizeMoney(mobMemberManager.wrongMobMemberCount, MoneyLadderValuesString);
         boardManager.LoadMoneyOrMobBoard();
+        audioPlayer.PlaySound(SoundEffects.BackgroundMoneyOrMob);
     }
     
     private void ShowCorrectAnswer()
@@ -166,12 +185,15 @@ public partial class MainGameViewModel : PageViewModelBase
     [RelayCommand]
     public void TakeMob()
     {
+        audioPlayer.StopAllSounds();
         Dispatcher.UIThread.InvokeAsync(MoneyOrMobToNextQuestion);
     }
 
     [RelayCommand]
     public async Task TakeMoney()
     {
+        audioPlayer.StopAllSounds();
+        audioPlayer.PlaySound(SoundEffects.TakeMoney);
         boardManager.LoadGeneralTextBoard();
         GeneralControlText = $"Congratulations! You are walking away with {TotalMoney}!\n" +
                              $"Thank you for playing!";
@@ -181,6 +203,11 @@ public partial class MainGameViewModel : PageViewModelBase
     
     private async Task MoneyOrMobToNextQuestion()
     {
+        audioPlayer.PlaySound(SoundEffects.TakeMob);
+        await Task.Delay(3000);
+        audioPlayer.PlaySound(SoundEffects.BumperNextQuestion);
+        await Task.Delay(2500);
+        audioPlayer.PlaySound(SoundEffects.TransitionNextQuestion);
         boardManager.LoadQnABoard();
         await LoadNextQuestion();
     }
@@ -191,6 +218,7 @@ public partial class MainGameViewModel : PageViewModelBase
         boardManager.ResetAllBoards();
         mobMemberManager.ResetInstance();
         questionManager.ResetInstance();
+        audioPlayer.StopAllSounds();
         viewChangeDelegate.Invoke(this, Windows.MainMenu);
     }
 }

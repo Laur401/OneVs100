@@ -29,7 +29,6 @@ public class OpenTDBAPIQuestionGetter : IQuestionGetter
             .AddParameter("amount", count)
             .AddParameter("category", "9") //General knowledge
             .AddParameter("type",  "multiple");
-        Console.WriteLine(client.BuildUri(request));
         TriviaAPIResponse response = await client.GetAsync<TriviaAPIResponse>(request) 
                                      ?? throw new InvalidOperationException();
         return response;

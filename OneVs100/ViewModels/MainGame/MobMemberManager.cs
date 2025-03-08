@@ -37,7 +37,6 @@ public partial class MobMemberManager : ObservableObject
             WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 0));
         }
         MobMembersRemainingCount += count;
-        Console.WriteLine(MobMembersRemainingCount);
     }
     
     public void DisableMobMembers()
@@ -69,6 +68,12 @@ public partial class MobMemberManager : ObservableObject
             {
                 wrongMobMembers.Add(mobMember);
             }
+        }
+
+        if (wrongMobMembers.Count == 0)
+        {
+            AudioPlayer.Instance.PlaySound(SoundEffects.MobNoWrong);
+            return;
         }
         
         //Mark wrong answers

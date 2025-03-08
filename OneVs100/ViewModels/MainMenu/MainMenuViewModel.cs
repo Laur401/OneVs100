@@ -10,6 +10,7 @@ public partial class MainMenuViewModel : PageViewModelBase
     [RelayCommand]
     public void StartGame()
     {
+        AudioPlayer.Instance.StopAllSounds();
         viewChangeDelegate.Invoke(this, Windows.MainGame);
     }
 
@@ -29,6 +30,9 @@ public partial class MainMenuViewModel : PageViewModelBase
         WeakReferenceMessenger.Default.Send(new CloseWindowMessage(true));
     }
 
-    public override void OnActivate() { }
+    public override void OnActivate()
+    {
+        AudioPlayer.Instance.PlaySound(SoundEffects.MainIntro);
+    }
 }
 

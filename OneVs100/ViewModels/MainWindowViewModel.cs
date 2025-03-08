@@ -16,6 +16,7 @@ public class MainWindowViewModel : ViewModelBase
             viewModel.viewChangeDelegate += ChangeView;
         }
         selectedViewModel = viewModels[0];
+        viewModels[0].OnActivate();
     }
 
     private readonly List<PageViewModelBase> viewModels = [

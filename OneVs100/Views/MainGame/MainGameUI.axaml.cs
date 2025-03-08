@@ -76,7 +76,7 @@ public partial class MainGameUI : UserControl
                 ResetUI();
                 break;
             default:
-                Console.Write("Error in BoardMessageReceiver");
+                Console.Error.WriteLine("Error in BoardMessageReceiver");
                 break;
         }
     }
@@ -96,7 +96,7 @@ public partial class MainGameUI : UserControl
                 DisableMobMember(number);
                 break;
             default:
-                Console.Write("Error in MobMessageReceiver");
+                Console.Error.WriteLine("Error in MobMessageReceiver");
                 break;
         }
     }
@@ -106,7 +106,7 @@ public partial class MainGameUI : UserControl
     {
         MobMemberControl mobMemberControl = new MobMemberControl();
         mobMemberControl.MemberNumber = number;
-        //MobStorage.Children.Add(mobMemberControl);
+        
         List<StackPanel> mobStorages = [MobStorageTop, MobStorageLeft, MobStorageRight, MobStorageBottom];
         AddChild();
         
