@@ -16,6 +16,7 @@ public class QuestionManager
     public int CurrentQuestion = 0;
     public char CorrectAnswer;
     public float QuestionDifficulty;
+    private RandomGaussian RNG = new RandomGaussian();
 
     public void ResetInstance()
     {
@@ -31,12 +32,13 @@ public class QuestionManager
     public (string, string, string, string) GetNextQuestion()
     {
         CurrentQuestion++;
-        string question = questionList[CurrentQuestion-1].Question;
-        string answerA = questionList[CurrentQuestion-1].AnswerA;
-        string answerB = questionList[CurrentQuestion-1].AnswerB;
-        string answerC = questionList[CurrentQuestion-1].AnswerC;
-        CorrectAnswer = questionList[CurrentQuestion-1].CorrectAnswer;
-        QuestionDifficulty = questionList[CurrentQuestion-1].Difficulty;
+        int questionPick = Convert.ToInt32(RNG.BoxMuller(0f, (questionList.Count-1) * 1f));
+        string question = questionList[questionPick].Question;
+        string answerA = questionList[questionPick].AnswerA;
+        string answerB = questionList[questionPick].AnswerB;
+        string answerC = questionList[questionPick].AnswerC;
+        CorrectAnswer = questionList[questionPick].CorrectAnswer;
+        QuestionDifficulty = questionList[questionPick].Difficulty;
         return (question, answerA, answerB, answerC);
     }
     

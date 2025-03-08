@@ -13,27 +13,27 @@ public partial class MobMemberManager : ObservableObject
 {
     private static Lazy<MobMemberManager> lazyInstance = new Lazy<MobMemberManager>(() => new MobMemberManager());
     public static MobMemberManager Instance => lazyInstance.Value;
-
+    private MobMemberManager() { }
     
     private List<MobMember> mobMembers = new List<MobMember>();
     private RandomList randomiser = new RandomList();
-    public int wrongMobMemberCount = 0;
+    public int WrongMobMemberCount = 0;
     [ObservableProperty] private int mobMembersRemainingCount = 0;
-    private MobMemberManager() { }
+    private readonly RandomGaussian RNG = new();
     
     public void ResetInstance()
     {
         mobMembers = new List<MobMember>();
         randomiser = new RandomList();
-        wrongMobMemberCount = 0;
-        mobMembersRemainingCount = 0;
+        WrongMobMemberCount = 0;
+        MobMembersRemainingCount = 0;
     }
     
     public void CreateMobMembers(int count)
     {
         for (int i = 0; i < count; i++)
         {
-            mobMembers.Add(new MobMember(i+1));
+            mobMembers.Add(new MobMember(i+1, RNG));
             WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 0));
         }
         MobMembersRemainingCount += count;
@@ -81,7 +81,7 @@ public partial class MobMemberManager : ObservableObject
         foreach (MobMember wrongMobMember in wrongMobMembers)
         {
             wrongMobMember.IsKnockedOut = true;
-            wrongMobMemberCount++;
+            WrongMobMemberCount++;
             MobMembersRemainingCount--;
             WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(wrongMobMember.Number, 1));
             await Task.Delay(500);

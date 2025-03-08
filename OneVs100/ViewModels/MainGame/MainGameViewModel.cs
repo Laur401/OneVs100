@@ -170,7 +170,7 @@ public partial class MainGameViewModel : PageViewModelBase
         await Task.Delay(1500); //TODO: Replace this with "Next" button
         mobMemberManager.DisableMobMembers();
 
-        TotalMoney = moneyManager.GetCurrentPrizeMoney(mobMemberManager.wrongMobMemberCount, MoneyLadderValuesString);
+        TotalMoney = moneyManager.GetCurrentPrizeMoney(mobMemberManager.WrongMobMemberCount, MoneyLadderValuesString);
         boardManager.LoadMoneyOrMobBoard();
         audioPlayer.PlaySound(SoundEffects.BackgroundMoneyOrMob);
     }

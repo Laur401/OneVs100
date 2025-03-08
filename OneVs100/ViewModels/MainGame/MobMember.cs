@@ -11,19 +11,22 @@ public class MobMember
     private readonly float intelligence;
     private char answer = ' ';
     public bool IsKnockedOut = false;
-    RandomGaussian RNG = new();
+    private RandomGaussian RNG;
+    
 
-    public MobMember(int number)
+    public MobMember(int number, RandomGaussian RNG)
     {
+        this.RNG = RNG;
         this.Number = number;
-        this.intelligence = (float)RNG.BoxMuller(0, 36);
+        //this.intelligence = RNG.Next(0, 36)*RNG.NextSingle();
+        this.intelligence = Convert.ToSingle(RNG.BoxMuller(0, 20));
     }
 
     public void SelectAnswer(char correctAnswer, float difficulty, int questionNumber)
     {
         this.answer = questionNumber * difficulty < intelligence
             ? correctAnswer
-            : RNG.GetItems(['a', 'b', 'c'], 1)[0];
+            : RNG.GetItems(['A', 'B', 'C'], 1)[0];
     }
 
     public bool IsAnswerCorrect(char correctAnswer) => (correctAnswer == answer);
