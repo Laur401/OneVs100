@@ -55,13 +55,13 @@ public partial class MainGameViewModel : PageViewModelBase
     {
         TotalMoney = "0 €";
         GeneralControlText = "";
-        AnswerLock = false;
+        AnswerLock = true;
+        MoneyOrMobLock = false;
     }
     
     private void ResetQnABoardValues()
     {
         WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.ResetQnABoard));
-        AnswerLock = false;
         QuestionNumber = "";
         QuestionText = "";
         AnswerA = "";
@@ -118,9 +118,11 @@ public partial class MainGameViewModel : PageViewModelBase
         mobMemberManager.SelectAnswers(questionManager.CorrectAnswer, 
             questionManager.QuestionDifficulty, questionManager.CurrentQuestion);
         audioPlayer.PlaySound(SoundEffects.BackgroundQuestion);
+        WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.EnableSelectingAnswer));
+        AnswerLock = false;
     }
     
-    private bool AnswerLock = false;
+    private bool AnswerLock = true;
     [RelayCommand]
     public void AnswerCommand(char answer)
     {
@@ -138,6 +140,7 @@ public partial class MainGameViewModel : PageViewModelBase
     {
         audioPlayer.StopAllSounds();
         audioPlayer.PlaySound(SoundEffects.AnswerSelect);
+        WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.ShowSelectedAnswer));
         await Task.Delay(3000);
         
         ShowCorrectAnswer();
@@ -157,20 +160,27 @@ public partial class MainGameViewModel : PageViewModelBase
     {
         audioPlayer.StopAllSounds();
         audioPlayer.PlaySound(SoundEffects.AnswerSelect);
+        WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.ShowSelectedAnswer));
         await Task.Delay(3000);
         
         ShowCorrectAnswer();
         audioPlayer.PlaySound(SoundEffects.AnswerCorrect);
         await Task.Delay(2000);
         
-        boardManager.LoadMoneyLadderBoard();
         audioPlayer.PlaySound(SoundEffects.TransitionMobWrongBoard);
+        boardManager.LoadMoneyLadderBoard();
         await Task.Delay(1500);
         await mobMemberManager.MarkWrongAnswers(questionManager.CorrectAnswer);
         await Task.Delay(1500); //TODO: Replace this with "Next" button
         mobMemberManager.DisableMobMembers();
-
         TotalMoney = moneyManager.GetCurrentPrizeMoney(mobMemberManager.WrongMobMemberCount, MoneyLadderValuesString);
+        if (mobMemberManager.MobMembersRemainingCount == 0)
+        {
+            Dispatcher.UIThread.InvokeAsync(WinGame);
+            return;
+        }
+
+        
         boardManager.LoadMoneyOrMobBoard();
         audioPlayer.PlaySound(SoundEffects.BackgroundMoneyOrMob);
     }
@@ -180,25 +190,45 @@ public partial class MainGameViewModel : PageViewModelBase
         WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.ShowCorrectAnswer,
             questionManager.CorrectAnswer));
     }
+
+    private async Task WinGame()
+    {
+        audioPlayer.PlaySound(SoundEffects.Victory);
+        boardManager.LoadGeneralTextBoard();
+        GeneralControlText = $"Congratulations! You have beaten the entire Mob and have just won {TotalMoney}!\n" +
+                             "Thank you for playing 1 vs. 100!";
+        await WaitForNextButtonPress();
+        LeaveGame();
+    }
     
+    private bool MoneyOrMobLock = false;
     //Money or Mob Options
     [RelayCommand]
     public void TakeMob()
     {
-        audioPlayer.StopAllSounds();
-        Dispatcher.UIThread.InvokeAsync(MoneyOrMobToNextQuestion);
+        if (!MoneyOrMobLock)
+        {
+            MoneyOrMobLock = true;
+            audioPlayer.StopAllSounds();
+            Dispatcher.UIThread.InvokeAsync(MoneyOrMobToNextQuestion);
+        }
     }
 
     [RelayCommand]
     public async Task TakeMoney()
     {
-        audioPlayer.StopAllSounds();
-        audioPlayer.PlaySound(SoundEffects.TakeMoney);
-        boardManager.LoadGeneralTextBoard();
-        GeneralControlText = $"Congratulations! You are walking away with {TotalMoney}!\n" +
-                             $"Thank you for playing!";
-        await WaitForNextButtonPress();
-        LeaveGame();
+        if (!MoneyOrMobLock)
+        {
+            MoneyOrMobLock = true;
+            audioPlayer.StopAllSounds();
+            audioPlayer.PlaySound(SoundEffects.TakeMoney);
+            await Task.Delay(3000);
+            boardManager.LoadGeneralTextBoard();
+            GeneralControlText = $"Congratulations! You are walking away with {TotalMoney}!\n" +
+                                 $"Thank you for playing!";
+            await WaitForNextButtonPress();
+            LeaveGame();
+        }
     }
     
     private async Task MoneyOrMobToNextQuestion()
@@ -210,6 +240,7 @@ public partial class MainGameViewModel : PageViewModelBase
         audioPlayer.PlaySound(SoundEffects.TransitionNextQuestion);
         boardManager.LoadQnABoard();
         await LoadNextQuestion();
+        MoneyOrMobLock = false;
     }
 
     private void LeaveGame()

@@ -57,6 +57,12 @@ public partial class MainGameUI : UserControl
             case BoardStatusMessageOptions.QnABoard:
                 Board.Content = qnABoard;
                 break;
+            case BoardStatusMessageOptions.EnableSelectingAnswer:
+                qnABoard.EnableSelectingAnswer();
+                break;
+            case BoardStatusMessageOptions.ShowSelectedAnswer:
+                qnABoard.OnAudioTrackFinished();
+                break;
             case BoardStatusMessageOptions.ShowCorrectAnswer:
                 qnABoard.ShowCorrectAnswer(Convert.ToChar(extraData));
                 break;
@@ -67,6 +73,7 @@ public partial class MainGameUI : UserControl
                 Board.Content = moneyLadderBoard;
                 break;
             case BoardStatusMessageOptions.MoneyOrMobBoard:
+                moneyOrMobBoard.ResetBoard();
                 Board.Content = moneyOrMobBoard;
                 break;
             case BoardStatusMessageOptions.GeneralTextBoard:
@@ -153,6 +160,8 @@ public class BoardStatusMessage(BoardStatusMessageOptions status, object? extraD
 public enum BoardStatusMessageOptions
 {
     QnABoard,
+    EnableSelectingAnswer,
+    ShowSelectedAnswer,
     ShowCorrectAnswer,
     ResetQnABoard,
     MoneyLadderBoard,

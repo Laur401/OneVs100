@@ -1,11 +1,14 @@
 using System;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using Avalonia.Threading;
 using Avalonia.VisualTree;
+using CommunityToolkit.Mvvm.Input;
 using OneVs100.ViewModels;
 using OneVs100.Views;
 
@@ -22,14 +25,38 @@ public partial class QnABoard : UserControl
         DefaultAnswerBrush = BorderA.BorderBrush ?? DefaultAnswerBrush;
         //DefaultAnswerTextBrush = AnswerTextA.Foreground ?? DefaultAnswerTextBrush;
     }
+    
+    private TaskCompletionSource<bool> AudioTrackFinished;
+    public void OnAudioTrackFinished()
+    {
+        AudioTrackFinished?.TrySetResult(true);
+    }
+    private async Task WaitForAnswerAudioTrack()
+    {
+        AudioTrackFinished = new TaskCompletionSource<bool>();
+        await AudioTrackFinished.Task;
+    }
 
-    private bool AnswerLock = false;
+    public void EnableSelectingAnswer() => AnswerLock = false;
+
+    private bool AnswerLock = true;
     private void Answer_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (!AnswerLock && sender is Button button && button.Parent is Border border)
+        if (!AnswerLock)
         {
+            Dispatcher.UIThread.InvokeAsync(()=>SelectAnswer(sender));
+            AnswerLock = true;
+        }
+    }
+
+    private async Task SelectAnswer(object? sender)
+    {
+        if (sender is Button button && button.Parent is Border border)
+        {
+            await WaitForAnswerAudioTrack();
             border.BorderBrush = Brushes.Red;
             if (border.Parent != null)
+            {
                 foreach (var element in border.Parent.GetLogicalChildren())
                 {
                     if (element is Border borderElement && borderElement.Child is TextBlock textBlock)
@@ -39,9 +66,9 @@ public partial class QnABoard : UserControl
                         //textBlock.Foreground = Brushes.DarkRed;
                     }
                 }
-
-            AnswerLock = true;
+            }
         }
+        
     }
 
     public void ShowCorrectAnswer(char correctAnswer)

@@ -14,7 +14,7 @@
         <mainGame:MainGameViewModel/>
     </Design.DataContext>
     <Panel Background="Black">
-        <Grid RowDefinitions="*, Auto, *" ColumnDefinitions="3*, 7*" ShowGridLines="False">
+        <Grid RowDefinitions="*, Auto, *" ColumnDefinitions="3*, 7*" ShowGridLines="False" Name="Grid">
             
             <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
                 <customControls:OneVsXElement />
@@ -23,7 +23,7 @@
             <Border Grid.Column="1" Grid.Row="0">
                 <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                         HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                        Background="Transparent"
+                        Background="Transparent" Click="Button_OnClick"
                         Command="{Binding TakeMoney}">
                     <Viewbox StretchDirection="DownOnly">
                         <TextBlock FontSize="100" xml:space="preserve" Foreground="Khaki"
@@ -53,7 +53,7 @@
             <Border Grid.Column="1" Grid.Row="2">
                 <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                         HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                        Foreground="Transparent" Background="Transparent"
+                        Background="Transparent" Click="Button_OnClick"
                         Command="{Binding TakeMob}">
                     <TextBlock FontSize="100" xml:space="preserve" Foreground="NavajoWhite"
                                Text="MOB" >

@@ -19,7 +19,7 @@ public class MobMember
         this.RNG = RNG;
         this.Number = number;
         //this.intelligence = RNG.Next(0, 36)*RNG.NextSingle();
-        this.intelligence = Convert.ToSingle(RNG.BoxMuller(0, 20));
+        this.intelligence = Convert.ToSingle(RNG.BoxMuller(0, 20, spread: 3));
     }
 
     public void SelectAnswer(char correctAnswer, float difficulty, int questionNumber)
