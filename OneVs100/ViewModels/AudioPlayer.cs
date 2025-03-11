@@ -26,34 +26,28 @@ public sealed class AudioPlayer : IDisposable
         engine = new MiniAudioEngine(44100, Capability.Playback);
     }
 
-    /*public void GetNewSoundPlayer(out SoundPlayer soundPlayer)
+    public int PlaySound(SoundEffect soundEffect)
     {
-        soundPlayer = new SoundPlayer();
-    }*/
-
-    public void PlaySound(SoundEffect soundEffect)
-    {
-        var i = Task.Run(() => PlaySoundAsync(soundEffect)).Result;
+        return PlaySound(soundEffect, out SoundPlayer player);
     }
     
-    public async Task<SoundPlayer> PlaySoundAsync(SoundEffect soundEffect)
+    public int PlaySound(SoundEffect soundEffect, out SoundPlayer soundPlayer)
     {
-        SoundPlayer player = new SoundPlayer(new StreamDataProvider(AssetLoader.Open(soundEffect.Track)));
+        soundPlayer = new SoundPlayer(new StreamDataProvider(AssetLoader.Open(soundEffect.Track)));
         if (soundEffect.LoopStart.HasValue)
         {
-            player.IsLooping = true;
-            player.SetLoopPoints(soundEffect.LoopStart.Value, soundEffect.LoopEnd);
+            soundPlayer.IsLooping = true;
+            soundPlayer.SetLoopPoints(soundEffect.LoopStart.Value, soundEffect.LoopEnd);
         }
         
-
-        player.Volume = 0.7f;
-        Mixer.Master.AddComponent(player);
+        soundPlayer.Volume = 0.7f;
+        Mixer.Master.AddComponent(soundPlayer);
         
-        player.Play();
-        activeSoundPlayers.Add(player);
+        soundPlayer.Play();
+        activeSoundPlayers.Add(soundPlayer);
         if (soundEffect.AwaitTime.HasValue)
-            await Task.Delay(soundEffect.AwaitTime.Value);
-        return player;
+            return soundEffect.AwaitTime.Value;
+        else return 0;
     }
 
     public void StopSound(ref SoundPlayer? soundPlayer)
@@ -106,8 +100,6 @@ public static class SoundEffects
     public static readonly SoundEffect TransitionMobWrongBoard = new SoundEffect("avares://OneVs100/Assets/Audio/transition_mob_wrong_board.wav", awaitTime: 585);
     public static readonly SoundEffect TransitionNextQuestion = new SoundEffect("avares://OneVs100/Assets/Audio/transition_next_question.wav");
     public static readonly SoundEffect Victory = new SoundEffect("avares://OneVs100/Assets/Audio/victory.wav");
-    //QuestionBack - loop start 0 end 8.0
-    //MoneyOrMobBack - loop start 0 end 15.25
 }
 
 public class SoundEffect (string soundUri, float? loopStart = null, float? loopEnd = null, int? awaitTime = null)

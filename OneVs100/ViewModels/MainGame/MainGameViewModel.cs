@@ -9,6 +9,7 @@ using OneVs100.Helpers;
 using OneVs100.Views;
 using OneVs100.Views.MainGame;
 using QuestionObtainer;
+using SoundFlow.Components;
 
 namespace OneVs100.ViewModels.MainGame;
 
@@ -113,14 +114,17 @@ public partial class MainGameViewModel : PageViewModelBase
         await Task.Delay(1500);
         AnswerC = answerC;
         audioPlayer.PlaySound(SoundEffects.AnswerShow);
-        //TODO: Insert mob selection spiel here
+        //TODO: Insert mob selection scene here
         await Task.Delay(1500);
         mobMemberManager.SelectAnswers(questionManager.CorrectAnswer, 
             questionManager.QuestionDifficulty, questionManager.CurrentQuestion);
-        audioPlayer.PlaySound(SoundEffects.BackgroundQuestion);
+        audioPlayer.PlaySound(SoundEffects.BackgroundQuestion, out var qBackSoundPlayer);
         WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.EnableSelectingAnswer));
         AnswerLock = false;
+        questionBackgroundSoundPlayer = qBackSoundPlayer;
     }
+
+    private SoundPlayer? questionBackgroundSoundPlayer;
     
     private bool AnswerLock = true;
     [RelayCommand]
@@ -138,13 +142,16 @@ public partial class MainGameViewModel : PageViewModelBase
 
     private async Task AnswerToWrongExit()
     {
-        audioPlayer.StopAllSounds();
-        audioPlayer.PlaySound(SoundEffects.AnswerSelect);
+        audioPlayer.StopSound(ref questionBackgroundSoundPlayer);
+        int waitFor = audioPlayer.PlaySound(SoundEffects.AnswerSelect);
+        await Task.Delay(waitFor);
         WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.ShowSelectedAnswer));
         await Task.Delay(3000);
         
+        waitFor = audioPlayer.PlaySound(SoundEffects.AnswerWrong);
+        await Task.Delay(waitFor);
+        
         ShowCorrectAnswer();
-        audioPlayer.PlaySound(SoundEffects.AnswerWrong);
         await Task.Delay(1500);
         
         boardManager.LoadGeneralTextBoard();
@@ -158,8 +165,9 @@ public partial class MainGameViewModel : PageViewModelBase
     
     private async Task AnswerToMoneyOrMob()
     {
-        audioPlayer.StopAllSounds();
-        audioPlayer.PlaySound(SoundEffects.AnswerSelect);
+        audioPlayer.StopSound(ref questionBackgroundSoundPlayer);
+        int waitFor = audioPlayer.PlaySound(SoundEffects.AnswerSelect);
+        await Task.Delay(waitFor);
         WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.ShowSelectedAnswer));
         await Task.Delay(3000);
         
@@ -167,11 +175,14 @@ public partial class MainGameViewModel : PageViewModelBase
         audioPlayer.PlaySound(SoundEffects.AnswerCorrect);
         await Task.Delay(2000);
         
-        audioPlayer.PlaySound(SoundEffects.TransitionMobWrongBoard);
+        waitFor = audioPlayer.PlaySound(SoundEffects.TransitionMobWrongBoard);
+        await Task.Delay(waitFor);
         boardManager.LoadMoneyLadderBoard();
         await Task.Delay(1500);
+        
         await mobMemberManager.MarkWrongAnswers(questionManager.CorrectAnswer);
         await Task.Delay(1500); //TODO: Replace this with "Next" button
+        
         mobMemberManager.DisableMobMembers();
         TotalMoney = moneyManager.GetCurrentPrizeMoney(mobMemberManager.WrongMobMemberCount, MoneyLadderValuesString);
         if (mobMemberManager.MobMembersRemainingCount == 0)
@@ -179,7 +190,6 @@ public partial class MainGameViewModel : PageViewModelBase
             Dispatcher.UIThread.InvokeAsync(WinGame);
             return;
         }
-
         
         boardManager.LoadMoneyOrMobBoard();
         audioPlayer.PlaySound(SoundEffects.BackgroundMoneyOrMob);
