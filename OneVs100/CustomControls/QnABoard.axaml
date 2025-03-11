@@ -5,7 +5,7 @@
              xmlns:vm="using:OneVs100.ViewModels"
              xmlns:mainGame="clr-namespace:OneVs100.ViewModels.MainGame"
              xmlns:customControls="clr-namespace:OneVs100.CustomControls"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="525" d:DesignHeight="315"
              x:Class="OneVs100.CustomControls.QnABoard"
              x:DataType="mainGame:MainGameViewModel">
     <Panel Background="Black">
@@ -19,12 +19,57 @@
                                    VerticalAlignment="Center" HorizontalAlignment="Center"
                                    Text="{Binding QuestionNumber}" />
                     </Border>
-                    <Border BorderBrush="#B676D3" BorderThickness="3"
+                    <Border BorderBrush="#B676D3" BorderThickness="3" Background="#2C192F"
                             HorizontalAlignment="Left" VerticalAlignment="Stretch">
                         <Viewbox Stretch="Uniform">
                             <customControls:OneVsXHorizontalElement />
                         </Viewbox>
                     </Border>
+                    <Grid ColumnDefinitions="*, *, *" HorizontalAlignment="Stretch">
+                        <Border Grid.Column="0" BorderBrush="#B676D3" BorderThickness="3" Background="#2C192F"
+                                HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                            <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Padding="10, 0"
+                                    ToolTip.Placement="BottomEdgeAlignedLeft">
+                                <TextBlock FontSize="16" xml:space="preserve" VerticalAlignment="Center" 
+                                           FontFamily="{DynamicResource OverpassFont}"
+                                           Text="Poll the Mob" />
+                                <ToolTip.Tip>
+                                    <StackPanel>
+                                        <TextBlock Text="Poll the Mob"/>
+                                        <TextBlock Text="Select one of the answers. You will then be shown who of the Mob selected that answer."/>
+                                    </StackPanel>
+                                </ToolTip.Tip>
+                            </Button>
+                        </Border>
+                        <Border Grid.Column="1" BorderBrush="#B676D3" BorderThickness="3" Background="#2C192F"
+                                HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                            <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Padding="10, 0">
+                                <TextBlock FontSize="16" xml:space="preserve" VerticalAlignment="Center" 
+                                           FontFamily="{DynamicResource OverpassFont}"
+                                           Text="Ask the Mob" />
+                                <ToolTip.Tip>
+                                    <StackPanel>
+                                        <TextBlock Text="Ask the Mob"/>
+                                        <TextBlock Text="You will be shown two Mob members - one has selected the correct answer, and one has selected the wrong answer. The third answer is incorrect by process of elimination."/>
+                                    </StackPanel>
+                                </ToolTip.Tip>
+                            </Button>
+                        </Border>
+                        <Border Grid.Column="2" BorderBrush="#B676D3" BorderThickness="3" Background="#2C192F"
+                                HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                            <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Padding="10, 0">
+                                <TextBlock FontSize="16" xml:space="preserve" VerticalAlignment="Center" 
+                                           FontFamily="{DynamicResource OverpassFont}"
+                                           Text="Trust the Mob" />
+                                <ToolTip.Tip>
+                                    <StackPanel>
+                                        <TextBlock Text="Trust the Mob"/>
+                                        <TextBlock Text="You will automatically be locked in to the Mob's most popular answer."/>
+                                    </StackPanel>
+                                </ToolTip.Tip>
+                            </Button>
+                        </Border>
+                    </Grid>
                 </StackPanel>
             </Panel>
             <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" BorderBrush="#B676D3" BorderThickness="3">

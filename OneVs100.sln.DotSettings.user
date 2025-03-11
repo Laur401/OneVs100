@@ -25,5 +25,5 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
   &lt;Assembly Path="/home/asus/RiderProjects/OneVs100/OneVs100/lib/Windows/libmpv-2.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/CustomBuildToolPath/@EntryValue">/home/asus/.dotnet/sdk/9.0.200/MSBuild.dll</s:String>
-	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/DotNetCliExePath/@EntryValue">/home/asus/.dotnet/dotnet</s:String></wpf:ResourceDictionary>
+	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/CustomBuildToolPath/@EntryValue">/home/deck/.dotnet/sdk/9.0.100/MSBuild.dll</s:String>
+	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/DotNetCliExePath/@EntryValue">/home/deck/.dotnet/dotnet</s:String></wpf:ResourceDictionary>
