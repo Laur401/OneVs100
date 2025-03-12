@@ -22,6 +22,7 @@ public partial class QnABoard : UserControl
     public QnABoard()
     {
         InitializeComponent();
+        // Naudojami operatoriai ?. ?[] ?? arba ??= (0.5 t.)
         DefaultAnswerBrush = BorderA.BorderBrush ?? DefaultAnswerBrush;
         //DefaultAnswerTextBrush = AnswerTextA.Foreground ?? DefaultAnswerTextBrush;
     }

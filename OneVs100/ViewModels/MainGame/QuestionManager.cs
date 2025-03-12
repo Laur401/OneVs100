@@ -42,7 +42,7 @@ public class QuestionManager
         string answerC = questionList[questionPick].AnswerC;
         CorrectAnswer = questionList[questionPick].CorrectAnswer;
         QuestionDifficulty = questionList[questionPick].Difficulty;
-        Console.WriteLine(QuestionDifficulty);
+        //Console.WriteLine(QuestionDifficulty);
         
         questionList.RemoveAt(questionPick);
         
@@ -72,6 +72,7 @@ public class QuestionManager
                 questionData.Difficulty+RNGGaussian.NextSingle());
             questionList.Add(questionInfo);
         }
+        // Naudojami delegatai arba lambda funkcijos (1.5 t.)
         questionList.Sort((q1, q2)=>q1.Difficulty.CompareTo(q2.Difficulty));
 
     }

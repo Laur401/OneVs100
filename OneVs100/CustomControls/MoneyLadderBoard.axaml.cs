@@ -52,6 +52,7 @@ public partial class MoneyLadderBoard : UserControl
             moneyList[fullRows-1].Background = Brushes.Goldenrod;
             
             { //Scoping so that textBlock variable doesn't clash with the one below.
+                //Naudojamas operatorius 'is' (0.5 t.)
                 if (moneyList[fullRows-1].Child is TextBlock textBlock)
                     textBlock.Foreground = Brushes.Black;
             }

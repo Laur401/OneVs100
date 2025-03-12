@@ -21,6 +21,7 @@ public partial class MainGameViewModel : PageViewModelBase
     [ObservableProperty] private object answerB = "";
     [ObservableProperty] private object answerC = "";
     
+    //Naudojamos duomenų struktūros iš System.Collections arba System.Collections.Generic (1 t.)
     [ObservableProperty] private List<string> moneyLadderValuesString = new List<string>();
     private string? totalMoney = "0 €";
     public string? TotalMoney
@@ -102,6 +103,7 @@ public partial class MainGameViewModel : PageViewModelBase
     private async Task LoadNextQuestion()
     {
         ResetQnABoardValues();
+        //Naudojamas dekonstruktorius (0.5 t.)
         (string question, string answerA, string answerB, string answerC) = questionManager.GetNextQuestion();
         QuestionNumber = "Q"+questionManager.CurrentQuestion;
         QuestionText = question;
@@ -118,6 +120,7 @@ public partial class MainGameViewModel : PageViewModelBase
         await Task.Delay(1500);
         mobMemberManager.SelectAnswers(questionManager.CorrectAnswer, 
             questionManager.QuestionDifficulty, questionManager.CurrentQuestion);
+        //Realizuota inicializacija naudojant 'out' argumentus (1 t.)
         audioPlayer.PlaySound(SoundEffects.BackgroundQuestion, out var qBackSoundPlayer);
         WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.EnableSelectingAnswer));
         AnswerLock = false;
