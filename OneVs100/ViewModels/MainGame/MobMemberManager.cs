@@ -92,7 +92,7 @@ public partial class MobMemberManager : ObservableObject
     {
         List<MobMember> playersWithAnswer = new List<MobMember>();
         foreach (MobMember mobMember in mobMembers)
-            if (mobMember.HasSelectedThisAnswer(answer))
+            if (!mobMember.IsKnockedOut && mobMember.HasSelectedThisAnswer(answer))
                 playersWithAnswer.Add(mobMember);
         return playersWithAnswer;
     }
