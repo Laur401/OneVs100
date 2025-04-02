@@ -34,6 +34,7 @@ public partial class MainGameViewModel : PageViewModelBase
     private readonly BoardManager boardManager = BoardManager.Instance;
     private readonly MoneyManager moneyManager = MoneyManager.Instance;
     private readonly AudioPlayer audioPlayer = AudioPlayer.Instance;
+    private readonly LifelineManager lifelineManager = LifelineManager.Instance;
     
     //GeneralTextBoard's Next button
     private TaskCompletionSource<bool> GeneralControlButtonPressed;
@@ -137,6 +138,26 @@ public partial class MainGameViewModel : PageViewModelBase
                 Dispatcher.UIThread.InvokeAsync(AnswerToMoneyOrMob);
             else
                 Dispatcher.UIThread.InvokeAsync(AnswerToWrongExit);
+        }
+    }
+
+    [RelayCommand]
+    public void LifelineUse(string lifeline)
+    {
+        if (!AnswerLock)
+        {
+            AnswerLock = true;
+            switch (lifeline)
+            {
+                case "Poll":
+                    break;
+                case "Ask":
+                    break;
+                case "Trust":
+                    AnswerLock = false;
+                    AnswerCommand(lifelineManager.TrustTheMob(mobMemberManager.ReturnPlayersWithAnswer, questionManager.CorrectAnswer));
+                    break;
+            }
         }
     }
 

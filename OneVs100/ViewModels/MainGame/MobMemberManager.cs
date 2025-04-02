@@ -87,4 +87,13 @@ public partial class MobMemberManager : ObservableObject
             await Task.Delay(500);
         }
     }
+
+    public List<MobMember> ReturnPlayersWithAnswer(char answer)
+    {
+        List<MobMember> playersWithAnswer = new List<MobMember>();
+        foreach (MobMember mobMember in mobMembers)
+            if (mobMember.HasSelectedThisAnswer(answer))
+                playersWithAnswer.Add(mobMember);
+        return playersWithAnswer;
+    }
 }

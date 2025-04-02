@@ -31,6 +31,8 @@ public class MobMember
 
     public bool IsAnswerCorrect(char correctAnswer) => (correctAnswer == answer);
 
+    public bool HasSelectedThisAnswer(char queryAnswer) => queryAnswer == answer;
+
 
     //Knock-out calculation - Difficulty*QuestionNr > Intelligence
 }
