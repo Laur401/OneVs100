@@ -63,6 +63,9 @@ public partial class MainGameUI : UserControl
             case BoardStatusMessageOptions.ShowSelectedAnswer:
                 qnABoard.OnAudioTrackFinished();
                 break;
+            case BoardStatusMessageOptions.ForceSelectAnswer:
+                qnABoard.Answer_OnClick(Convert.ToChar(extraData));
+                break;
             case BoardStatusMessageOptions.ShowCorrectAnswer:
                 qnABoard.ShowCorrectAnswer(Convert.ToChar(extraData));
                 break;
@@ -162,6 +165,7 @@ public enum BoardStatusMessageOptions
     QnABoard,
     EnableSelectingAnswer,
     ShowSelectedAnswer,
+    ForceSelectAnswer,
     ShowCorrectAnswer,
     ResetQnABoard,
     MoneyLadderBoard,

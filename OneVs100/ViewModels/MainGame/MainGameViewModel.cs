@@ -155,7 +155,11 @@ public partial class MainGameViewModel : PageViewModelBase
                     break;
                 case "Trust":
                     AnswerLock = false;
-                    AnswerCommand(lifelineManager.TrustTheMob(mobMemberManager.ReturnPlayersWithAnswer, questionManager.CorrectAnswer));
+                    char selection = lifelineManager.TrustTheMob(mobMemberManager.ReturnPlayersWithAnswer,
+                        questionManager.CorrectAnswer);
+                    WeakReferenceMessenger.Default.Send(
+                        new BoardStatusMessage(BoardStatusMessageOptions.ForceSelectAnswer, selection));
+                    AnswerCommand(selection);
                     break;
             }
         }

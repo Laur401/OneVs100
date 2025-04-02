@@ -57,7 +57,8 @@
                         </Border>
                         <Border Grid.Column="2" BorderBrush="#B676D3" BorderThickness="3" Background="#2C192F"
                                 HorizontalAlignment="Left" VerticalAlignment="Stretch">
-                            <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Padding="10, 0">
+                            <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Padding="10, 0"
+                                    Command="{Binding LifelineUse}" CommandParameter="Trust" >
                                 <TextBlock FontSize="16" xml:space="preserve" VerticalAlignment="Center" 
                                            FontFamily="{DynamicResource OverpassFont}"
                                            Text="Trust the Mob" />
@@ -89,7 +90,7 @@
                 <Border Name="BorderA" BorderBrush="#B676D3" BorderThickness="3" >
                     <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                             Background="Transparent"
-                            Click="Answer_OnClick"
+                            Click="AnswerA_OnClick"
                             Command="{Binding AnswerCommand}" CommandParameter="A">
                         <TextBlock Name="AnswerTextA" FontSize="20" xml:space="preserve" VerticalAlignment="Center"
                                    Text="{Binding AnswerA}" />
@@ -105,7 +106,7 @@
                 <Border Name="BorderB" BorderBrush="#B676D3" BorderThickness="3" >
                     <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                             Background="Transparent"
-                            Click="Answer_OnClick"
+                            Click="AnswerB_OnClick"
                             Command="{Binding AnswerCommand}" CommandParameter="B">
                         <TextBlock FontSize="20" xml:space="preserve" VerticalAlignment="Center"
                                    Text="{Binding AnswerB}" />
@@ -121,7 +122,7 @@
                 <Border Name="BorderC" BorderBrush="#B676D3" BorderThickness="3" >
                     <Button RenderTransform="none"
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"
-                        Click="Answer_OnClick"
+                        Click="AnswerC_OnClick"
                         Command="{Binding AnswerCommand}" CommandParameter="C">
                         <TextBlock FontSize="20" xml:space="preserve" VerticalAlignment="Center"
                                    Text="{Binding AnswerC}" />

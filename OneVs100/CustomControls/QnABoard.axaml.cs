@@ -40,10 +40,27 @@ public partial class QnABoard : UserControl
     public void EnableSelectingAnswer() => AnswerLock = false;
 
     private bool AnswerLock = true;
-    private void Answer_OnClick(object? sender, RoutedEventArgs e)
+    
+    private void AnswerA_OnClick(object? sender, RoutedEventArgs e) => Answer_OnClick('A');
+    private void AnswerB_OnClick(object? sender, RoutedEventArgs e) => Answer_OnClick('B');
+    private void AnswerC_OnClick(object? sender, RoutedEventArgs e) => Answer_OnClick('C');
+    public void Answer_OnClick(char answer)
     {
         if (!AnswerLock)
         {
+            object? sender = null;
+            switch (answer)
+            {
+                case 'A':
+                    sender = BorderA;
+                    break;
+                case 'B':
+                    sender = BorderB;
+                    break;
+                case 'C':
+                    sender = BorderC;
+                    break;
+            }
             Dispatcher.UIThread.InvokeAsync(()=>SelectAnswer(sender));
             AnswerLock = true;
         }
@@ -51,7 +68,7 @@ public partial class QnABoard : UserControl
 
     private async Task SelectAnswer(object? sender)
     {
-        if (sender is Button button && button.Parent is Border border)
+        if (sender is Border border)
         {
             await WaitForAnswerAudioTrack();
             border.BorderBrush = Brushes.Red;
