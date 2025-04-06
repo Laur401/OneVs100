@@ -19,19 +19,21 @@
                            FontSize="32" Foreground="Snow" FontWeight="Bold"
                            FontFamily="{DynamicResource OverpassFont}"
                            Text="Ask the Mob" />
-                <customControls:MobMemberControl Grid.Row="1" Grid.Column="0" MemberNumber="1" />
-                <customControls:MobMemberControl Grid.Row="1" Grid.Column="1" MemberNumber="2"/>
+                <customControls:MobMemberControl Grid.Row="1" Grid.Column="0" MemberNumber="{Binding AskTheMobOneNumber}" />
+                <customControls:MobMemberControl Grid.Row="1" Grid.Column="1" MemberNumber="{Binding AskTheMobTwoNumber}"/>
                 <TextBlock Grid.Row="2" Grid.Column="0"
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                            FontSize="60" Foreground="Snow" FontWeight="Bold"
                            FontFamily="{DynamicResource OverpassFont}"
-                           Text="A" />
+                           Text="{Binding AskTheMobOneAnswer}" />
                 <TextBlock Grid.Row="2" Grid.Column="1"
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                            FontSize="60" Foreground="Snow" FontWeight="Bold"
                            FontFamily="{DynamicResource OverpassFont}" 
-                           Text="B" />
-                <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                           Text="{Binding AskTheMobTwoAnswer}" />
+                <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Command="{Binding ReturnFromLifeline}">
                     <TextBlock FontSize="20" Foreground="Snow" Text="Back"/>
                 </Button>
             </Grid>

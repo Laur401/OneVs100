@@ -34,7 +34,7 @@ public partial class MobMemberManager : ObservableObject
         for (int i = 0; i < count; i++)
         {
             mobMembers.Add(new MobMember(i+1, RNG));
-            WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 0));
+            WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, MobMemberStatusMessageOptions.CreateMobMember));
         }
         MobMembersRemainingCount += count;
     }
@@ -45,7 +45,7 @@ public partial class MobMemberManager : ObservableObject
         {
             if (mobMembers[i].IsKnockedOut)
             {
-                WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 2));
+                WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, MobMemberStatusMessageOptions.DisableMobMember));
             }
         }
     }
@@ -83,7 +83,7 @@ public partial class MobMemberManager : ObservableObject
             wrongMobMember.IsKnockedOut = true;
             WrongMobMemberCount++;
             MobMembersRemainingCount--;
-            WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(wrongMobMember.Number, 1));
+            WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(wrongMobMember.Number, MobMemberStatusMessageOptions.MarkWrongMobMember));
             await Task.Delay(500);
         }
     }
@@ -95,5 +95,17 @@ public partial class MobMemberManager : ObservableObject
             if (!mobMember.IsKnockedOut && mobMember.HasSelectedThisAnswer(answer))
                 playersWithAnswer.Add(mobMember);
         return playersWithAnswer;
+    }
+
+    public void HighlightMobMember(int member)
+    {
+        WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(member,
+            MobMemberStatusMessageOptions.HighlightMobMember));
+    }
+
+    public void ClearMobMemberHighlight(int member)
+    {
+        WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(member,
+            MobMemberStatusMessageOptions.ClearMobMemberHighlight));
     }
 }

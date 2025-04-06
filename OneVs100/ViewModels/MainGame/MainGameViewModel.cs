@@ -115,7 +115,9 @@ public partial class MainGameViewModel : PageViewModelBase
         await Task.Delay(1500);
         AnswerC = answerC;
         audioPlayer.PlaySound(SoundEffects.AnswerShow);
+        
         //TODO: Insert mob selection scene here
+        
         await Task.Delay(1500);
         mobMemberManager.SelectAnswers(questionManager.CorrectAnswer, 
             questionManager.QuestionDifficulty, questionManager.CurrentQuestion);
@@ -128,19 +130,30 @@ public partial class MainGameViewModel : PageViewModelBase
     private SoundPlayer? questionBackgroundSoundPlayer;
     
     private bool AnswerLock = true;
+    private bool Polling = false;
     [RelayCommand]
     public void AnswerCommand(char answer)
     {
         if (!AnswerLock)
-        {
+        {   
             AnswerLock = true;
+            if (Polling)
+            {
+                lifelineManager.PollTheMob(answer, mobMemberManager.ReturnPlayersWithAnswer, mobMemberManager.HighlightMobMember);
+                return;
+            }
             if (answer == questionManager.CorrectAnswer)
                 Dispatcher.UIThread.InvokeAsync(AnswerToMoneyOrMob);
             else
                 Dispatcher.UIThread.InvokeAsync(AnswerToWrongExit);
         }
     }
-
+    
+    
+    [ObservableProperty] private int askTheMobOneNumber = 0;
+    [ObservableProperty] private int askTheMobTwoNumber = 0;
+    [ObservableProperty] private char askTheMobOneAnswer = ' ';
+    [ObservableProperty] private char askTheMobTwoAnswer = ' ';
     [RelayCommand]
     public void LifelineUse(string lifeline)
     {
@@ -150,11 +163,23 @@ public partial class MainGameViewModel : PageViewModelBase
             switch (lifeline)
             {
                 case "Poll":
+                    Polling = true;
+                    AnswerLock = false;
                     break;
                 case "Ask":
+                    void InsertAnswers((int, char) vals1, (int, char) vals2)
+                    {
+                        AskTheMobOneNumber = vals1.Item1;
+                        AskTheMobOneAnswer = vals1.Item2;
+                        AskTheMobTwoNumber = vals2.Item1;
+                        AskTheMobTwoAnswer = vals2.Item2;
+                    }
+                    lifelineManager.AskTheMob(questionManager.CorrectAnswer, mobMemberManager.ReturnPlayersWithAnswer, 
+                        mobMemberManager.HighlightMobMember, InsertAnswers);
+                    WeakReferenceMessenger.Default.Send(
+                        new BoardStatusMessage(BoardStatusMessageOptions.AskTheMobLifelineBoard));
                     break;
                 case "Trust":
-                    AnswerLock = false;
                     char selection = lifelineManager.TrustTheMob(mobMemberManager.ReturnPlayersWithAnswer,
                         questionManager.CorrectAnswer);
                     WeakReferenceMessenger.Default.Send(
@@ -164,7 +189,17 @@ public partial class MainGameViewModel : PageViewModelBase
             }
         }
     }
-
+    
+    [RelayCommand]
+    public void ReturnFromLifeline()
+    {
+        lifelineManager.ClearLifeline(mobMemberManager.ClearMobMemberHighlight);
+        WeakReferenceMessenger.Default.Send(
+            new BoardStatusMessage(BoardStatusMessageOptions.QnABoard));
+        AnswerLock = false;
+    }
+    
+    
     private async Task AnswerToWrongExit()
     {
         audioPlayer.StopSound(ref questionBackgroundSoundPlayer);

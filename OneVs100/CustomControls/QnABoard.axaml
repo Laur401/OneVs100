@@ -29,7 +29,8 @@
                         <Border Grid.Column="0" BorderBrush="#B676D3" BorderThickness="3" Background="#2C192F"
                                 HorizontalAlignment="Left" VerticalAlignment="Stretch">
                             <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Padding="10, 0"
-                                    ToolTip.Placement="BottomEdgeAlignedLeft">
+                                    ToolTip.Placement="BottomEdgeAlignedLeft"
+                                    Command="{Binding LifelineUse}" CommandParameter="Poll">
                                 <TextBlock FontSize="16" xml:space="preserve" VerticalAlignment="Center" 
                                            FontFamily="{DynamicResource OverpassFont}"
                                            Text="Poll the Mob" />
@@ -43,7 +44,8 @@
                         </Border>
                         <Border Grid.Column="1" BorderBrush="#B676D3" BorderThickness="3" Background="#2C192F"
                                 HorizontalAlignment="Left" VerticalAlignment="Stretch">
-                            <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Padding="10, 0">
+                            <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Padding="10, 0"
+                                    Command="{Binding LifelineUse}" CommandParameter="Ask">
                                 <TextBlock FontSize="16" xml:space="preserve" VerticalAlignment="Center" 
                                            FontFamily="{DynamicResource OverpassFont}"
                                            Text="Ask the Mob" />

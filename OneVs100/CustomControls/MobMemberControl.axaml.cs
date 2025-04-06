@@ -52,7 +52,7 @@ public partial class MobMemberControl : UserControl
         set => SetValue(ActiveProperty, value);
     }*/
 
-    private static readonly StyledProperty<int> MemberNumberProperty =
+    public static readonly StyledProperty<int> MemberNumberProperty =
         AvaloniaProperty.Register<Control, int>(nameof(MemberNumber));
     
     public int MemberNumber
@@ -73,5 +73,15 @@ public partial class MobMemberControl : UserControl
     public void MobMemberWrong()
     {
         SetBackground(Brushes.Red.Color);
+    }
+
+    public void HighlightMobMember()
+    {
+        SetBackground(Brushes.Snow.Color);
+    }
+
+    public void ClearMobMemberHighlight()
+    {
+        SetBackground(Color.Parse("#1EC3FF"));
     }
 }

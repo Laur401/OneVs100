@@ -30,6 +30,7 @@ public partial class MainGameUI : UserControl
     private MoneyLadderBoard moneyLadderBoard;
     private MoneyOrMobBoard moneyOrMobBoard;
     private GeneralTextBoard generalTextBoard;
+    private AskTheMobLifelineBoard askTheMobLifelineBoard;
 
     private void ResetUI()
     {
@@ -37,6 +38,7 @@ public partial class MainGameUI : UserControl
         moneyLadderBoard = new MoneyLadderBoard();
         moneyOrMobBoard = new MoneyOrMobBoard();
         generalTextBoard = new GeneralTextBoard();
+        askTheMobLifelineBoard = new AskTheMobLifelineBoard();
         mobMemberControls = new Dictionary<int, MobMemberControl>();
         List<StackPanel> mobStorages = [MobStorageTop, MobStorageLeft, MobStorageRight, MobStorageBottom];
         foreach (StackPanel mobStorage in mobStorages)
@@ -82,6 +84,9 @@ public partial class MainGameUI : UserControl
             case BoardStatusMessageOptions.GeneralTextBoard:
                 Board.Content = generalTextBoard;
                 break;
+            case BoardStatusMessageOptions.AskTheMobLifelineBoard:
+                Board.Content = askTheMobLifelineBoard;
+                break;
             case BoardStatusMessageOptions.ResetAllBoards:
                 ResetUI();
                 break;
@@ -92,18 +97,24 @@ public partial class MainGameUI : UserControl
     }
     
     // ReSharper disable once MemberCanBePrivate.Global
-    public void MobMessageReceiver(int number, int status)
+    public void MobMessageReceiver(int number, MobMemberStatusMessageOptions status)
     {
         switch (status)
         {
-            case 0:
+            case MobMemberStatusMessageOptions.CreateMobMember:
                 AddMobMember(number);
                 break;
-            case 1:
+            case MobMemberStatusMessageOptions.MarkWrongMobMember:
                 MarkWrongMobMember(number);
                 break;
-            case 2:
+            case MobMemberStatusMessageOptions.DisableMobMember:
                 DisableMobMember(number);
+                break;
+            case MobMemberStatusMessageOptions.HighlightMobMember:
+                HighlightMobMember(number);
+                break;
+            case MobMemberStatusMessageOptions.ClearMobMemberHighlight:
+                ClearMobMemberHighlight(number);
                 break;
             default:
                 Console.Error.WriteLine("Error in MobMessageReceiver");
@@ -147,12 +158,31 @@ public partial class MainGameUI : UserControl
     {
         mobMemberControls[number].DisableMobMember();
     }
+
+    private void HighlightMobMember(int number)
+    {
+        mobMemberControls[number].HighlightMobMember();
+    }
+
+    private void ClearMobMemberHighlight(int number)
+    {
+        mobMemberControls[number].ClearMobMemberHighlight();
+    }
 }
 
-public class MobMemberStatusMessage(int memberNumber, int status)
+public class MobMemberStatusMessage(int memberNumber, MobMemberStatusMessageOptions status)
 {
     public int MemberNumber { get; } = memberNumber;
-    public int Status { get; } = status; //TODO: Convert status to an Enum
+    public MobMemberStatusMessageOptions Status { get; } = status;
+}
+
+public enum MobMemberStatusMessageOptions
+{
+    CreateMobMember,
+    MarkWrongMobMember,
+    DisableMobMember,
+    HighlightMobMember,
+    ClearMobMemberHighlight
 }
 public class BoardStatusMessage(BoardStatusMessageOptions status, object? extraData=null)
 {
@@ -171,5 +201,6 @@ public enum BoardStatusMessageOptions
     MoneyLadderBoard,
     MoneyOrMobBoard,
     GeneralTextBoard,
+    AskTheMobLifelineBoard,
     ResetAllBoards,
 }
