@@ -19,8 +19,8 @@
                            FontSize="32" Foreground="Snow" FontWeight="Bold"
                            FontFamily="{DynamicResource OverpassFont}"
                            Text="Ask the Mob" />
-                <customControls:MobMemberControl Grid.Row="1" Grid.Column="0" MemberNumber="{Binding AskTheMobOneNumber}" />
-                <customControls:MobMemberControl Grid.Row="1" Grid.Column="1" MemberNumber="{Binding AskTheMobTwoNumber}"/>
+                <Border Name="Mob1" Grid.Row="1" Grid.Column="0" />
+                <Border Name="Mob2" Grid.Row="1" Grid.Column="1" />
                 <TextBlock Grid.Row="2" Grid.Column="0"
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                            FontSize="60" Foreground="Snow" FontWeight="Bold"

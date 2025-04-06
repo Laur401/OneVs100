@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -6,11 +7,12 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Color = Avalonia.Media.Color;
 
 namespace OneVs100.CustomControls;
 
-public partial class MobMemberControl : UserControl
+public partial class MobMemberControl : UserControl, INotifyPropertyChanged
 {
     public MobMemberControl()
     {
@@ -42,15 +44,6 @@ public partial class MobMemberControl : UserControl
       };
       PanelBackground.Background = background;
     }
-    
-    /*public static readonly StyledProperty<bool> ActiveProperty =
-        AvaloniaProperty.Register<Control, bool>(nameof(Active), defaultValue: true);
-
-    public bool Active
-    {
-        get => GetValue(ActiveProperty);
-        set => SetValue(ActiveProperty, value);
-    }*/
 
     public static readonly StyledProperty<int> MemberNumberProperty =
         AvaloniaProperty.Register<Control, int>(nameof(MemberNumber));

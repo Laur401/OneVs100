@@ -169,10 +169,13 @@ public partial class MainGameViewModel : PageViewModelBase
                 case "Ask":
                     void InsertAnswers((int, char) vals1, (int, char) vals2)
                     {
-                        AskTheMobOneNumber = vals1.Item1;
-                        AskTheMobOneAnswer = vals1.Item2;
-                        AskTheMobTwoNumber = vals2.Item1;
-                        AskTheMobTwoAnswer = vals2.Item2;
+                        Dispatcher.UIThread.Invoke(() =>
+                        {
+                            AskTheMobOneNumber = vals1.Item1;
+                            AskTheMobOneAnswer = vals1.Item2;
+                            AskTheMobTwoNumber = vals2.Item1;
+                            AskTheMobTwoAnswer = vals2.Item2;
+                        });
                     }
                     lifelineManager.AskTheMob(questionManager.CorrectAnswer, mobMemberManager.ReturnPlayersWithAnswer, 
                         mobMemberManager.HighlightMobMember, InsertAnswers);
