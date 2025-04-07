@@ -130,6 +130,7 @@ public partial class MainGameViewModel : PageViewModelBase
     private SoundPlayer? questionBackgroundSoundPlayer;
     
     private bool AnswerLock = true;
+    private bool LifelineLock = false;
     private bool Polling = false;
     [RelayCommand]
     public void AnswerCommand(char answer)
@@ -139,7 +140,14 @@ public partial class MainGameViewModel : PageViewModelBase
             AnswerLock = true;
             if (Polling)
             {
-                lifelineManager.PollTheMob(answer, mobMemberManager.ReturnPlayersWithAnswer, mobMemberManager.HighlightMobMember);
+                lifelineManager.PollTheMob(answer, mobMemberManager.ReturnPlayersWithAnswer, mobMemberManager.HighlightMobMember,
+                    tuple =>
+                    {
+                        PollTheMobNumber = tuple.Item1;
+                        PollTheMobAnswer = tuple.Item2;
+                    });
+                WeakReferenceMessenger.Default.Send(
+                    new BoardStatusMessage(BoardStatusMessageOptions.PollTheMobLifelineBoard));
                 return;
             }
             if (answer == questionManager.CorrectAnswer)
@@ -149,17 +157,22 @@ public partial class MainGameViewModel : PageViewModelBase
         }
     }
     
-    
+    //TODO: Move all of this to LifelineManager !!!
     [ObservableProperty] private int askTheMobOneNumber = 0;
     [ObservableProperty] private int askTheMobTwoNumber = 0;
     [ObservableProperty] private char askTheMobOneAnswer = ' ';
     [ObservableProperty] private char askTheMobTwoAnswer = ' ';
+    
+    [ObservableProperty] private int pollTheMobNumber = 0;
+    [ObservableProperty] private char pollTheMobAnswer = ' ';
     [RelayCommand]
     public void LifelineUse(string lifeline)
     {
-        if (!AnswerLock)
+        if (!AnswerLock && !LifelineLock)
         {
             AnswerLock = true;
+            LifelineLock = true;
+            WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.DisableSelectingAnswer));
             switch (lifeline)
             {
                 case "Poll":
@@ -185,8 +198,11 @@ public partial class MainGameViewModel : PageViewModelBase
                 case "Trust":
                     char selection = lifelineManager.TrustTheMob(mobMemberManager.ReturnPlayersWithAnswer,
                         questionManager.CorrectAnswer);
+                    WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.EnableSelectingAnswer));
                     WeakReferenceMessenger.Default.Send(
                         new BoardStatusMessage(BoardStatusMessageOptions.ForceSelectAnswer, selection));
+                    AnswerLock = false;
+                    LifelineLock = false;
                     AnswerCommand(selection);
                     break;
             }
@@ -199,7 +215,10 @@ public partial class MainGameViewModel : PageViewModelBase
         lifelineManager.ClearLifeline(mobMemberManager.ClearMobMemberHighlight);
         WeakReferenceMessenger.Default.Send(
             new BoardStatusMessage(BoardStatusMessageOptions.QnABoard));
+        WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.EnableSelectingAnswer));
         AnswerLock = false;
+        LifelineLock = false;
+        Polling = false;
     }
     
     

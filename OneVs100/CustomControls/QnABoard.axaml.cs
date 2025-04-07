@@ -38,6 +38,7 @@ public partial class QnABoard : UserControl
     }
 
     public void EnableSelectingAnswer() => AnswerLock = false;
+    public void DisableSelectingAnswer() => AnswerLock = true;
 
     private bool AnswerLock = true;
     
@@ -144,6 +145,6 @@ public partial class QnABoard : UserControl
                 }
             }
         }
-        AnswerLock = false;
+        AnswerLock = true;
     }
 }

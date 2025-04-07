@@ -9,5 +9,6 @@ public partial class PollTheMobLifelineBoard : UserControl
     public PollTheMobLifelineBoard()
     {
         InitializeComponent();
+        SampleMobControl.MobMemberNumber.Text = "";
     }
 }

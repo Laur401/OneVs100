@@ -31,6 +31,7 @@ public partial class MainGameUI : UserControl
     private MoneyOrMobBoard moneyOrMobBoard;
     private GeneralTextBoard generalTextBoard;
     private AskTheMobLifelineBoard askTheMobLifelineBoard;
+    private PollTheMobLifelineBoard pollTheMobLifelineBoard;
 
     private void ResetUI()
     {
@@ -39,6 +40,7 @@ public partial class MainGameUI : UserControl
         moneyOrMobBoard = new MoneyOrMobBoard();
         generalTextBoard = new GeneralTextBoard();
         askTheMobLifelineBoard = new AskTheMobLifelineBoard();
+        pollTheMobLifelineBoard = new PollTheMobLifelineBoard();
         mobMemberControls = new Dictionary<int, MobMemberControl>();
         List<StackPanel> mobStorages = [MobStorageTop, MobStorageLeft, MobStorageRight, MobStorageBottom];
         foreach (StackPanel mobStorage in mobStorages)
@@ -61,6 +63,9 @@ public partial class MainGameUI : UserControl
                 break;
             case BoardStatusMessageOptions.EnableSelectingAnswer:
                 qnABoard.EnableSelectingAnswer();
+                break;
+            case BoardStatusMessageOptions.DisableSelectingAnswer:
+                qnABoard.DisableSelectingAnswer();
                 break;
             case BoardStatusMessageOptions.ShowSelectedAnswer:
                 qnABoard.OnAudioTrackFinished();
@@ -86,6 +91,9 @@ public partial class MainGameUI : UserControl
                 break;
             case BoardStatusMessageOptions.AskTheMobLifelineBoard:
                 Board.Content = askTheMobLifelineBoard;
+                break;
+            case BoardStatusMessageOptions.PollTheMobLifelineBoard:
+                Board.Content = pollTheMobLifelineBoard;
                 break;
             case BoardStatusMessageOptions.ResetAllBoards:
                 ResetUI();
@@ -194,6 +202,7 @@ public enum BoardStatusMessageOptions
 {
     QnABoard,
     EnableSelectingAnswer,
+    DisableSelectingAnswer,
     ShowSelectedAnswer,
     ForceSelectAnswer,
     ShowCorrectAnswer,
@@ -202,5 +211,6 @@ public enum BoardStatusMessageOptions
     MoneyOrMobBoard,
     GeneralTextBoard,
     AskTheMobLifelineBoard,
+    PollTheMobLifelineBoard,
     ResetAllBoards,
 }

@@ -6,13 +6,14 @@ using OneVs100.Helpers;
 
 namespace OneVs100.ViewModels.MainGame;
 
-public partial class LifelineManager
+public partial class LifelineManager : ObservableObject
 {
     private static Lazy<LifelineManager> lazyInstance = new Lazy<LifelineManager>(()=> new LifelineManager());
     public static LifelineManager Instance => lazyInstance.Value;
     private LifelineManager() { }
     
     private RandomList random = new RandomList();
+    private List<int> highlightedMobMembers = new List<int>();
 
     public char TrustTheMob(Func<char, List<MobMember>> mobMembersWithAnswer, char correctAnswer)
     {
@@ -31,11 +32,16 @@ public partial class LifelineManager
         else return max;
     }
 
-    public void PollTheMob(char answer, Func<char, List<MobMember>> mobMembersWithAnswer, Action<int> highlightMobMember)
+    
+
+    public void PollTheMob(char answer, Func<char, List<MobMember>> mobMembersWithAnswer, Action<int> highlightMobMember,
+    Action<(int, char)> insertData)
     {
+        insertData((mobMembersWithAnswer(answer).Count, answer));
         foreach (var mobMember in mobMembersWithAnswer(answer))
         {
             highlightMobMember(mobMember.Number);
+            highlightedMobMembers.Add(mobMember.Number);
         }
     }
 
@@ -93,12 +99,15 @@ public partial class LifelineManager
         }
         highlightMobMember(askTheMobOneNumber);
         highlightMobMember(askTheMobTwoNumber);
+        highlightedMobMembers.Add(askTheMobOneNumber);
+        highlightedMobMembers.Add(askTheMobTwoNumber);
     }
 
     public void ClearLifeline(Action<int> removeHighlightMobMember)
     {
-        removeHighlightMobMember(askTheMobOneNumber);
-        removeHighlightMobMember(askTheMobTwoNumber);
+        foreach (var highlighted in highlightedMobMembers)
+            removeHighlightMobMember(highlighted);
+        highlightedMobMembers.Clear();
     }
     
 }
