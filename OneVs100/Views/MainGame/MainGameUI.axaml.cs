@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Media;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Messaging;
 using OneVs100.CustomControls;
 
@@ -104,6 +107,9 @@ public partial class MainGameUI : UserControl
         }
     }
     
+    
+    private List<int> highlightedMobMembers = new List<int>();
+    
     // ReSharper disable once MemberCanBePrivate.Global
     public void MobMessageReceiver(int number, MobMemberStatusMessageOptions status)
     {
@@ -120,9 +126,15 @@ public partial class MainGameUI : UserControl
                 break;
             case MobMemberStatusMessageOptions.HighlightMobMember:
                 HighlightMobMember(number);
+                highlightedMobMembers.Add(number);
                 break;
             case MobMemberStatusMessageOptions.ClearMobMemberHighlight:
+                stopAnimation = true;
                 ClearMobMemberHighlight(number);
+                highlightedMobMembers.Remove(number);
+                break;
+            case MobMemberStatusMessageOptions.AnimateBoardBackground:
+                Dispatcher.UIThread.InvokeAsync(()=>AnimateMobMemberBackground());
                 break;
             default:
                 Console.Error.WriteLine("Error in MobMessageReceiver");
@@ -176,7 +188,39 @@ public partial class MainGameUI : UserControl
     {
         mobMemberControls[number].ClearMobMemberHighlight();
     }
-}
+
+    private bool stopAnimation = false;
+    private async Task AnimateMobMemberBackground()
+    {
+        int animationOffset = 0;
+        while (!stopAnimation)
+        {
+            for (int i = 1; i < mobMemberControls.Count+1; i++)
+            {
+                if (highlightedMobMembers.Contains(i)) continue;
+                mobMemberControls[i% (mobMemberControls.Count + 1)].AnimateBackgroundMobMember(
+                    Interpolate(Brushes.Purple.Color, Brushes.DarkRed.Color, (i + animationOffset)%5/5f));
+            }
+            await Task.Delay(500);
+            animationOffset = (animationOffset+1)%5;
+        }
+        stopAnimation = false;
+        for (int i = 1; i < mobMemberControls.Count+1; i++)
+        {
+            mobMemberControls[i].StopAnimation();
+        }
+    }
+
+    private Color Interpolate(Color color1, Color color2, float t)
+    {
+        t = float.Clamp(t, 0, 1);
+        byte R = Convert.ToByte(color1.R + (color2.R - color1.R) * t);
+        byte G = Convert.ToByte(color1.G + (color2.G - color1.G) * t);
+        byte B = Convert.ToByte(color1.B + (color2.B - color1.B) * t);
+        byte A = Convert.ToByte(color1.A + (color2.A - color1.A) * t);
+        return new Color(A, R, G, B);
+    }
+ }
 
 public class MobMemberStatusMessage(int memberNumber, MobMemberStatusMessageOptions status)
 {
@@ -190,7 +234,8 @@ public enum MobMemberStatusMessageOptions
     MarkWrongMobMember,
     DisableMobMember,
     HighlightMobMember,
-    ClearMobMemberHighlight
+    ClearMobMemberHighlight,
+    AnimateBoardBackground
 }
 public class BoardStatusMessage(BoardStatusMessageOptions status, object? extraData=null)
 {

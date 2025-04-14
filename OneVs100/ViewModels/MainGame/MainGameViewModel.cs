@@ -157,7 +157,6 @@ public partial class MainGameViewModel : PageViewModelBase
         }
     }
     
-    //TODO: Move all of this to LifelineManager !!!
     [ObservableProperty] private int askTheMobOneNumber = 0;
     [ObservableProperty] private int askTheMobTwoNumber = 0;
     [ObservableProperty] private char askTheMobOneAnswer = ' ';
@@ -178,6 +177,8 @@ public partial class MainGameViewModel : PageViewModelBase
                 case "Poll":
                     Polling = true;
                     AnswerLock = false;
+                    WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(0,
+                        MobMemberStatusMessageOptions.AnimateBoardBackground));
                     break;
                 case "Ask":
                     void InsertAnswers((int, char) vals1, (int, char) vals2)
@@ -194,6 +195,8 @@ public partial class MainGameViewModel : PageViewModelBase
                         mobMemberManager.HighlightMobMember, InsertAnswers);
                     WeakReferenceMessenger.Default.Send(
                         new BoardStatusMessage(BoardStatusMessageOptions.AskTheMobLifelineBoard));
+                    WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(0,
+                        MobMemberStatusMessageOptions.AnimateBoardBackground));
                     break;
                 case "Trust":
                     char selection = lifelineManager.TrustTheMob(mobMemberManager.ReturnPlayersWithAnswer,

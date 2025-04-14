@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using Avalonia;
+using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
@@ -76,5 +77,23 @@ public partial class MobMemberControl : UserControl, INotifyPropertyChanged
     public void ClearMobMemberHighlight()
     {
         SetBackground(Color.Parse("#1EC3FF"));
+    }
+    
+    Color lastColor = Color.Parse("#1EC3FF");
+    private bool lockLastColor = false;
+    public void AnimateBackgroundMobMember(Color color)
+    {
+        if (!lockLastColor && PanelBackground.Background is VisualBrush { Visual: Panel { Background: RadialGradientBrush radialGradientBrush } })
+        {
+            lastColor = radialGradientBrush.GradientStops[0].Color;
+            lockLastColor = true;
+        }
+        SetBackground(color);
+    }
+
+    public void StopAnimation()
+    {
+        SetBackground(lastColor);
+        lockLastColor = false;
     }
 }
