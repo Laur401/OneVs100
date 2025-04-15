@@ -2,14 +2,14 @@ using System.Collections;
 
 namespace QuestionObtainer;
 //Projektas sudarytas iš daugiau nei vieno modulio (assembly) (1 t.)
-public class QuestionGetter
+public class QuestionGetter : IQuestionGetter
 {
-    public async Task<QuestionSet> FetchQuestions()
+    public async Task<IList<IQuestionEntry>> GetQuestions(int questionCountPerSource)
     {
         OpenTDBAPIQuestionGetter openTDBAPIQuestionGetter = new OpenTDBAPIQuestionGetter();
-        Task<IList<IQuestionEntry>> task1 = Task.Run(()=>openTDBAPIQuestionGetter.GetQuestions(50));
+        Task<IList<IQuestionEntry>> task1 = Task.Run(()=>openTDBAPIQuestionGetter.GetQuestions(questionCountPerSource));
         TheTriviaAPIQuestionGetter theTriviaAPIQuestionGetter = new TheTriviaAPIQuestionGetter();
-        Task<IList<IQuestionEntry>> task2 = Task.Run(()=>theTriviaAPIQuestionGetter.GetQuestions(50));
+        Task<IList<IQuestionEntry>> task2 = Task.Run(()=>theTriviaAPIQuestionGetter.GetQuestions(questionCountPerSource));
         LocalQuestionGetter localQuestionGetter = new LocalQuestionGetter();
         Task<IList<IQuestionEntry>> task3 = Task.Run(()=>localQuestionGetter.GetQuestions());
 
@@ -26,9 +26,9 @@ public class QuestionGetter
 }
 
 //Sukūrėte ir pritaikėte savo sąsają (interface) (0.5 t.)
-interface IQuestionGetter
+public interface IQuestionGetter
 {
-    public Task<IList<IQuestionEntry>> GetQuestions(int count);
+    public Task<IList<IQuestionEntry>> GetQuestions(int questionCount);
 }
 
 public interface IQuestionEntry
@@ -36,14 +36,6 @@ public interface IQuestionEntry
     public string Question { get; set; }
     public string CorrectAnswer { get; set; }
     public List<string> WrongAnswers { get; set;  }
-    public float Difficulty { get; set; }
-}
-
-public struct QuestionEntry : IQuestionEntry
-{
-    public string Question { get; set; }
-    public string CorrectAnswer { get; set; }
-    public List<string> WrongAnswers { get; set; }
     public float Difficulty { get; set; }
 }
 

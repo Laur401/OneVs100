@@ -44,6 +44,7 @@
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/FiltersState/=NamingFilter/@EntryIndexedValue">Off</s:String>
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/FiltersState/=SpellingFilter/@EntryIndexedValue">Off</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=TDBAPI/@EntryIndexedValue">TDBAPI</s:String>
+	<s:Boolean x:Key="/Default/Dpa/ExcludeFilters/=_002A_003B_002A_003BQuestionObtainer_002EDatabaseManager_003B_002A/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
   &lt;Assembly Path="/home/asus/RiderProjects/OneVs100/OneVs100/lib/Windows/libmpv-2.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>

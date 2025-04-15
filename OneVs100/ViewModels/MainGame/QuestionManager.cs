@@ -62,8 +62,9 @@ public class QuestionManager
     private List<QuestionInfo> questionList = new List<QuestionInfo>();
     private async Task LoadQuestionsFromAPIs()
     {
-        var questionGetter = new QuestionGetter();
-        QuestionSet questionDataSet = await questionGetter.FetchQuestions();
+        //var questionGetter = new QuestionGetter();
+        QuestionSet questionDataSet = new QuestionSet(await QuestionObtainer.Program.GetQuestions());
+        
         Dictionary<int, char> answerToCharConverter = new Dictionary<int, char>
         {
             { 0, 'A' },
