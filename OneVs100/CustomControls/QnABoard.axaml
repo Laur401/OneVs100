@@ -29,8 +29,9 @@
                         <Border Grid.Column="0" BorderBrush="#B676D3" BorderThickness="3" Background="#2C192F"
                                 HorizontalAlignment="Left" VerticalAlignment="Stretch">
                             <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Padding="10, 0"
-                                    ToolTip.Placement="BottomEdgeAlignedLeft"
-                                    Command="{Binding LifelineUse}" CommandParameter="Poll">
+                                    ToolTip.Placement="BottomEdgeAlignedLeft" Background="Transparent"
+                                    Command="{Binding LifelineUse}" CommandParameter="Poll"
+                                    Name="PollButton">
                                 <TextBlock FontSize="16" xml:space="preserve" VerticalAlignment="Center" 
                                            FontFamily="{DynamicResource OverpassFont}"
                                            Text="Poll the Mob" />
@@ -45,7 +46,9 @@
                         <Border Grid.Column="1" BorderBrush="#B676D3" BorderThickness="3" Background="#2C192F"
                                 HorizontalAlignment="Left" VerticalAlignment="Stretch">
                             <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Padding="10, 0"
-                                    Command="{Binding LifelineUse}" CommandParameter="Ask">
+                                    ToolTip.Placement="BottomEdgeAlignedLeft" Background="Transparent"
+                                    Command="{Binding LifelineUse}" CommandParameter="Ask"
+                                    Name="AskButton">
                                 <TextBlock FontSize="16" xml:space="preserve" VerticalAlignment="Center" 
                                            FontFamily="{DynamicResource OverpassFont}"
                                            Text="Ask the Mob" />
@@ -60,7 +63,9 @@
                         <Border Grid.Column="2" BorderBrush="#B676D3" BorderThickness="3" Background="#2C192F"
                                 HorizontalAlignment="Left" VerticalAlignment="Stretch">
                             <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Padding="10, 0"
-                                    Command="{Binding LifelineUse}" CommandParameter="Trust" >
+                                    ToolTip.Placement="BottomEdgeAlignedLeft" Background="Transparent"
+                                    Command="{Binding LifelineUse}" CommandParameter="Trust"
+                                    Name="TrustButton">
                                 <TextBlock FontSize="16" xml:space="preserve" VerticalAlignment="Center" 
                                            FontFamily="{DynamicResource OverpassFont}"
                                            Text="Trust the Mob" />
@@ -140,7 +145,7 @@
     </Panel>
     <UserControl.Styles>
         <Style Selector="TextBlock">
-            <Setter Property="Foreground" Value="Snow"></Setter>
+            <Setter Property="Foreground" Value="Snow" />
         </Style>
     </UserControl.Styles>
 </UserControl>

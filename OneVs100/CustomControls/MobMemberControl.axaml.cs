@@ -15,6 +15,7 @@ namespace OneVs100.CustomControls;
 
 public partial class MobMemberControl : UserControl, INotifyPropertyChanged
 {
+    private bool isDisabled = false;
     public MobMemberControl()
     {
         InitializeComponent();
@@ -62,6 +63,7 @@ public partial class MobMemberControl : UserControl, INotifyPropertyChanged
     public void DisableMobMember()
     {
         SetBackground(Brushes.Black.Color);
+        isDisabled = true;
     }
 
     public void MobMemberWrong()
@@ -83,6 +85,7 @@ public partial class MobMemberControl : UserControl, INotifyPropertyChanged
     private bool lockLastColor = false;
     public void AnimateBackgroundMobMember(Color color)
     {
+        if (isDisabled) return;
         if (!lockLastColor && PanelBackground.Background is VisualBrush { Visual: Panel { Background: RadialGradientBrush radialGradientBrush } })
         {
             lastColor = radialGradientBrush.GradientStops[0].Color;

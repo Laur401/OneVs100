@@ -37,7 +37,7 @@ public partial class MainGameViewModel : PageViewModelBase
     private readonly LifelineManager lifelineManager = LifelineManager.Instance;
     
     //GeneralTextBoard's Next button
-    private TaskCompletionSource<bool> GeneralControlButtonPressed;
+    private TaskCompletionSource<bool>? GeneralControlButtonPressed;
     [RelayCommand] public void OnNextButtonPressed()
     {
         GeneralControlButtonPressed?.TrySetResult(true);
@@ -179,6 +179,8 @@ public partial class MainGameViewModel : PageViewModelBase
                     AnswerLock = false;
                     WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(0,
                         MobMemberStatusMessageOptions.AnimateBoardBackground));
+                    WeakReferenceMessenger.Default.Send(
+                        new LifelineStatusMessage(LifelineStatusMessageOptions.PollTheMob));
                     break;
                 case "Ask":
                     void InsertAnswers((int, char) vals1, (int, char) vals2)
@@ -197,6 +199,8 @@ public partial class MainGameViewModel : PageViewModelBase
                         new BoardStatusMessage(BoardStatusMessageOptions.AskTheMobLifelineBoard));
                     WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(0,
                         MobMemberStatusMessageOptions.AnimateBoardBackground));
+                    WeakReferenceMessenger.Default.Send(
+                        new LifelineStatusMessage(LifelineStatusMessageOptions.AskTheMob));
                     break;
                 case "Trust":
                     char selection = lifelineManager.TrustTheMob(mobMemberManager.ReturnPlayersWithAnswer,
@@ -204,6 +208,8 @@ public partial class MainGameViewModel : PageViewModelBase
                     WeakReferenceMessenger.Default.Send(new BoardStatusMessage(BoardStatusMessageOptions.EnableSelectingAnswer));
                     WeakReferenceMessenger.Default.Send(
                         new BoardStatusMessage(BoardStatusMessageOptions.ForceSelectAnswer, selection));
+                    WeakReferenceMessenger.Default.Send(
+                        new LifelineStatusMessage(LifelineStatusMessageOptions.TrustTheMob));
                     AnswerLock = false;
                     LifelineLock = false;
                     AnswerCommand(selection);
@@ -266,7 +272,7 @@ public partial class MainGameViewModel : PageViewModelBase
         await Task.Delay(1500);
         
         await mobMemberManager.MarkWrongAnswers(questionManager.CorrectAnswer);
-        await Task.Delay(1500); //TODO: Replace this with "Next" button
+        await Task.Delay(1500);
         
         mobMemberManager.DisableMobMembers();
         TotalMoney = moneyManager.GetCurrentPrizeMoney(mobMemberManager.WrongMobMemberCount, MoneyLadderValuesString);

@@ -12,7 +12,7 @@ public partial class LifelineManager : ObservableObject
     public static LifelineManager Instance => lazyInstance.Value;
     private LifelineManager() { }
     
-    private RandomList random = new RandomList();
+    private Random random = new Random();
     private List<int> highlightedMobMembers = new List<int>();
 
     public char TrustTheMob(Func<char, List<MobMember>> mobMembersWithAnswer, char correctAnswer)

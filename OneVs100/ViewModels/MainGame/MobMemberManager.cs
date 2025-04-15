@@ -16,15 +16,13 @@ public partial class MobMemberManager : ObservableObject
     private MobMemberManager() { }
     
     private List<MobMember> mobMembers = new List<MobMember>();
-    private RandomList randomiser = new RandomList();
     public int WrongMobMemberCount = 0;
     [ObservableProperty] private int mobMembersRemainingCount = 0;
-    private readonly RandomGaussian RNG = new();
+    private readonly Random RNG = new();
     
     public void ResetInstance()
     {
         mobMembers = new List<MobMember>();
-        randomiser = new RandomList();
         WrongMobMemberCount = 0;
         MobMembersRemainingCount = 0;
     }
@@ -77,7 +75,7 @@ public partial class MobMemberManager : ObservableObject
         }
         
         //Mark wrong answers
-        randomiser.Shuffle(wrongMobMembers);
+        RNG.Shuffle(wrongMobMembers);
         foreach (MobMember wrongMobMember in wrongMobMembers)
         {
             wrongMobMember.IsKnockedOut = true;

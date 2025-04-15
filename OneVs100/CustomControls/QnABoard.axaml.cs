@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -146,5 +147,27 @@ public partial class QnABoard : UserControl
             }
         }
         AnswerLock = true;
+    }
+
+    public void DisableLifeline(string lifelineName)
+    {
+        Button? button = null;
+        switch (lifelineName)
+        {
+            case "Poll":
+                button = PollButton;
+                break;
+            case "Ask":
+                button = AskButton;
+                break;
+            case "Trust":
+                button = TrustButton;
+                break;
+        }
+        if (button == null) return;
+        button.IsEnabled = false;
+        var buttonText = button.GetLogicalChildren().OfType<TextBlock>().FirstOrDefault();
+        if (buttonText == null) return;
+        buttonText.Foreground = Brushes.DimGray;
     }
 }
