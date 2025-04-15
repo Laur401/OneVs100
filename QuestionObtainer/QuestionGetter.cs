@@ -1,7 +1,7 @@
 using System.Collections;
 
 namespace QuestionObtainer;
-
+//Projektas sudarytas iš daugiau nei vieno modulio (assembly) (1 t.)
 public class QuestionGetter
 {
     public async Task<QuestionSet> FetchQuestions()
@@ -25,6 +25,7 @@ public class QuestionGetter
     }
 }
 
+//Sukūrėte ir pritaikėte savo sąsają (interface) (0.5 t.)
 interface IQuestionGetter
 {
     public Task<IList<IQuestionEntry>> GetQuestions(int count);
@@ -60,6 +61,7 @@ public struct QuestionSet : IList<IQuestionEntry>
         _innerList = new List<IQuestionEntry>(collection);
     }
     
+    //Naudojamas operatorių perkrovimas (0.5 t)
     public static QuestionSet operator +(QuestionSet a, QuestionSet b)
     {
         var result = new QuestionSet(a._innerList);

@@ -15,6 +15,7 @@ using SampleFormat = SoundFlow.Enums.SampleFormat;
 
 namespace OneVs100.ViewModels;
 
+//Naudojate uždarytą ('sealed') arba dalinę ('partial') klasę (0.5 t.)
 public sealed class AudioPlayer : IDisposable
 {
     private static readonly Lazy<AudioPlayer> LazyInstance = new(() => new AudioPlayer());

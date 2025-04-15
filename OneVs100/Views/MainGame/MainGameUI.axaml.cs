@@ -60,8 +60,8 @@ public partial class MainGameUI : UserControl
             }
         }
     }
-
-
+    
+    // Naudojami numatyti ir vardiniai argumentai (0.5 t.)
     // ReSharper disable once MemberCanBePrivate.Global
     public void BoardMessageReceiver(BoardStatusMessageOptions status, object? extraData = null)
     {

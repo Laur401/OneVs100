@@ -86,6 +86,7 @@ public class QuestionManager
                 questionData.Difficulty+Random.NextSingle());
             questionList.Add(questionInfo);
         }
+        // Naudojami delegatai arba lambda funkcijos (1.5 t.)
         questionList.Sort((q1, q2)=>q1.Difficulty.CompareTo(q2.Difficulty));
 
     }

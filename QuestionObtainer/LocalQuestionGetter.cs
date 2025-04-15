@@ -40,6 +40,7 @@ public class LocalQuestionGetter : IQuestionGetter
         return questionList;
     }
 
+    //Naudojamas raktažodis 'params' (0.5 t.)
     private IQuestionEntry AddQuestion(float difficulty, string question, string answer, params List<string> wrongAnswers)
     {
         IQuestionEntry questionEntry = new QuestionEntry();

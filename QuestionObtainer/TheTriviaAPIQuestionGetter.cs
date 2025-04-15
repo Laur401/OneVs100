@@ -44,6 +44,7 @@ public class TheTriviaAPIQuestionGetter : IQuestionGetter
             questionEntry.WrongAnswers = new List<string>();
             foreach (string answer in question.IncorrectAnswers)
                 questionEntry.WrongAnswers.Add(WebUtility.HtmlDecode(answer));
+            //Naudojate 'switch' su 'when' raktažodžiu (0.5 t.)
             switch (question.Difficulty)
             {
                 case string s when s.Equals("easy"):
