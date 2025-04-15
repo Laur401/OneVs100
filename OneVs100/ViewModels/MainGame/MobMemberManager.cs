@@ -16,15 +16,13 @@ public partial class MobMemberManager : ObservableObject
     private MobMemberManager() { }
     
     private List<MobMember> mobMembers = new List<MobMember>();
-    private RandomList randomiser = new RandomList();
     public int WrongMobMemberCount = 0;
     [ObservableProperty] private int mobMembersRemainingCount = 0;
-    private readonly RandomGaussian RNG = new();
+    private readonly Random RNG = new();
     
     public void ResetInstance()
     {
         mobMembers = new List<MobMember>();
-        randomiser = new RandomList();
         WrongMobMemberCount = 0;
         MobMembersRemainingCount = 0;
     }
@@ -34,7 +32,7 @@ public partial class MobMemberManager : ObservableObject
         for (int i = 0; i < count; i++)
         {
             mobMembers.Add(new MobMember(i+1, RNG));
-            WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 0));
+            WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, MobMemberStatusMessageOptions.CreateMobMember));
         }
         MobMembersRemainingCount += count;
     }
@@ -45,7 +43,7 @@ public partial class MobMemberManager : ObservableObject
         {
             if (mobMembers[i].IsKnockedOut)
             {
-                WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, 2));
+                WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(i+1, MobMemberStatusMessageOptions.DisableMobMember));
             }
         }
     }
@@ -77,14 +75,35 @@ public partial class MobMemberManager : ObservableObject
         }
         
         //Mark wrong answers
-        randomiser.Shuffle(wrongMobMembers);
+        RNG.Shuffle(wrongMobMembers);
         foreach (MobMember wrongMobMember in wrongMobMembers)
         {
             wrongMobMember.IsKnockedOut = true;
             WrongMobMemberCount++;
             MobMembersRemainingCount--;
-            WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(wrongMobMember.Number, 1));
+            WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(wrongMobMember.Number, MobMemberStatusMessageOptions.MarkWrongMobMember));
             await Task.Delay(500);
         }
+    }
+
+    public List<MobMember> ReturnPlayersWithAnswer(char answer)
+    {
+        List<MobMember> playersWithAnswer = new List<MobMember>();
+        foreach (MobMember mobMember in mobMembers)
+            if (!mobMember.IsKnockedOut && mobMember.HasSelectedThisAnswer(answer))
+                playersWithAnswer.Add(mobMember);
+        return playersWithAnswer;
+    }
+
+    public void HighlightMobMember(int member)
+    {
+        WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(member,
+            MobMemberStatusMessageOptions.HighlightMobMember));
+    }
+
+    public void ClearMobMemberHighlight(int member)
+    {
+        WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(member,
+            MobMemberStatusMessageOptions.ClearMobMemberHighlight));
     }
 }

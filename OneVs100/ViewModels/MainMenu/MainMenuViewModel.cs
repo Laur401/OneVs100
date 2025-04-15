@@ -19,7 +19,9 @@ public partial class MainMenuViewModel : PageViewModelBase
         SingleActionDialog creditsDialog = new SingleActionDialog()
         {
             Message = "Credits:\n" +
-                      "Logo: cwashington2019 on DeviantArt.",
+                      "Logo: cwashington2019 on DeviantArt.\n" +
+                      "Music, Format: NBC\n" +
+                      "Based on a game show format by Endemol Shine Nederland and NBC.",
             ButtonText = "Close",
         };
         creditsDialog.ShowAsync();

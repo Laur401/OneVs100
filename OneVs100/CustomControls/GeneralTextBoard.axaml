@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:OneVs100.ViewModels"
              xmlns:mainGame="clr-namespace:OneVs100.ViewModels.MainGame"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="525" d:DesignHeight="315"
              x:DataType="mainGame:MainGameViewModel"
              x:Class="OneVs100.CustomControls.GeneralTextBoard">
     <Design.DataContext>

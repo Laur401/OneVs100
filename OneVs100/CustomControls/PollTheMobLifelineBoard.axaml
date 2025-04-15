@@ -1,0 +1,67 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:customControls="clr-namespace:OneVs100.CustomControls"
+             xmlns:mainGame="clr-namespace:OneVs100.ViewModels.MainGame"
+             mc:Ignorable="d" d:DesignWidth="525" d:DesignHeight="315"
+             x:Class="OneVs100.CustomControls.PollTheMobLifelineBoard"
+             x:DataType="mainGame:MainGameViewModel">
+    <Panel Background="Black">
+        <Border BorderBrush="#B676D3" BorderThickness="3">
+            <Grid ColumnDefinitions="*, Auto, *" RowDefinitions="0.6*, Auto, 0.4*, Auto">
+                <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"
+                            Orientation="Horizontal" Spacing="16" HorizontalAlignment="Center">
+                    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <TextBlock Foreground="White" FontSize="80"
+                                   FontFamily="{DynamicResource Digital7Font}"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Text="{Binding PollTheMobNumber}">
+                            <TextBlock.Effect>
+                                <DropShadowEffect BlurRadius="12" OffsetX="0" OffsetY="0" Color="White"></DropShadowEffect>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </Border>
+                    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Foreground="White" FontSize="60"
+                                   FontFamily="{DynamicResource OverpassFont}"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Text="x">
+                            <TextBlock.Effect>
+                                <DropShadowEffect BlurRadius="6" OffsetX="0" OffsetY="0" Color="White"></DropShadowEffect>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </Border>
+                    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <customControls:MobMemberControl Name="SampleMobControl"/>
+                    </Border>
+                </StackPanel>
+                
+                <Border Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBlock Foreground="White" FontSize="20"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontFamily="{DynamicResource OverpassFont}"
+                               Text="Mob members selected"/>
+                </Border>
+                <Border Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBlock Foreground="White" FontSize="80" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontFamily="{DynamicResource Digital7Font}"
+                               Text="{Binding PollTheMobAnswer}">
+                        <TextBlock.Effect>
+                            <DropShadowEffect BlurRadius="12" OffsetX="0" OffsetY="0" Color="White"></DropShadowEffect>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Padding="0 10">
+                    <Button HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Command="{Binding ReturnFromLifeline}">
+                        <TextBlock FontSize="20" Foreground="Snow" Text="Back"/>
+                    </Button>
+                </Border>
+            </Grid>
+        </Border>
+    </Panel>
+</UserControl>

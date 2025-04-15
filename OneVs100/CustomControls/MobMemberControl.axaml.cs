@@ -1,17 +1,21 @@
 using System;
+using System.ComponentModel;
 using Avalonia;
+using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Color = Avalonia.Media.Color;
 
 namespace OneVs100.CustomControls;
 
-public partial class MobMemberControl : UserControl
+public partial class MobMemberControl : UserControl, INotifyPropertyChanged
 {
+    private bool isDisabled = false;
     public MobMemberControl()
     {
         InitializeComponent();
@@ -42,17 +46,8 @@ public partial class MobMemberControl : UserControl
       };
       PanelBackground.Background = background;
     }
-    
-    /*public static readonly StyledProperty<bool> ActiveProperty =
-        AvaloniaProperty.Register<Control, bool>(nameof(Active), defaultValue: true);
 
-    public bool Active
-    {
-        get => GetValue(ActiveProperty);
-        set => SetValue(ActiveProperty, value);
-    }*/
-
-    private static readonly StyledProperty<int> MemberNumberProperty =
+    public static readonly StyledProperty<int> MemberNumberProperty =
         AvaloniaProperty.Register<Control, int>(nameof(MemberNumber));
     
     public int MemberNumber
@@ -68,10 +63,40 @@ public partial class MobMemberControl : UserControl
     public void DisableMobMember()
     {
         SetBackground(Brushes.Black.Color);
+        isDisabled = true;
     }
 
     public void MobMemberWrong()
     {
         SetBackground(Brushes.Red.Color);
+    }
+
+    public void HighlightMobMember()
+    {
+        SetBackground(Brushes.Snow.Color);
+    }
+
+    public void ClearMobMemberHighlight()
+    {
+        SetBackground(Color.Parse("#1EC3FF"));
+    }
+    
+    Color lastColor = Color.Parse("#1EC3FF");
+    private bool lockLastColor = false;
+    public void AnimateBackgroundMobMember(Color color)
+    {
+        if (isDisabled) return;
+        if (!lockLastColor && PanelBackground.Background is VisualBrush { Visual: Panel { Background: RadialGradientBrush radialGradientBrush } })
+        {
+            lastColor = radialGradientBrush.GradientStops[0].Color;
+            lockLastColor = true;
+        }
+        SetBackground(color);
+    }
+
+    public void StopAnimation()
+    {
+        SetBackground(lastColor);
+        lockLastColor = false;
     }
 }

@@ -1,10 +1,25 @@
 using System;
+using System.Collections.Generic;
 
 namespace OneVs100.Helpers;
 
-public class RandomGaussian : Random
+public static class RandomExtensions
 {
-    public double BoxMuller(float minValue, float maxValue, float? extreme = null, float? spread = null)
+    public static void Shuffle<T>(this Random random, IList<T> list)
+    {
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = random.Next(n + 1);
+            (list[n], list[k]) = (list[k], list[n]);
+        }
+    }
+    
+    /**
+     * Returns the next random number between minValue and maxValue, inclusive, along the normal distribution.
+     */
+    public static double BoxMuller(this Random random, float minValue, float maxValue, float? extreme = null, float? spread = null)
     {
         double value = double.NegativeInfinity;
         double topValue = 1;
@@ -16,10 +31,10 @@ public class RandomGaussian : Random
             adjExtreme = 2 * adjExtreme - 1;
         }
         while ( value < -1 || value > 1 ) //Brute-force method to get values from -1 to 1, tried to do this via scaling
-                                       //and clamping but could not get a satisfying result.
+            //and clamping but could not get a satisfying result.
         {
-            double a = Sample();
-            double b = Sample();
+            double a = random.NextDouble();
+            double b = random.NextDouble();
             value = Math.Sqrt(-2.0 * Math.Log(a))*Math.Cos(2.0 * Math.PI * b);
             value += adjExtreme;
             value *= spread ?? 1;

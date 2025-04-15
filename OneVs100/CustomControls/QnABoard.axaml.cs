@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -39,12 +40,30 @@ public partial class QnABoard : UserControl
     }
 
     public void EnableSelectingAnswer() => AnswerLock = false;
+    public void DisableSelectingAnswer() => AnswerLock = true;
 
     private bool AnswerLock = true;
-    private void Answer_OnClick(object? sender, RoutedEventArgs e)
+    
+    private void AnswerA_OnClick(object? sender, RoutedEventArgs e) => Answer_OnClick('A');
+    private void AnswerB_OnClick(object? sender, RoutedEventArgs e) => Answer_OnClick('B');
+    private void AnswerC_OnClick(object? sender, RoutedEventArgs e) => Answer_OnClick('C');
+    public void Answer_OnClick(char answer)
     {
         if (!AnswerLock)
         {
+            object? sender = null;
+            switch (answer)
+            {
+                case 'A':
+                    sender = BorderA;
+                    break;
+                case 'B':
+                    sender = BorderB;
+                    break;
+                case 'C':
+                    sender = BorderC;
+                    break;
+            }
             Dispatcher.UIThread.InvokeAsync(()=>SelectAnswer(sender));
             AnswerLock = true;
         }
@@ -52,7 +71,7 @@ public partial class QnABoard : UserControl
 
     private async Task SelectAnswer(object? sender)
     {
-        if (sender is Button button && button.Parent is Border border)
+        if (sender is Border border)
         {
             await WaitForAnswerAudioTrack();
             border.BorderBrush = Brushes.Red;
@@ -128,6 +147,28 @@ public partial class QnABoard : UserControl
                 }
             }
         }
-        AnswerLock = false;
+        AnswerLock = true;
+    }
+
+    public void DisableLifeline(string lifelineName)
+    {
+        Button? button = null;
+        switch (lifelineName)
+        {
+            case "Poll":
+                button = PollButton;
+                break;
+            case "Ask":
+                button = AskButton;
+                break;
+            case "Trust":
+                button = TrustButton;
+                break;
+        }
+        if (button == null) return;
+        button.IsEnabled = false;
+        var buttonText = button.GetLogicalChildren().OfType<TextBlock>().FirstOrDefault();
+        if (buttonText == null) return;
+        buttonText.Foreground = Brushes.DimGray;
     }
 }

@@ -11,10 +11,10 @@ public class MobMember
     private readonly float intelligence;
     private char answer = ' ';
     public bool IsKnockedOut = false;
-    private RandomGaussian RNG;
+    private Random RNG;
     
 
-    public MobMember(int number, RandomGaussian RNG)
+    public MobMember(int number, Random RNG)
     {
         this.RNG = RNG;
         this.Number = number;
@@ -30,6 +30,8 @@ public class MobMember
     }
 
     public bool IsAnswerCorrect(char correctAnswer) => (correctAnswer == answer);
+
+    public bool HasSelectedThisAnswer(char queryAnswer) => queryAnswer == answer;
 
 
     //Knock-out calculation - Difficulty*QuestionNr > Intelligence

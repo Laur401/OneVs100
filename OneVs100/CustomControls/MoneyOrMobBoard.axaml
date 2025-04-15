@@ -5,7 +5,7 @@
              xmlns:vm="using:OneVs100.ViewModels"
              xmlns:customControls="using:OneVs100.CustomControls"
              xmlns:mainGame="clr-namespace:OneVs100.ViewModels.MainGame"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="525" d:DesignHeight="315"
              x:Class="OneVs100.CustomControls.MoneyOrMobBoard"
              x:DataType="mainGame:MainGameViewModel">
     <Design.DataContext>
