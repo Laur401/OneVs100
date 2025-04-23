@@ -1,7 +1,8 @@
 using System.Collections;
+// ReSharper disable InconsistentNaming
 
 namespace QuestionObtainer;
-//Projektas sudarytas iš daugiau nei vieno modulio (assembly) (1 t.)
+
 public class QuestionGetter : IQuestionGetter
 {
     public async Task<IList<IQuestionEntry>> GetQuestions(int questionCountPerSource)
@@ -18,8 +19,9 @@ public class QuestionGetter : IQuestionGetter
         while (taskList.Any())
         {
             var completedTask = await Task.WhenAny(taskList);
-            questions += new QuestionSet(completedTask.Result);
             taskList.Remove(completedTask);
+            if (!completedTask.Result.Any()) continue;
+            questions += new QuestionSet(completedTask.Result);
         }
         return questions;
     }

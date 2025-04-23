@@ -26,7 +26,7 @@ public class QuestionManager
 
     public void InitializeQuestionList()
     {
-        Task.Run(LoadQuestionsFromAPIs);
+        Task.Run(()=>LoadQuestionsFromAPIs());
     }
     
     public (string, string, string, string) GetNextQuestion()
@@ -49,10 +49,10 @@ public class QuestionManager
         
             return (question, answerA, answerB, answerC);
         }
-        catch (IndexOutOfRangeException ex)
+        catch (ArgumentOutOfRangeException ex)
         {
             Console.Error.WriteLine(ex);
-            Task.Run(LoadQuestionsFromAPIs);
+            Task.Run(()=>LoadQuestionsFromAPIs(true));
             CorrectAnswer = 'A';
             QuestionDifficulty = 3.4f;
             return ("Which insect shorted out an early supercomputer and inspired the term \"computer bug\"?", "Moth", "Roach", "Fly");
@@ -60,10 +60,10 @@ public class QuestionManager
     }
     
     private List<QuestionInfo> questionList = new List<QuestionInfo>();
-    private async Task LoadQuestionsFromAPIs()
+    private async Task LoadQuestionsFromAPIs(bool forceLoad = false)
     {
         //var questionGetter = new QuestionGetter();
-        QuestionSet questionDataSet = new QuestionSet(await QuestionObtainer.Program.GetQuestions());
+        QuestionSet questionDataSet = new QuestionSet(await QuestionObtainer.Program.GetQuestions(forceLoad));
         
         Dictionary<int, char> answerToCharConverter = new Dictionary<int, char>
         {

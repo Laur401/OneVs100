@@ -131,6 +131,7 @@ public partial class MainGameViewModel : PageViewModelBase
     }
 
     private SoundPlayer? questionBackgroundSoundPlayer;
+    private SoundPlayer? lifelineBackgroundSoundPlayer;
     
     private bool AnswerLock = true;
     private bool LifelineLock = false;
@@ -178,6 +179,8 @@ public partial class MainGameViewModel : PageViewModelBase
             switch (lifeline)
             {
                 case "Poll":
+                    audioPlayer.StopSound(ref questionBackgroundSoundPlayer);
+                    audioPlayer.PlaySound(SoundEffects.LifelineStart, out lifelineBackgroundSoundPlayer);
                     Polling = true;
                     AnswerLock = false;
                     WeakReferenceMessenger.Default.Send(new MobMemberStatusMessage(0,
@@ -186,6 +189,8 @@ public partial class MainGameViewModel : PageViewModelBase
                         new LifelineStatusMessage(LifelineStatusMessageOptions.PollTheMob));
                     break;
                 case "Ask":
+                    audioPlayer.StopSound(ref questionBackgroundSoundPlayer);
+                    audioPlayer.PlaySound(SoundEffects.LifelineStart, out lifelineBackgroundSoundPlayer);
                     void InsertAnswers((int, char) vals1, (int, char) vals2)
                     {
                         Dispatcher.UIThread.Invoke(() =>
@@ -222,8 +227,11 @@ public partial class MainGameViewModel : PageViewModelBase
     }
     
     [RelayCommand]
-    public void ReturnFromLifeline()
+    public async Task ReturnFromLifeline()
     {
+        audioPlayer.StopSound(ref lifelineBackgroundSoundPlayer);
+        int waitFor = audioPlayer.PlaySound(SoundEffects.LifelineEnd);
+        await Task.Delay(waitFor);
         lifelineManager.ClearLifeline(mobMemberManager.ClearMobMemberHighlight);
         WeakReferenceMessenger.Default.Send(
             new BoardStatusMessage(BoardStatusMessageOptions.QnABoard));
@@ -231,6 +239,7 @@ public partial class MainGameViewModel : PageViewModelBase
         AnswerLock = false;
         LifelineLock = false;
         Polling = false;
+        audioPlayer.PlaySound(SoundEffects.BackgroundQuestion, out questionBackgroundSoundPlayer);
     }
     
     

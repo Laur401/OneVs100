@@ -22,6 +22,8 @@
                     Command="{Binding StartGame}"/>
                 <Button Content="Credits" HorizontalAlignment="Center"
                         Command="{Binding OpenCredits}"/>
+                <Button Content="Settings" HorizontalAlignment="Center"
+                        Command="{Binding ForceRefreshDatabase}"/>
                 <Button Content="Quit" HorizontalAlignment="Center"
                         Command="{Binding Quit}"/>
             </StackPanel>

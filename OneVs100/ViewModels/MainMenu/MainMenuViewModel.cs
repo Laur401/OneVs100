@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using AvaloniaDialogs.Views;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -30,6 +31,18 @@ public partial class MainMenuViewModel : PageViewModelBase
     public void Quit()
     {
         WeakReferenceMessenger.Default.Send(new CloseWindowMessage(true));
+    }
+
+    public async Task ForceRefreshDatabase()
+    {
+        TwofoldDialog creditsDialog = new TwofoldDialog()
+        {
+            Message = "Refresh database?",
+            PositiveText = "Yes",
+            NegativeText = "No"
+        };
+        if ((await creditsDialog.ShowAsync()).GetValueOrDefault(false))
+            await QuestionObtainer.Program.GetQuestions(true);
     }
 
     public override void OnActivate()

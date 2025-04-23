@@ -101,6 +101,8 @@ public static class SoundEffects
     public static readonly SoundEffect TransitionMobWrongBoard = new SoundEffect("avares://OneVs100/Assets/Audio/transition_mob_wrong_board.wav", awaitTime: 585);
     public static readonly SoundEffect TransitionNextQuestion = new SoundEffect("avares://OneVs100/Assets/Audio/transition_next_question.wav");
     public static readonly SoundEffect Victory = new SoundEffect("avares://OneVs100/Assets/Audio/victory.wav");
+    public static readonly SoundEffect LifelineStart = new SoundEffect("avares://OneVs100/Assets/Audio/lifeline.wav", loopStart: 0.0f, loopEnd: 120.0f);
+    public static readonly SoundEffect LifelineEnd = new SoundEffect("avares://OneVs100/Assets/Audio/lifeline_end.wav", awaitTime: 2000);
 }
 
 public class SoundEffect (string soundUri, float? loopStart = null, float? loopEnd = null, int? awaitTime = null)
@@ -108,5 +110,5 @@ public class SoundEffect (string soundUri, float? loopStart = null, float? loopE
     public readonly Uri Track = new Uri(soundUri);
     public readonly float? LoopStart = loopStart;
     public readonly float? LoopEnd = loopEnd;
-    public readonly int? AwaitTime = awaitTime;
+    public readonly int? AwaitTime = awaitTime; //How long to await while audio track plays (for timed effects, like stings)
 }

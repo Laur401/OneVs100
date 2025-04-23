@@ -4,12 +4,13 @@ namespace QuestionObtainer;
 
 public static class DatabaseManager
 {
-    public async static Task CheckDatabase(IQuestionGetter questionGetter)
+    public static async Task CheckDatabase(IQuestionGetter questionGetter, bool forceLoad = false)
     {
         await using var db = new QuestionDBContext();
         await db.Database.EnsureCreatedAsync();
-        if (!(await db.Questions.AnyAsync()))
+        if (forceLoad || !(await db.Questions.AnyAsync()))
         {
+            await db.Questions.ExecuteDeleteAsync();
             Console.WriteLine("Question database empty.");
             var questionSet = await questionGetter.GetQuestions(50);
             for (int i = 0; i < questionSet.Count; i++)
@@ -29,7 +30,7 @@ public static class DatabaseManager
         Console.WriteLine("Question database filled.");
     }
 
-    public async static Task<List<QuestionEntry>> GetQuestionsFromDatabase()
+    public static async Task<List<QuestionEntry>> GetQuestionsFromDatabase()
     {
         await using var db = new QuestionDBContext();
         await db.Database.EnsureCreatedAsync();

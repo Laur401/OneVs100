@@ -96,6 +96,7 @@ public partial class MobMemberControl : UserControl, INotifyPropertyChanged
 
     public void StopAnimation()
     {
+        if (isDisabled) return;
         SetBackground(lastColor);
         lockLastColor = false;
     }
