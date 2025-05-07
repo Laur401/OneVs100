@@ -19,6 +19,7 @@ public class TheTriviaAPIQuestionGetter : IQuestionGetter
             return new List<IQuestionEntry>();
         }
         List<IQuestionEntry> questions = StandardizeResponse(response);
+        if (questions.Count == 0) throw new NoQuestionsException("OpenTDB API");
         return questions;
     }
 

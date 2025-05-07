@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace QuestionObtainer;
 
+// Naudojate savo projekte duomenų bazę ir Entity Framework. (3 t.)
 public class QuestionDBContext : DbContext
 {
     public DbSet<QuestionEntry> Questions { get; set; }

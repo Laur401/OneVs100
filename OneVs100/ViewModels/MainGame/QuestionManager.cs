@@ -49,6 +49,7 @@ public class QuestionManager
         
             return (question, answerA, answerB, answerC);
         }
+        // Yra blokai 'try' 'catch' vietose, kur gali įvykti klaida (1 t.)
         catch (ArgumentOutOfRangeException ex)
         {
             Console.Error.WriteLine(ex);

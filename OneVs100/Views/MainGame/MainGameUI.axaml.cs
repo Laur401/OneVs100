@@ -178,6 +178,7 @@ public partial class MainGameUI : UserControl
         {
             foreach (StackPanel mobStorage in mobStorages)
             {
+                // Naudojate LINQ (1 t.)
                 foreach (StackPanel stackPanel in mobStorage.Children.OfType<StackPanel>())
                 {
                     if (stackPanel.Children.Count < Convert.ToInt32(stackPanel.Tag))

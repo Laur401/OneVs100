@@ -18,12 +18,14 @@ public class OpenTDBAPIQuestionGetter : IQuestionGetter
             return new List<IQuestionEntry>();
         }
         List<IQuestionEntry> questions = StandardizeResponse(response);
+        if (questions.Count == 0) throw new NoQuestionsException("OpenTDB API");
         return questions;
     }
 
     private static async Task<TriviaAPIResponse> GetTriviaAPI(int count)
     {
-        if (count<1||count>50) throw new ArgumentException("Count must be between 1 and 50");
+        if (count < 1 || count > 50) throw new ArgumentException("Count must be between 1 and 50");
+        
         var client = new RestClient("https://opentdb.com");
         var request = new RestRequest("/api.php")
             .AddParameter("amount", count)

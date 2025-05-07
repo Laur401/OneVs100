@@ -18,10 +18,23 @@ public class QuestionGetter : IQuestionGetter
         QuestionSet questions = new QuestionSet();
         while (taskList.Any())
         {
-            var completedTask = await Task.WhenAny(taskList);
-            taskList.Remove(completedTask);
-            if (!completedTask.Result.Any()) continue;
-            questions += new QuestionSet(completedTask.Result);
+            try
+            {
+                var completedTask = await Task.WhenAny(taskList);
+                taskList.Remove(completedTask);
+                await completedTask;
+                
+                if (!completedTask.Result.Any()) continue;
+                questions += new QuestionSet(completedTask.Result);
+            }
+            catch (NoQuestionsException ex)
+            {
+                Console.Error.WriteLine($"Failed to get questions from API (possibly down/moved). {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Failed to get questions. Exception: {ex}");
+            }
         }
         return questions;
     }
@@ -123,4 +136,16 @@ public struct QuestionSet : IList<IQuestionEntry>
         get => _innerList[index];
         set => _innerList[index] = value;
     }
+}
+// Sukūrėte ir panaudojote savo išimties tipus (1 t.)
+public class NoQuestionsException : Exception
+{
+    private string _APISource;
+
+    public NoQuestionsException(string APISource)
+    {
+        _APISource = APISource;
+    }
+    
+    public override string Message => $"No questions were found from {_APISource}.";
 }

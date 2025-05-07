@@ -3,8 +3,11 @@ using System.Collections.Generic;
 
 namespace OneVs100.Helpers;
 
+// Praplėtėte C# tipus (0.5 t.)
 public static class RandomExtensions
 {
+    // Sukūrėte savo bendrąjį (generic) plėtimo metodą (1 t.)
+    
     public static void Shuffle<T>(this Random random, IList<T> list)
     {
         int n = list.Count;
