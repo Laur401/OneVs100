@@ -4,5 +4,107 @@
     "correctAnswer": "Give birth",
     "wrongAnswers": ["Get a PhD", "Meet the Pope"],
     "difficulty": 1.5
+  },
+  {
+    "question": "In which visual novel series would you find characters including Pheonix Wright, Miles Edgeworth and Maya Fey?",
+    "correctAnswer": "Ace Attorney",
+    "wrongAnswers": ["Bi Barrister", "Pan Prosecutor"],
+    "difficulty": 1.96
+  },
+  {
+    "question": "Which singer had planned to build a 15 meter tall robot that would roam the Nevada Desert as a promotion for his planned Las Vegas residency?",
+    "correctAnswer": "Michael Jackson",
+    "wrongAnswers": ["Boy George", "Prince"],
+    "difficulty": 2.46
+  },
+  {
+    "question": "What is the longest bone in the human body?",
+    "correctAnswer": "Femur",
+    "wrongAnswers": ["Fibula", "Tibia"],
+    "difficulty": 1.75
+  },
+  {
+    "question": "Which physics term is used to describe what happens when a particle and an antiparticle collide and interact with each other?",
+    "correctAnswer": "Annihilation",
+    "wrongAnswers": ["Eradication", "Extinction"],
+    "difficulty": 2.16
+  },
+  {
+    "question": "In 2018, British YouTuber KSI fought which American YouTuber in an amateur boxing match, watched live by over 2 million people?",
+    "correctAnswer": "Logan Paul",
+    "wrongAnswers": ["David Dobrik", "Markiplier"],
+    "difficulty": 1.82
+  },
+  {
+    "question": "Where would you find Minty Maniacs, Crazy Cats Eyes and Mellow Yellow?",
+    "correctAnswer": "In marblesports",
+    "wrongAnswers": ["In an American candy shop", "On the album of a band Deep Purple"],
+    "difficulty": 2.83
+  },
+  {
+    "question": "According to SWIFT, which currency is most often used as of March 2024?",
+    "correctAnswer": "US Dollar",
+    "wrongAnswers": ["Euro", "Yuan"],
+    "difficulty": 2.31
+  },
+  {
+    "question": "Which of these lyrics is from a song whose title is the name of a continent?",
+    "correctAnswer": "It's gonna take a lot to drag me away from you",
+    "wrongAnswers": ["It's the final countdown!", "It's the heat of the moment"],
+    "difficulty": 1.54
+  },
+  {
+    "question": "In the original version of a popular Internet meme, an anime character points at a butterfly and asks what question?",
+    "correctAnswer": "Is this a pigeon?",
+    "wrongAnswers": ["Is this a parrot?", "Is this a penguin?"],
+    "difficulty": 1.78
+  },
+  {
+    "question": "What planet in our solar system is the nearest in size to Earth?",
+    "correctAnswer": "Venus",
+    "wrongAnswers": ["Mercury", "Mars"],
+    "difficulty": 2.06
+  },
+  {
+    "question": "In the indie game hit 'Baldi's Basics in Education and Learning', how many notebooks do you have to collect before you can attempt to escape the school?",
+    "correctAnswer": "7",
+    "wrongAnswers": ["6", "8"],
+    "difficulty": 2.64
+  },
+  {
+    "question": "Which of these was used as an inspiration for the name of the coding language Python?",
+    "correctAnswer": "Monty Python",
+    "wrongAnswers": ["Number Pi", "Python (snake)"],
+    "difficulty": 2.47
+  },
+  {
+    "question": "Which of these is classified as an igneous rock?",
+    "correctAnswer": "Granite",
+    "wrongAnswers": ["Lignite", "Marble"],
+    "difficulty": 2.24
+  },
+  {
+    "question": "Which athletic apparel company took its name from the Greek god of victory?",
+    "correctAnswer": "Nike",
+    "wrongAnswers": ["Puma", "Adidas"],
+    "difficulty": 1.99
+  },
+  {
+    "question": "How many face cards are there in one deck of cards?",
+    "correctAnswer": "12",
+    "wrongAnswers": ["13", "16"],
+    "difficulty": 1.48
+  },
+  {
+    "question": "Which of the following math signs has NOT been the name of a studio album released by Ed Sheeran?",
+    "correctAnswer": "Square root sign",
+    "wrongAnswers": ["Subtraction sign", "Equals sign"],
+    "difficulty": 2.67
+  },
+  {
+    "question": "Which city is the host of the 2028 Olympic Games?",
+    "correctAnswer": "Los Angeles",
+    "wrongAnswers": ["Brisbane", "Milan"],
+    "difficulty": 2.31
   }
 ]
